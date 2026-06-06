@@ -9,10 +9,11 @@
     "client"
   ],
   "scripts": {
-    "dev": "npm run dev -w client",
-    "build": "npm run build -w client",
-    "test": "npm run test -ws --if-present",
-    "typecheck": "npm run typecheck -ws --if-present"
+    "dev": "npm run dev -w @thesteps/client",
+    "build": "npm run build -w @thesteps/client",
+    "test": "npm run test -w @thesteps/common",
+    "test:e2e": "npm run test:e2e -w @thesteps/client",
+    "typecheck": "npm run typecheck -w @thesteps/common && npm run typecheck -w @thesteps/client"
   },
   "devDependencies": {
     "typescript": "^5.6.0",

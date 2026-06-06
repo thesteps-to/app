@@ -8,12 +8,14 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@thesteps/common": "*"
   },
   "devDependencies": {
+    "@playwright/test": "^1.49.0",
     "vite": "^6.0.0"
   }
 }

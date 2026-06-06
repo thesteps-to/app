@@ -34,6 +34,24 @@ header, main, footer {
 footer {
   color: var(--muted);
   font-size: 0.875rem;
+  border-top: 1px solid var(--border);
+  margin-top: 2rem;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 1.25rem;
+  margin-bottom: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-nav a {
+  color: var(--brand);
+  text-decoration: none;
+}
+
+.footer-nav a:hover {
+  text-decoration: underline;
 }
 
 a.primary, .cta a.primary {
