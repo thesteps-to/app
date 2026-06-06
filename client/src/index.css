@@ -1,6 +1,9 @@
 /* thesteps · client — applies the shared Design System and adds app-shell layout */
 @import "../../DesignSystem/styles.css";
 
+@view-transition {
+  navigation: auto;
+}
 /* ----- App shell ----- */
 
 body {
@@ -456,9 +459,14 @@ steps-plan .progress-card {
 }
 
 steps-plan .next-stack {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
   gap: var(--space-md);
+  align-items: start;
+}
+
+main.has-parallel-steps {
+  max-width: var(--width-app);
 }
 
 steps-plan .ts-action {
@@ -638,7 +646,7 @@ dialog.ts-dialog .impact {
 
 .pricing-tiers li b {
   color: var(--brand-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-mono) system-ui;
 }
 
 .pro-form {
@@ -696,7 +704,7 @@ dialog.ts-dialog .impact {
   display: flex;
   gap: var(--space-sm);
   align-items: center;
-  font-family: var(--font-mono);
+  font-family: var(--font-mono) system-ui;
   font-size: var(--text-xs);
   color: var(--text-muted);
 }
@@ -727,7 +735,7 @@ dialog.ts-dialog .impact {
 }
 
 .billing li .amount {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono) system-ui;
   font-weight: var(--weight-semibold);
 }
 
@@ -762,7 +770,7 @@ dialog.ts-dialog .impact {
 }
 
 .plan-json {
-  font-family: var(--font-mono);
+  font-family: var(--font-mono) system-ui;
   font-size: var(--text-sm);
   min-height: 12rem;
 }
@@ -816,7 +824,7 @@ dialog.ts-dialog .impact {
 
 .author-plan .metric dd {
   margin: 0;
-  font-family: var(--font-mono);
+  font-family: var(--font-mono) system-ui;
   font-size: var(--text-lg);
   color: var(--text-strong);
   font-weight: var(--weight-semibold);
@@ -833,7 +841,7 @@ dialog.ts-dialog .impact {
 
 .remuneration-summary b {
   color: var(--brand-text);
-  font-family: var(--font-mono);
+  font-family: var(--font-mono) system-ui;
   font-weight: var(--weight-semibold);
 }
 

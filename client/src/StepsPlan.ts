@@ -67,6 +67,11 @@ export class StepsPlan extends HTMLElement {
     const ratio = completion(plan, this.progress)
     const doneCount = this.progress.doneSteps.length
     const percent = Math.round(ratio * 100)
+    const main = this.closest("main")
+    if (main) {
+      const parallel = !this.showAll && unlockedSteps(plan, this.progress).length > 1
+      main.classList.toggle("has-parallel-steps", parallel)
+    }
     this.innerHTML = `
       <div class="page-eyebrow"><span class="eyebrow">${escapeHtml(plan.needTags[0] ?? "Plan")}</span><span class="rule"></span></div>
       <h1>${escapeHtml(plan.title)}</h1>
