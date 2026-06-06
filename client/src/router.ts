@@ -6,6 +6,7 @@ import { renderExecution } from "./views/execution.ts"
 import { renderNotFound } from "./views/notFound.ts"
 import { renderPro } from "./views/pro.ts"
 import { renderProLead } from "./views/proLead.ts"
+import { renderAuthor } from "./views/author.ts"
 
 const PLAN_PATH = /^\/plan\/([^/]+?)(\/run)?\/?$/
 const PRO_LEAD_PATH = /^\/pro\/lead\/(.+?)\/?$/
@@ -66,6 +67,10 @@ async function route(): Promise<void> {
   if (path === "/pro" || path === "/pro/") {
     document.title = "Espace professionnels — thesteps.to"
     return renderPro(host)
+  }
+  if (path === "/author" || path === "/author/") {
+    document.title = "Espace auteurs — thesteps.to"
+    return renderAuthor(host)
   }
   return resolveGenericNeed(host, path.slice(1).replace(/\/$/, ""))
 }
