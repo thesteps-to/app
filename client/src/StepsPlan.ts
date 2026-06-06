@@ -2,6 +2,7 @@ import { completion, unlockedSteps } from "@thesteps/common"
 import type { Dossier, DossierField, Plan, Progress, ProviderSuggestion, Step } from "@thesteps/common"
 import { hasValue, loadDossier, setDossierValue } from "./dossier.ts"
 import { addHandoff, handoffsForStep, newHandoffId } from "./handoffs.ts"
+import { loadProgress, saveProgress } from "./progress.ts"
 import { openConsent } from "./views/consent.ts"
 import { escapeAttr, escapeHtml } from "./escape.ts"
 
@@ -21,33 +22,15 @@ export class StepsPlan extends HTMLElement {
   showAll = false
 
   connectedCallback(): void {
-    this.progress = this.loadProgress()
+    this.progress = loadProgress(this.plan.id)
     this.dossier = loadDossier()
     this.render()
-  }
-
-  get storageKey(): string {
-    return `thesteps.progress.${this.plan.id}`
-  }
-
-  loadProgress(): Progress {
-    try {
-      const saved = localStorage.getItem(this.storageKey)
-      if (saved) return JSON.parse(saved) as Progress
-    } catch {
-      // Corrupted progress: start over.
-    }
-    return { doneSteps: [], checked: {} }
-  }
-
-  saveProgress(): void {
-    localStorage.setItem(this.storageKey, JSON.stringify(this.progress))
   }
 
   toggleStep(stepId: string): void {
     const done = this.progress.doneSteps
     this.progress.doneSteps = done.includes(stepId) ? done.filter(id => id !== stepId) : [...done, stepId]
-    this.saveProgress()
+    saveProgress(this.plan.id, this.progress)
     this.render()
   }
 
@@ -57,7 +40,7 @@ export class StepsPlan extends HTMLElement {
     if (checked) items.add(index)
     else items.delete(index)
     checkedMap[stepId] = [...items]
-    this.saveProgress()
+    saveProgress(this.plan.id, this.progress)
   }
 
   setFieldValue(fieldId: string, raw: string, type: DossierField["type"]): void {

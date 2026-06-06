@@ -4,8 +4,11 @@ import { renderSearch } from "./views/search.ts"
 import { renderPresentation } from "./views/presentation.ts"
 import { renderExecution } from "./views/execution.ts"
 import { renderNotFound } from "./views/notFound.ts"
+import { renderPro } from "./views/pro.ts"
+import { renderProLead } from "./views/proLead.ts"
 
 const PLAN_PATH = /^\/plan\/([^/]+?)(\/run)?\/?$/
+const PRO_LEAD_PATH = /^\/pro\/lead\/(.+?)\/?$/
 
 let appHost: HTMLElement | null = null
 
@@ -54,6 +57,15 @@ async function route(): Promise<void> {
   if (planMatch) {
     const id = planMatch[1]!
     return planMatch[2] ? renderExecution(host, id) : renderPresentation(host, id)
+  }
+  const proLeadMatch = path.match(PRO_LEAD_PATH)
+  if (proLeadMatch) {
+    document.title = "Dossier reçu — thesteps.to"
+    return renderProLead(host, proLeadMatch[1]!)
+  }
+  if (path === "/pro" || path === "/pro/") {
+    document.title = "Espace professionnels — thesteps.to"
+    return renderPro(host)
   }
   return resolveGenericNeed(host, path.slice(1).replace(/\/$/, ""))
 }
