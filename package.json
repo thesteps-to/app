@@ -1,0 +1,22 @@
+{
+  "name": "@thesteps/app",
+  "version": "0.1.0",
+  "description": "thesteps.to — guided plans for personal projects",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "common",
+    "client"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w client",
+    "build": "npm run build -w client",
+    "test": "npm run test -ws --if-present"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thesteps-to/app.git"
+  },
+  "author": "Jérôme Beau (javarome@gmail.com)",
+  "license": "UNLICENSED"
+}

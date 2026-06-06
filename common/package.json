@@ -1,0 +1,13 @@
+{
+  "name": "@thesteps/common",
+  "version": "0.1.0",
+  "description": "thesteps.to domain model (plans, steps, progress) — framework-free",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "test": "node --test"
+  }
+}

@@ -1,0 +1,134 @@
+{
+  "id": "buyahouse",
+  "title": "Acheter un logement",
+  "lang": "fr",
+  "summary": "Un plan guidé, étape par étape, pour acheter votre logement en France : du budget à la remise des clés.",
+  "steps": [
+    {
+      "id": "projet",
+      "title": "Définir votre projet et votre budget",
+      "summary": "Clarifiez ce que vous cherchez et ce que vous pouvez financer : c'est la base de toutes les étapes suivantes.",
+      "checklist": [
+        "Choisir neuf ou ancien, maison ou appartement, et la zone géographique",
+        "Calculer votre apport personnel disponible",
+        "Estimer votre capacité d'emprunt (taux d'endettement max ~35 %)",
+        "Prévoir les frais annexes : notaire (~7-8 % dans l'ancien), garantie, déménagement, travaux"
+      ]
+    },
+    {
+      "id": "financement",
+      "title": "Obtenir un accord de financement de principe",
+      "summary": "Avant de visiter, sachez combien vous pouvez emprunter. Un courtier compare les banques pour vous et appuie votre dossier.",
+      "checklist": [
+        "Rassembler vos justificatifs (revenus, avis d'imposition, relevés de compte)",
+        "Consulter un courtier ou plusieurs banques",
+        "Obtenir une simulation ou attestation de financement",
+        "Vérifier votre éligibilité aux aides (PTZ, prêt Action Logement...)"
+      ],
+      "providers": [
+        { "type": "courtier", "label": "Courtier en crédit immobilier" },
+        { "type": "banque", "label": "Banque" }
+      ]
+    },
+    {
+      "id": "recherche",
+      "title": "Rechercher les biens",
+      "summary": "Organisez votre recherche pour ne pas rater les bonnes occasions : les biens corrects au juste prix partent vite.",
+      "checklist": [
+        "Créer des alertes sur les portails d'annonces",
+        "Contacter les agences immobilières de la zone visée",
+        "Étudier les prix au m² du secteur pour repérer les biens surcotés",
+        "Présélectionner les biens et planifier les visites"
+      ],
+      "providers": [
+        { "type": "agent", "label": "Agence immobilière" },
+        { "type": "chasseur", "label": "Chasseur immobilier" }
+      ]
+    },
+    {
+      "id": "visites",
+      "title": "Visiter et évaluer",
+      "summary": "Une visite bien préparée évite les mauvaises surprises. Revisitez à une heure différente avant de vous engager.",
+      "checklist": [
+        "Vérifier le DPE et estimer les travaux d'isolation éventuels",
+        "Examiner toiture, électricité, plomberie, humidité",
+        "Demander les charges, la taxe foncière et les PV d'assemblée générale (copropriété)",
+        "Évaluer le quartier : transports, écoles, commerces, nuisances"
+      ],
+      "providers": [
+        { "type": "diagnostiqueur", "label": "Diagnostiqueur" },
+        { "type": "artisan", "label": "Artisan (devis travaux)" }
+      ]
+    },
+    {
+      "id": "offre",
+      "title": "Faire une offre d'achat",
+      "summary": "L'offre écrite vous engage si elle est acceptée. Appuyez-vous sur les prix du marché pour négocier.",
+      "checklist": [
+        "Déterminer votre prix en fonction du marché et des travaux à prévoir",
+        "Rédiger une offre écrite avec durée de validité",
+        "Mentionner le recours à un prêt (condition suspensive à venir)"
+      ]
+    },
+    {
+      "id": "compromis",
+      "title": "Signer le compromis de vente",
+      "summary": "Le compromis fixe les conditions de la vente. Vous disposez ensuite de 10 jours de rétractation.",
+      "checklist": [
+        "Choisir votre notaire (il peut être différent de celui du vendeur, sans surcoût)",
+        "Vérifier les conditions suspensives (obtention du prêt, urbanisme...)",
+        "Contrôler les diagnostics annexés",
+        "Verser le dépôt de garantie (5-10 %) sur le compte du notaire"
+      ],
+      "providers": [
+        { "type": "notaire", "label": "Notaire" }
+      ]
+    },
+    {
+      "id": "pret",
+      "title": "Finaliser votre prêt",
+      "summary": "Vous avez généralement 45 à 60 jours pour obtenir votre prêt. L'assurance emprunteur peut être déléguée pour réduire le coût total.",
+      "checklist": [
+        "Déposer le dossier complet dans les banques ou via le courtier",
+        "Comparer les offres : taux, assurance, frais, modularité",
+        "Choisir l'assurance emprunteur (délégation possible, loi Lemoine)",
+        "Respecter le délai de réflexion de 10 jours avant d'accepter l'offre de prêt"
+      ],
+      "providers": [
+        { "type": "courtier", "label": "Courtier en crédit immobilier" },
+        { "type": "assurance", "label": "Assurance emprunteur" }
+      ]
+    },
+    {
+      "id": "acte",
+      "title": "Signer l'acte authentique",
+      "summary": "La signature chez le notaire officialise la vente : vous recevez les clés le jour même.",
+      "checklist": [
+        "Effectuer la visite de pré-remise des clés (état du bien, compteurs)",
+        "Virer les fonds (apport + frais) sur le compte du notaire avant la signature",
+        "Souscrire l'assurance habitation (obligatoire dès la signature)",
+        "Relever les compteurs et récupérer toutes les clés"
+      ],
+      "providers": [
+        { "type": "notaire", "label": "Notaire" },
+        { "type": "assurance", "label": "Assurance habitation" }
+      ]
+    },
+    {
+      "id": "emmenagement",
+      "title": "Emménager",
+      "summary": "Dernière ligne droite : organisez le déménagement et les transferts de contrats.",
+      "checklist": [
+        "Réserver un déménageur ou un utilitaire",
+        "Transférer ou souscrire les contrats d'énergie et d'internet",
+        "Faire suivre votre courrier et mettre à jour vos adresses",
+        "Planifier les travaux éventuels avant d'emménager si possible"
+      ],
+      "providers": [
+        { "type": "demenageur", "label": "Déménageur" },
+        { "type": "energie", "label": "Fournisseur d'énergie" },
+        { "type": "artisan", "label": "Entreprise de travaux" }
+      ]
+    }
+  ]
+}
