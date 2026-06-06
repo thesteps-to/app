@@ -1,0 +1,111 @@
+{
+  "id": "planmyvacation",
+  "title": "Planifier mes vacances",
+  "lang": "fr",
+  "summary": "Du choix de la destination au départ serein : un plan qui orchestre réservations, documents et budget.",
+  "demo": true,
+  "needTags": ["vacances", "voyage", "séjour", "destination", "partir", "tourisme"],
+  "author": {
+    "id": "marco-vega",
+    "name": "Marco Vega",
+    "bio": "Travel planner indépendant, 12 ans d'organisation de voyages sur mesure sur 5 continents."
+  },
+  "rating": { "average": 4.5, "count": 489 },
+  "reviews": [
+    { "author": "Élodie P.", "text": "Premier voyage hors Europe sans agence, tout était fluide.", "date": "2026-05-20" },
+    { "author": "Thomas G.", "text": "La checklist documents m'a sauvé : je n'avais pas vu que mon passeport expirait.", "date": "2026-04-30" }
+  ],
+  "steps": [
+    {
+      "id": "destination",
+      "title": "Choisir destination, dates et budget",
+      "summary": "Le triangle de départ : où, quand, pour combien. Tout le reste en découle.",
+      "inputs": [
+        { "id": "voyage-type", "label": "Type de voyage", "type": "choice", "choices": ["Détente", "Découverte", "Aventure", "Famille", "Romantique"], "sensitivity": "project" },
+        { "id": "voyage-budget", "label": "Budget total envisagé", "type": "number", "sensitivity": "financial" },
+        { "id": "voyageurs", "label": "Nombre de voyageurs", "type": "number", "sensitivity": "project" }
+      ],
+      "checklist": [
+        "Arrêter la destination et la durée",
+        "Vérifier la saison (climat, affluence, prix)",
+        "Répartir le budget : transport, logement, sur place"
+      ]
+    },
+    {
+      "id": "transport",
+      "title": "Réserver le transport",
+      "summary": "Vols, train ou location : réserver tôt fait économiser jusqu'à 40 %.",
+      "requires": ["destination"],
+      "payment": { "label": "Billets de transport", "estimate": "selon destination" },
+      "checklist": [
+        "Comparer les options et les horaires",
+        "Vérifier les conditions d'annulation",
+        "Réserver les billets"
+      ],
+      "providers": [
+        { "type": "transport", "label": "Comparateur de vols" },
+        { "type": "transport", "label": "Compagnie ferroviaire" }
+      ]
+    },
+    {
+      "id": "hebergement",
+      "title": "Réserver l'hébergement",
+      "summary": "Hôtel, location ou échange : à réserver en parallèle du transport pour verrouiller les bonnes adresses.",
+      "requires": ["destination"],
+      "payment": { "label": "Hébergement", "estimate": "selon destination" },
+      "checklist": [
+        "Choisir le quartier ou la zone",
+        "Lire les avis récents",
+        "Réserver avec annulation flexible si possible"
+      ],
+      "providers": [
+        { "type": "hebergement", "label": "Plateforme de réservation" },
+        { "type": "agence", "label": "Agence de voyage locale" }
+      ]
+    },
+    {
+      "id": "documents",
+      "title": "Préparer les documents et la santé",
+      "summary": "Passeport, visa, vaccins, assurance : ce qui peut bloquer le départ se règle des semaines à l'avance.",
+      "requires": ["destination"],
+      "checklist": [
+        "Vérifier la validité du passeport (souvent 6 mois après le retour)",
+        "Demander le visa ou l'autorisation électronique si nécessaire",
+        "Vérifier les vaccins recommandés",
+        "Souscrire une assurance voyage"
+      ],
+      "providers": [
+        { "type": "assurance", "label": "Assurance voyage" },
+        { "type": "visa", "label": "Service de visa en ligne" }
+      ]
+    },
+    {
+      "id": "activites",
+      "title": "Planifier les activités",
+      "summary": "Réservez l'essentiel (les incontournables complets des semaines à l'avance), gardez de la place pour l'imprévu.",
+      "requires": ["transport", "hebergement"],
+      "payment": { "label": "Activités et visites", "estimate": "10-30 % du budget" },
+      "checklist": [
+        "Lister les 3 incontournables et les réserver",
+        "Prévoir les déplacements sur place",
+        "Repérer les restaurants ou expériences à ne pas rater"
+      ],
+      "providers": [
+        { "type": "activites", "label": "Plateforme d'activités et visites" },
+        { "type": "guide", "label": "Guide local" }
+      ]
+    },
+    {
+      "id": "depart",
+      "title": "Boucler le départ",
+      "summary": "La dernière ligne droite, sans rien oublier.",
+      "requires": ["documents", "activites"],
+      "checklist": [
+        "Faire les valises (adaptées au climat et aux activités)",
+        "Prévenir la banque d'un déplacement à l'étranger",
+        "Enregistrer les billets et documents hors-ligne",
+        "Organiser la maison (plantes, courrier, animaux)"
+      ]
+    }
+  ]
+}

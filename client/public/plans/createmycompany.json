@@ -1,0 +1,135 @@
+{
+  "id": "createmycompany",
+  "title": "Créer mon entreprise",
+  "lang": "fr",
+  "summary": "De l'idée à l'immatriculation : un plan guidé pour créer votre société en France, avec les bons experts au bon moment.",
+  "demo": true,
+  "needTags": ["entreprise", "société", "création", "startup", "indépendant", "freelance", "business"],
+  "author": {
+    "id": "claire-dumont",
+    "name": "Claire Dumont",
+    "bio": "Expert-comptable depuis 15 ans, spécialiste de la création d'entreprise. A accompagné plus de 400 créateurs."
+  },
+  "rating": { "average": 4.7, "count": 213 },
+  "reviews": [
+    { "author": "Karim B.", "text": "J'ai immatriculé ma SASU en 6 semaines en suivant le plan, sans stress.", "date": "2026-04-12" },
+    { "author": "Sophie L.", "text": "Le parallèle étude de marché / business plan m'a fait gagner un temps fou.", "date": "2026-03-02" },
+    { "author": "Mehdi R.", "text": "Très clair. J'aurais aimé plus de détails sur les aides régionales.", "date": "2026-02-18" }
+  ],
+  "steps": [
+    {
+      "id": "idee",
+      "title": "Clarifier votre idée et votre situation",
+      "summary": "Posez les bases : ce que vous vendez, à qui, et ce que votre situation actuelle permet (salarié, demandeur d'emploi...).",
+      "inputs": [
+        { "id": "projet-activite", "label": "Activité envisagée", "type": "text", "sensitivity": "project" },
+        { "id": "situation-pro", "label": "Situation professionnelle actuelle", "type": "choice", "choices": ["Salarié", "Demandeur d'emploi", "Étudiant", "Indépendant", "Autre"], "sensitivity": "project" }
+      ],
+      "checklist": [
+        "Décrire l'offre en une phrase",
+        "Identifier le client type",
+        "Vérifier les clauses de votre contrat de travail (exclusivité, non-concurrence)",
+        "Vérifier vos droits (ARE, ACRE, congé création)"
+      ]
+    },
+    {
+      "id": "etude-marche",
+      "title": "Étudier le marché",
+      "summary": "Vérifiez que des clients existent et ce que font les concurrents avant d'engager des frais.",
+      "requires": ["idee"],
+      "checklist": [
+        "Interroger au moins 10 clients potentiels",
+        "Cartographier les concurrents et leurs prix",
+        "Estimer la taille du marché accessible"
+      ],
+      "providers": [
+        { "type": "etude", "label": "Cabinet d'étude de marché" }
+      ]
+    },
+    {
+      "id": "business-plan",
+      "title": "Construire le business plan",
+      "summary": "Chiffrez votre projet : prévisionnel, besoins de financement, seuil de rentabilité. Peut avancer en parallèle de l'étude de marché.",
+      "requires": ["idee"],
+      "checklist": [
+        "Établir le prévisionnel à 3 ans",
+        "Calculer le besoin de financement initial",
+        "Déterminer le seuil de rentabilité"
+      ],
+      "providers": [
+        { "type": "expert-comptable", "label": "Expert-comptable" }
+      ]
+    },
+    {
+      "id": "statut",
+      "title": "Choisir la forme juridique",
+      "summary": "Micro-entreprise, EURL, SASU... Le choix dépend de votre prévisionnel, de votre situation et de votre protection sociale.",
+      "requires": ["etude-marche", "business-plan"],
+      "inputs": [
+        { "id": "forme-juridique", "label": "Forme juridique envisagée", "type": "choice", "choices": ["Micro-entreprise", "EURL", "SASU", "SARL", "SAS", "Je ne sais pas"], "sensitivity": "project" }
+      ],
+      "checklist": [
+        "Comparer les régimes fiscaux et sociaux",
+        "Décider de la rémunération du dirigeant",
+        "Valider le choix avec un professionnel"
+      ],
+      "providers": [
+        { "type": "avocat", "label": "Avocat en droit des sociétés" },
+        { "type": "expert-comptable", "label": "Expert-comptable" }
+      ]
+    },
+    {
+      "id": "financement",
+      "title": "Réunir le financement",
+      "summary": "Apport, prêt, aides : sécurisez les fonds nécessaires identifiés dans votre business plan.",
+      "requires": ["business-plan"],
+      "inputs": [
+        { "id": "apport-dispo", "label": "Apport personnel disponible", "type": "number", "sensitivity": "financial" }
+      ],
+      "checklist": [
+        "Demander les aides (ACRE, subventions régionales, Bpifrance)",
+        "Solliciter un prêt professionnel si besoin",
+        "Ouvrir le capital à des associés ou investisseurs le cas échéant"
+      ],
+      "providers": [
+        { "type": "banque", "label": "Banque professionnelle" },
+        { "type": "financement", "label": "Plateforme de financement" }
+      ]
+    },
+    {
+      "id": "immatriculation",
+      "title": "Rédiger les statuts et immatriculer",
+      "summary": "Statuts, dépôt de capital, annonce légale, guichet unique : la partie administrative, encadrée.",
+      "requires": ["statut", "financement"],
+      "payment": { "label": "Frais de création (annonce légale, greffe, accompagnement)", "estimate": "200-800 €" },
+      "checklist": [
+        "Rédiger et signer les statuts",
+        "Déposer le capital social",
+        "Publier l'annonce légale",
+        "Déclarer sur le guichet unique (INPI)"
+      ],
+      "providers": [
+        { "type": "legaltech", "label": "Service juridique en ligne" },
+        { "type": "avocat", "label": "Avocat" },
+        { "type": "notaire", "label": "Notaire" }
+      ]
+    },
+    {
+      "id": "lancement",
+      "title": "Lancer l'activité",
+      "summary": "Banque, assurance, comptabilité, premiers clients : tout ce qui transforme une société immatriculée en entreprise qui tourne.",
+      "requires": ["immatriculation"],
+      "checklist": [
+        "Ouvrir le compte bancaire professionnel",
+        "Souscrire la responsabilité civile professionnelle",
+        "Mettre en place la comptabilité",
+        "Signer le premier client"
+      ],
+      "providers": [
+        { "type": "banque", "label": "Banque professionnelle" },
+        { "type": "assurance", "label": "Assurance professionnelle" },
+        { "type": "expert-comptable", "label": "Expert-comptable" }
+      ]
+    }
+  ]
+}

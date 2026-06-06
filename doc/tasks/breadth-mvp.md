@@ -48,7 +48,7 @@ strategy/content side; flag inconsistencies instead of fixing them silently.
 ## Content (owned by the strategy side, do not write)
 
 Demo plans will land in `client/public/plans/`: `createmycompany` (non-linear, DAG),
-`learntocode` (steps with payments), plus authors/ratings/reviews demo data. `buyahouse` stays
+`planmyvacation` (steps with payments), plus authors/ratings/reviews demo data. `buyahouse` stays
 real (no `demo` flag).
 
 ## Acceptance

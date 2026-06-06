@@ -3,6 +3,12 @@
   "title": "Acheter un logement",
   "lang": "fr",
   "summary": "Un plan guidé, étape par étape, pour acheter votre logement en France : du budget à la remise des clés.",
+  "needTags": ["maison", "appartement", "logement", "achat", "immobilier", "acheter", "propriétaire"],
+  "author": {
+    "id": "thesteps",
+    "name": "L'équipe thesteps.to",
+    "bio": "Plan de référence maintenu par thesteps.to."
+  },
   "steps": [
     {
       "id": "projet",
