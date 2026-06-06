@@ -1,6 +1,7 @@
 import type { Plan, Review } from "@thesteps/common"
 import { getPlan } from "../catalog.ts"
 import { renderNotFound } from "./notFound.ts"
+import { escapeAttr, escapeHtml } from "../escape.ts"
 
 export async function renderPresentation(host: HTMLElement, id: string): Promise<void> {
   host.innerHTML = `<p class="loading">Chargement du plan…</p>`
@@ -87,12 +88,3 @@ function demoBanner(): string {
   `
 }
 
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, ch => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  }[ch]!))
-}
-
-function escapeAttr(value: string): string {
-  return escapeHtml(value)
-}

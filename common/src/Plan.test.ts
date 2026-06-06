@@ -1,6 +1,9 @@
 import { test, expect } from "vitest"
-import { createPlan, completion, nextStep, unlockedSteps, planFields } from "./Plan.ts"
-import type { DossierField, Step } from "./Plan.ts"
+import {
+  createPlan, completion, nextStep, unlockedSteps, planFields,
+  sharedFields, isFieldShareable, emptyDossier,
+} from "./Plan.ts"
+import type { Dossier, DossierField, Step } from "./Plan.ts"
 
 const author = { id: "alice", name: "Alice" }
 const step = (overrides: Partial<Step> & { id: string; title: string }): Step => ({
@@ -128,6 +131,47 @@ test("planFields deduplicates fields by id within a plan", () => {
     ],
   })
   expect(planFields(plan).map(f => f.id)).toEqual(["income", "city"])
+})
+
+test("isFieldShareable enforces the contact < project < financial ordering", () => {
+  expect(isFieldShareable("contact", "contact")).toBe(true)
+  expect(isFieldShareable("contact", "project")).toBe(false)
+  expect(isFieldShareable("contact", "financial")).toBe(false)
+  expect(isFieldShareable("project", "contact")).toBe(true)
+  expect(isFieldShareable("project", "project")).toBe(true)
+  expect(isFieldShareable("project", "financial")).toBe(false)
+  expect(isFieldShareable("financial", "contact")).toBe(true)
+  expect(isFieldShareable("financial", "project")).toBe(true)
+  expect(isFieldShareable("financial", "financial")).toBe(true)
+})
+
+test("sharedFields filters by disclosure level and value presence", () => {
+  const inputs: DossierField[] = [
+    { id: "name", label: "Nom", type: "text", sensitivity: "contact" },
+    { id: "city", label: "Ville", type: "text", sensitivity: "project" },
+    { id: "revenu", label: "Revenus", type: "number", sensitivity: "financial" },
+  ]
+  const dossier: Dossier = {
+    values: { name: "Alice", city: "Paris", revenu: 42000 },
+    sharing: { defaultLevel: "contact" },
+  }
+  expect(sharedFields(dossier, inputs, "contact").map(f => f.id)).toEqual(["name"])
+  expect(sharedFields(dossier, inputs, "project").map(f => f.id)).toEqual(["name", "city"])
+  expect(sharedFields(dossier, inputs, "financial").map(f => f.id)).toEqual(["name", "city", "revenu"])
+})
+
+test("sharedFields ignores fields missing from the dossier or with empty values", () => {
+  const inputs: DossierField[] = [
+    { id: "name", label: "Nom", type: "text", sensitivity: "contact" },
+    { id: "city", label: "Ville", type: "text", sensitivity: "project" },
+    { id: "phone", label: "Téléphone", type: "text", sensitivity: "contact" },
+  ]
+  const dossier: Dossier = {
+    values: { name: "Alice", city: "", phone: undefined },
+    sharing: { defaultLevel: "project" },
+  }
+  expect(sharedFields(dossier, inputs, "project").map(f => f.id)).toEqual(["name"])
+  expect(sharedFields(emptyDossier(), inputs, "financial")).toEqual([])
 })
 
 test("planFields merges across plans, first occurrence wins", () => {

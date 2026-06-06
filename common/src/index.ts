@@ -5,6 +5,8 @@ export {
   unlockedSteps,
   planFields,
   emptyDossier,
+  sharedFields,
+  isFieldShareable,
 } from "./Plan.ts"
 export type {
   Plan,
@@ -20,4 +22,6 @@ export type {
   DossierSensitivity,
   Dossier,
   SharingPreferences,
+  Handoff,
+  HandoffStatus,
 } from "./Plan.ts"

@@ -91,6 +91,48 @@ export interface Dossier {
   sharing: SharingPreferences
 }
 
+export type HandoffStatus = "sent" | "concluded"
+
+export interface Handoff {
+  id: string
+  planId: string
+  stepId: string
+  providerType: string
+  level: DossierSensitivity
+  /** Ids of the dossier fields actually transmitted at this disclosure level. */
+  fields: string[]
+  /** ISO 8601 timestamp. */
+  date: string
+  status: HandoffStatus
+}
+
+const SENSITIVITY_ORDER: Record<DossierSensitivity, number> = {
+  contact: 0,
+  project: 1,
+  financial: 2,
+}
+
+/** True when the field's sensitivity is at or below the chosen disclosure level. */
+export function isFieldShareable(level: DossierSensitivity, sensitivity: DossierSensitivity): boolean {
+  return SENSITIVITY_ORDER[sensitivity] <= SENSITIVITY_ORDER[level]
+}
+
+/**
+ * Fields actually transmitted at the chosen disclosure level: sensitivity ≤ level
+ * AND the dossier has a non-empty value for the field. Pure function.
+ */
+export function sharedFields(
+  dossier: Dossier,
+  inputs: DossierField[],
+  level: DossierSensitivity,
+): DossierField[] {
+  return inputs.filter(field => {
+    if (!isFieldShareable(level, field.sensitivity)) return false
+    const value = dossier.values[field.id]
+    return value !== undefined && value !== null && value !== ""
+  })
+}
+
 export interface Progress {
   /** Completed step ids. */
   doneSteps: string[]

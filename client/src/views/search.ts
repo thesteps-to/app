@@ -2,6 +2,7 @@ import type { Plan } from "@thesteps/common"
 import { getCatalog } from "../catalog.ts"
 import { rank } from "../search.ts"
 import { navigate } from "../router.ts"
+import { escapeAttr, escapeHtml } from "../escape.ts"
 
 export async function renderSearch(host: HTMLElement, query: string): Promise<void> {
   host.innerHTML = `<p class="loading">Recherche en cours…</p>`
@@ -55,12 +56,3 @@ function cardBody(plan: Plan): string {
   `
 }
 
-function escapeHtml(value: string): string {
-  return value.replace(/[&<>"']/g, ch => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;",
-  }[ch]!))
-}
-
-function escapeAttr(value: string): string {
-  return escapeHtml(value)
-}
