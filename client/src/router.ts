@@ -44,6 +44,7 @@ function handleLinkClick(event: MouseEvent): void {
 async function route(): Promise<void> {
   if (!appHost) return
   const host = appHost
+  host.className = ""
   const path = location.pathname
   if (path === "/" || path === "") {
     document.title = "thesteps.to — des plans guidés pour vos projets"
