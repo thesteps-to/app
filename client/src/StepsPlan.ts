@@ -1,4 +1,4 @@
-import { completion, nextStep } from "@thesteps/common"
+import { completion, unlockedSteps } from "@thesteps/common"
 import type { Plan, Progress, Step } from "@thesteps/common"
 
 /**
@@ -81,10 +81,10 @@ export class StepsPlan extends HTMLElement {
     }
   }
 
-  /** Default view: only the next action, and a discreet link to the full plan. */
+  /** Default view: only the unlocked next actions (one card per parallel branch). */
   renderNext(): string {
-    const step = nextStep(this.plan, this.progress)
-    if (!step) {
+    const unlocked = unlockedSteps(this.plan, this.progress)
+    if (unlocked.length === 0) {
       return `
         <section class="next-card done-card">
           <h2>🎉 Votre projet est terminé !</h2>
@@ -92,20 +92,34 @@ export class StepsPlan extends HTMLElement {
           <p><a href="#" data-toggle-view>Revoir le déroulé complet</a></p>
         </section>`
     }
-    const index = this.plan.steps.indexOf(step)
+    const kicker = unlocked.length === 1
+      ? `<p class="kicker">Votre prochaine étape</p>`
+      : `<p class="kicker">${unlocked.length} étapes peuvent avancer en parallèle</p>`
+    const total = this.plan.steps.length
+    const doneCount = this.progress.doneSteps.length
+    return `
+      ${kicker}
+      ${unlocked.map(step => this.renderNextCard(step)).join("")}
+      <p class="secondary">
+        ${doneCount} / ${total} étape(s) faite(s) —
+        <a href="#" data-toggle-view>voir le plan complet</a>
+      </p>`
+  }
+
+  /** Render one card in the next-actions list. */
+  renderNextCard(step: Step): string {
+    const payment = step.payment
+      ? `<p class="payment">💳 ${step.payment.label}${step.payment.estimate ? ` (${step.payment.estimate})` : ""}</p>`
+      : ""
     return `
       <section class="next-card">
-        <p class="kicker">Votre prochaine étape</p>
         <h2>${step.title}</h2>
         <p>${step.summary}</p>
+        ${payment}
         ${this.renderChecklist(step)}
         ${this.renderProviders(step)}
         <button data-step="${step.id}">C'est fait ✓</button>
-      </section>
-      <p class="secondary">
-        Étape ${index + 1} sur ${this.plan.steps.length} —
-        <a href="#" data-toggle-view>voir le plan complet</a>
-      </p>`
+      </section>`
   }
 
   /** Secondary view: every step, expandable, for users who want the details. */

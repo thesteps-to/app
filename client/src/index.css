@@ -1,10 +1,14 @@
 :root {
   --brand: #2563eb;
+  --brand-dark: #1d4ed8;
   --bg: #ffffff;
+  --bg-soft: #f9fafb;
   --text: #1f2937;
   --muted: #6b7280;
   --border: #e5e7eb;
   --done: #16a34a;
+  --warn: #b45309;
+  --warn-bg: #fef3c7;
   font-family: system-ui, sans-serif;
 }
 
@@ -32,6 +36,275 @@ footer {
   font-size: 0.875rem;
 }
 
+a.primary, .cta a.primary {
+  display: inline-block;
+  background: var(--brand);
+  color: white;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 600;
+}
+
+a.primary:hover, .cta a.primary:hover {
+  background: var(--brand-dark);
+}
+
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.secondary {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.secondary a {
+  color: var(--muted);
+}
+
+/* Landing */
+
+.landing h1 {
+  margin-top: 1.5rem;
+}
+
+.landing .lead {
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+.need-form {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.need-form input[type=search] {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+}
+
+.need-form button {
+  background: var(--brand);
+  color: white;
+  border: none;
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.need-form button:hover {
+  background: var(--brand-dark);
+}
+
+.examples {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.examples a {
+  color: var(--brand);
+}
+
+/* Search results */
+
+.search h1 {
+  margin: 1.5rem 0 1rem;
+  font-size: 1.25rem;
+  color: var(--muted);
+  font-weight: 500;
+}
+
+.plan-cards {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.plan-card {
+  display: block;
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  color: inherit;
+  text-decoration: none;
+  background: var(--bg);
+}
+
+.plan-card:hover {
+  border-color: var(--brand);
+}
+
+.plan-card.recommended {
+  border-color: var(--brand);
+  background: var(--bg-soft);
+}
+
+.plan-card h2 {
+  margin: 0.25rem 0;
+  font-size: 1.15rem;
+}
+
+.plan-card .author {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.plan-card .summary {
+  margin: 0.5rem 0 0;
+}
+
+.plan-card .rating {
+  color: var(--warn);
+  margin-left: 0.5rem;
+}
+
+.demo-tag {
+  display: inline-block;
+  background: var(--warn-bg);
+  color: var(--warn);
+  font-size: 0.75rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.25rem;
+  vertical-align: middle;
+  font-weight: 500;
+}
+
+.empty {
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* Plan presentation */
+
+.presentation h1 {
+  margin: 0.5rem 0;
+}
+
+.presentation .lead {
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+.presentation .author,
+.presentation .what,
+.presentation .reviews {
+  border-top: 1px solid var(--border);
+  padding-top: 1rem;
+  margin-top: 1.5rem;
+}
+
+.presentation .author-name {
+  font-weight: 600;
+  margin: 0;
+}
+
+.presentation .author-bio {
+  margin: 0.25rem 0;
+}
+
+.presentation .rating {
+  color: var(--warn);
+}
+
+.presentation .rating .count {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.step-summary {
+  padding-left: 1.25rem;
+}
+
+.step-summary li {
+  margin: 0.25rem 0;
+}
+
+.reviews ul {
+  list-style: none;
+  padding: 0;
+}
+
+.reviews li {
+  margin: 1rem 0;
+}
+
+.review-text {
+  margin: 0;
+}
+
+.review-meta {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin: 0.25rem 0 0;
+}
+
+.video,
+.video-placeholder {
+  background: var(--bg-soft);
+  border: 1px dashed var(--border);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.video a {
+  color: var(--brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.video-placeholder {
+  color: var(--muted);
+}
+
+.cta {
+  margin: 2rem 0 1rem;
+  text-align: center;
+}
+
+/* Demo banner (shared between presentation and execution) */
+
+.demo-banner {
+  background: var(--warn-bg);
+  color: var(--warn);
+  border: 1px solid color-mix(in srgb, var(--warn) 30%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+/* Not found */
+
+.not-found h1 {
+  margin-top: 1.5rem;
+}
+
+/* Execution (StepsPlan custom element) */
+
+steps-plan {
+  display: block;
+  margin-top: 1rem;
+}
+
 steps-plan .progress {
   height: 0.5rem;
   background: var(--border);
@@ -51,27 +324,16 @@ steps-plan .next-card {
   border-radius: 0.75rem;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
-}
-
-steps-plan .next-card .kicker {
-  margin: 0;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.75rem;
-  color: var(--muted);
+  margin: 0.75rem 0;
 }
 
 steps-plan .next-card h2 {
   margin-top: 0.25rem;
 }
 
-steps-plan .secondary {
-  color: var(--muted);
-  font-size: 0.875rem;
-}
-
-steps-plan .secondary a {
-  color: var(--muted);
+steps-plan .next-card .payment {
+  color: var(--warn);
+  margin: 0.5rem 0;
 }
 
 steps-plan details {
@@ -101,6 +363,11 @@ steps-plan button {
   border-radius: 0.375rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
+  font-weight: 600;
+}
+
+steps-plan button:hover {
+  background: var(--brand-dark);
 }
 
 steps-plan details.done button {
