@@ -71,21 +71,43 @@ the dossier is the value FOR THE PROVIDER (paid).
 3. Plan author (expert, human or AI): submits and maintains plans, paid on verified outcomes and
    ratings. Out of MVP scope; the open authoring marketplace is a later phase.
 
-## MVP scope: home buying (France)
+## MVP strategy: breadth-first skeleton, one deep vertical
 
-One single, excellent plan: "Acheter un logement". No author marketplace, no plan editor, no
-accounts. The plan is static content; personalization is a few questions up front (first-time
-buyer? new/old? region? budget?) that filter/adapt the steps.
+The MVP shows the WHOLE product scope ("an Amazon of projects"): every user journey exists
+end-to-end, even where thin or simulated. Purpose: measure how subsystems impact each other, and
+show investors the full scope. Demo data (sample plans, simulated providers, ratings) is allowed
+but clearly labeled. ONE vertical stays real and deep: home buying ("Acheter un logement", plan
+content + affiliate links + metrics), as the validation pilot for the commission model.
 
-Steps cover: define budget and financing capacity, mortgage broker, search, visits, offer,
-compromis, notary, closing, moving in. Each step: clear explanation, checklist, and where
-relevant a provider suggestion.
+Journeys to cover end-to-end:
 
-Monetization test: affiliate/partner links to mortgage brokers and related providers, to validate
-the commission model without negotiated contracts.
+- Plan user: express need → choose plan → execute (next-action view) → provider handoff with
+  consent → conclusion → rate the plan and the provider.
+- Service provider: register → receive a qualified lead → confirm the concluded deal (billing
+  trigger).
+- Plan author: submit a plan → publication → see usage/ratings → remuneration statement.
 
-Success metrics: users starting the plan, step completion rate, clicks on provider suggestions,
-and (later) confirmed conversions.
+### Discovery flow
+
+1. Landing page: the user expresses their need/project (free input).
+2. Results: recommended plans ranked by fit to the expressed need, user profile, and qualitative
+   popularity (ratings of the plan AND of its providers). One plan highlighted as "recommended",
+   Amazon-style. Ranking can start naive (tag matching); AI matching is a later layer.
+3. Plan presentation page: what we will do for the user, the author (name, rating, reviews),
+   ideally an explainer/marketing video provided by the author. The user approves or goes back.
+4. Execution: the next-action view.
+
+Generic need URLs (`/buyahouse`) point at the results/presentation for that need; individual
+plans also have their own URL.
+
+### Plan diversity to demonstrate
+
+- Linear plans (buyahouse) and non-linear ones (step dependencies, optional branches).
+- Steps with a payment (paid service at that step) and without.
+- Several competing plans for the same need, differentiated by ratings and authors.
+
+Success metrics (real vertical): users starting the plan, step completion rate, clicks on
+provider suggestions, and (later) confirmed conversions.
 
 ## Technical principles
 
