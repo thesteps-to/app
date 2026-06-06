@@ -1,0 +1,4 @@
+# Netlify build settings (used when the GitHub repo is linked to the site).
+[build]
+  command = "npm run build"
+  publish = "client/dist"
