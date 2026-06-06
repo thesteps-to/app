@@ -1,0 +1,4 @@
+{
+  "files": [],
+  "include": ["common/src/**/*.ts", "client/src/**/*.ts"]
+}

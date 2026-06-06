@@ -46,6 +46,34 @@ steps-plan .progress > div {
   transition: width 0.3s;
 }
 
+steps-plan .next-card {
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.1);
+}
+
+steps-plan .next-card .kicker {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+steps-plan .next-card h2 {
+  margin-top: 0.25rem;
+}
+
+steps-plan .secondary {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+steps-plan .secondary a {
+  color: var(--muted);
+}
+
 steps-plan details {
   border: 1px solid var(--border);
   border-radius: 0.5rem;
