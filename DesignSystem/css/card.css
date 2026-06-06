@@ -1,0 +1,58 @@
+/* ============================================================
+   Card · .ts-card
+   The signature surface. Soft shadow, 18px radius, white.
+   Modifiers: --flat (hairline, no shadow) · --interactive (lifts)
+              --current (the loud next-action surface)
+   ============================================================ */
+.ts-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-md);
+  padding: var(--pad-card);
+}
+.ts-card--flat { box-shadow: none; border: 1px solid var(--border-subtle); }
+.ts-card--pad-lg { padding: var(--space-xl); }
+.ts-card--pad-none { padding: 0; }
+
+.ts-card--interactive {
+  cursor: pointer; text-align: left; width: 100%;
+  border: 1px solid transparent;
+  transition: transform 140ms var(--ease-out),
+              box-shadow 140ms var(--ease-out),
+              border-color 140ms var(--ease-out);
+}
+.ts-card--interactive:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+.ts-card--interactive:active { transform: translateY(0) scale(0.995); }
+.ts-card--interactive:focus-visible { outline: none; box-shadow: var(--ring-focus), var(--shadow-md); }
+
+/* the one loud card on a screen */
+.ts-card--current {
+  border: 1px solid var(--step-current-bd);
+  box-shadow: var(--shadow-current);
+}
+
+.ts-card__head { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm); }
+.ts-card__title { font: var(--font-cardtitle); color: var(--text-strong); }
+.ts-card__body  { color: var(--text-body); font-size: var(--text-md); line-height: var(--leading-normal); }
+.ts-card__foot  { display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-lg); }
+
+/* divider */
+.ts-divider { height: 1px; background: var(--border-subtle); border: 0; margin: var(--space-md) 0; }
+
+/* ---- Progress bar (native <progress> friendly) ---- */
+.ts-progress { display: flex; flex-direction: column; gap: var(--space-xs); }
+.ts-progress__track {
+  height: 8px; border-radius: var(--radius-pill);
+  background: var(--surface-sunken); overflow: hidden;
+  box-shadow: var(--shadow-inset);
+}
+.ts-progress__fill {
+  height: 100%; border-radius: var(--radius-pill);
+  background: var(--step-done);
+  transition: width 520ms var(--ease-out);
+}
+.ts-progress__label {
+  display: flex; justify-content: space-between;
+  font: var(--font-ui); font-size: var(--text-xs); color: var(--text-muted);
+}
+.ts-progress__label b { color: var(--step-done-text); font-weight: var(--weight-semibold); }

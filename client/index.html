@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>thesteps.to</title>
-  <meta name="description" content="Des plans guidés, étape par étape, pour réaliser vos projets.">
+  <meta name="description" content="Des plans guidés, étape par étape, pour vos projets de vie.">
+  <link rel="icon" href="/favicon.svg">
   <link rel="stylesheet" href="/src/index.css">
 </head>
 <body>
-<header>
-  <a href="/" class="brand">thesteps.to</a>
+<header class="app-header">
+  <div class="inner">
+    <a href="/" aria-label="thesteps, accueil">
+      <img class="brand-logo" src="/assets/logo-thesteps.svg" alt="thesteps.to" width="124" height="22">
+    </a>
+  </div>
 </header>
 <main id="app">
   <p class="loading">Chargement…</p>
@@ -20,7 +25,7 @@
     <a href="/pro">Professionnels</a>
     <a href="/author">Auteurs de plans</a>
   </nav>
-  <p>thesteps.to — des plans guidés pour vos projets.</p>
+  <p>thesteps.to — un plan, une prochaine étape, jamais seul·e.</p>
 </footer>
 <script type="module" src="/src/main.ts"></script>
 </body>

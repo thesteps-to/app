@@ -9,6 +9,11 @@ import { navigate } from "../router.ts"
 import { renderNotFound } from "./notFound.ts"
 import { escapeHtml } from "../escape.ts"
 
+const LEVEL_LABEL = { contact: "Contact", project: "Projet", financial: "Financier" } as const
+
+const SHARED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>`
+const PROTECTED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
+
 export async function renderProLead(host: HTMLElement, id: string): Promise<void> {
   if (!loadProProfile()) {
     navigate("/pro")
@@ -21,39 +26,43 @@ export async function renderProLead(host: HTMLElement, id: string): Promise<void
 }
 
 function renderItem(host: HTMLElement, item: InboxItem): void {
-  const sharedFieldDefs = item.allFields.filter(f => isFieldShareable(item.level, f.sensitivity))
   const transmittedIds = new Set(Object.keys(item.values))
-  const shared = sharedFieldDefs.filter(f => transmittedIds.has(f.id))
+  const allShareable = item.allFields.filter(f => isFieldShareable(item.level, f.sensitivity))
+  const shared = allShareable.filter(f => transmittedIds.has(f.id))
   const lockedFields = item.allFields.filter(f => !isFieldShareable(item.level, f.sensitivity))
   const isConcluded = item.status === "concluded"
   host.innerHTML = `
     <article class="pro-lead">
-      <p class="secondary"><a href="/pro">← Tous les dossiers</a></p>
-      <p class="kicker">Dossier reçu</p>
-      <h1>${escapeHtml(item.planTitle)} ${item.source === "demo" ? `<span class="demo-tag">démo</span>` : ""}</h1>
-      <p class="purpose">Étape : <strong>${escapeHtml(item.stepTitle)}</strong></p>
-      <p class="meta">
-        Niveau de divulgation : <strong>${LEVEL_LABEL[item.level]}</strong> ·
-        Tarif : <strong>${PRICE_TIER[item.level]} €</strong> ·
-        Reçu le ${formatDate(item.date)}
-      </p>
+      <p><a class="muted-link" href="/pro">← Tous les dossiers</a></p>
+      <div class="page-eyebrow"><span class="eyebrow">Dossier reçu</span><span class="rule"></span></div>
+      <h1 class="page-title">${escapeHtml(item.planTitle)} ${item.source === "demo" ? `<span class="ts-badge ts-badge--neutral">démo</span>` : ""}</h1>
+      <p class="page-lead">Étape : <strong>${escapeHtml(item.stepTitle)}</strong></p>
+
+      <div class="meta-row">
+        <span class="ts-tag">Niveau : ${LEVEL_LABEL[item.level]}</span>
+        <span class="ts-tag">Tarif : ${PRICE_TIER[item.level]} €</span>
+        <span class="ts-tag">Reçu le ${formatDate(item.date)}</span>
+      </div>
+
       ${item.source === "demo" ? demoBanner() : ""}
-      <section class="transmitted">
-        <h2>Données transmises (${shared.length})</h2>
+
+      <h2 class="section-title">Données transmises (${shared.length})</h2>
+      <div class="shared-block">
         ${shared.length === 0
-          ? `<p class="empty">Aucune donnée du dossier transmise (niveau le plus bas).</p>`
-          : `<ul class="shared-fields">${shared.map(field => renderField(field, item.values[field.id], false)).join("")}</ul>`}
-      </section>
+          ? `<p class="muted-link">Aucune donnée du dossier transmise.</p>`
+          : shared.map(field => sharedRow(field, item.values[field.id])).join("")}
+      </div>
+
       ${lockedFields.length > 0 ? `
-        <section class="locked">
-          <h2>Données non partagées à ce niveau</h2>
-          <ul class="shared-fields">${lockedFields.map(field => renderField(field, undefined, true)).join("")}</ul>
-        </section>
-      ` : ""}
+        <h2 class="section-title">Données protégées à ce niveau</h2>
+        <div class="shared-block">
+          ${lockedFields.map(field => protectedRow(field)).join("")}
+        </div>` : ""}
+
       <div class="pro-actions">
         ${isConcluded
-          ? `<p class="sent-tag">✓ Affaire conclue</p>`
-          : `<button type="button" class="primary" data-conclude>Affaire conclue</button>`}
+          ? `<span class="ts-badge ts-badge--done">Affaire conclue</span>`
+          : `<button class="ts-btn ts-btn--primary" type="button" data-conclude>Affaire conclue</button>`}
       </div>
     </article>
   `
@@ -80,26 +89,38 @@ function conclude(host: HTMLElement, item: InboxItem): void {
   renderItem(host, { ...item, status: "concluded" })
 }
 
-function renderField(field: DossierField, value: unknown, locked: boolean): string {
-  if (locked) {
-    return `
-      <li class="locked">
-        <span class="field-label">${escapeHtml(field.label)}</span>
-        <span class="field-value">🔒 Non partagé à ce niveau de divulgation</span>
-      </li>`
-  }
+function sharedRow(field: DossierField, value: unknown): string {
   return `
-    <li>
-      <span class="field-label">${escapeHtml(field.label)}</span>
-      <span class="field-value">${escapeHtml(formatValue(value))}</span>
-    </li>`
+    <div class="ts-shared" data-shared="true">
+      <span class="ts-shared__icon">${SHARED_ICON}</span>
+      <span class="ts-shared__body">
+        <span class="ts-shared__label">${LEVEL_LABEL[field.sensitivity]} · ${escapeHtml(field.label)}</span>
+        <span class="ts-shared__value">${escapeHtml(formatValue(value))}</span>
+      </span>
+      <span class="ts-shared__state">Partagé</span>
+    </div>`
+}
+
+function protectedRow(field: DossierField): string {
+  return `
+    <div class="ts-shared" data-shared="false">
+      <span class="ts-shared__icon">${PROTECTED_ICON}</span>
+      <span class="ts-shared__body">
+        <span class="ts-shared__label">${LEVEL_LABEL[field.sensitivity]} · ${escapeHtml(field.label)}</span>
+        <span class="ts-shared__value">Non partagé à ce niveau de divulgation</span>
+      </span>
+      <span class="ts-shared__state">Protégé</span>
+    </div>`
 }
 
 function demoBanner(): string {
   return `
-    <div class="demo-banner" role="note">
-      <strong>Données de démonstration.</strong>
-      Ce dossier est fabriqué pour illustrer le fonctionnement de l'inbox.
+    <div class="ts-banner ts-banner--demo" role="note">
+      <span class="ts-banner__dot"></span>
+      <div class="ts-banner__body">
+        <b>Données de démonstration.</b>
+        <p>Ce dossier est fabriqué pour illustrer le fonctionnement de l'inbox.</p>
+      </div>
     </div>
   `
 }
@@ -117,9 +138,3 @@ function formatDate(iso: string): string {
     return iso
   }
 }
-
-const LEVEL_LABEL = {
-  contact: "Contact",
-  project: "Projet",
-  financial: "Financier",
-} as const

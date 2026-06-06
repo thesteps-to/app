@@ -1,0 +1,45 @@
+<!-- @dsCard group="Brand" viewport="700x240" name="Transition grammar" subtitle="The connector carries meaning: parcouru · franchissable · à venir · branches" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-card); display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+  .tile { display: flex; flex-direction: column; gap: 10px; }
+  .cap { font: var(--font-caption); font-size: 10px; color: var(--text-muted); }
+  .cap b { color: var(--text-strong); display: block; font-weight: 600; font-size: 12px; }
+  .ts-trail__title { font-size: 13px; }
+  .ts-glyph { width: 26px; height: 26px; }
+</style></head>
+<body>
+  <div class="tile">
+    <ol class="ts-trail">
+      <li class="ts-trail__item" data-state="done" data-below="taken"><span class="ts-trail__rail"><span class="ts-glyph" data-state="done"></span></span><div class="ts-trail__body"><p class="ts-trail__title">Mandat signé</p></div></li>
+      <li class="ts-trail__item" data-state="done"><span class="ts-trail__rail"><span class="ts-glyph" data-state="done"></span></span><div class="ts-trail__body"><p class="ts-trail__title">Visite faite</p></div></li>
+    </ol>
+    <span class="cap"><b>parcouru</b>trait plein vert</span>
+  </div>
+  <div class="tile">
+    <ol class="ts-trail">
+      <li class="ts-trail__item" data-state="done" data-below="open"><span class="ts-trail__rail"><span class="ts-glyph" data-state="done"></span></span><div class="ts-trail__body"><p class="ts-trail__title">Offre acceptée</p></div></li>
+      <li class="ts-trail__item" data-state="current"><span class="ts-trail__rail"><span class="ts-glyph" data-state="current" style="width:30px;height:30px"></span></span><div class="ts-trail__body"><p class="ts-trail__title">Signer le compromis</p></div></li>
+    </ol>
+    <span class="cap"><b>franchissable</b>conditions réunies</span>
+  </div>
+  <div class="tile">
+    <ol class="ts-trail">
+      <li class="ts-trail__item" data-state="current" data-below="future"><span class="ts-trail__rail"><span class="ts-glyph" data-state="current"></span></span><div class="ts-trail__body"><p class="ts-trail__title">Compromis</p></div></li>
+      <li class="ts-trail__item" data-state="locked"><span class="ts-trail__rail"><span class="ts-glyph" data-state="locked"></span></span><div class="ts-trail__body"><p class="ts-trail__title">Acte définitif</p></div></li>
+    </ol>
+    <span class="cap"><b>à venir</b>pointillé, verrouillé</span>
+  </div>
+  <div class="tile">
+    <div class="ts-parallel">
+      <span class="ts-parallel__label">En parallèle</span>
+      <div class="ts-parallel__row">
+        <div class="ts-parallel__cell"><span class="ts-glyph ts-glyph--sm" data-state="current"></span><span class="t">Prêt</span></div>
+        <div class="ts-parallel__cell"><span class="ts-glyph ts-glyph--sm" data-state="waiting"></span><span class="t">Assurance</span></div>
+      </div>
+    </div>
+    <span class="cap"><b>branches</b>DAG — étapes simultanées</span>
+  </div>
+</body></html>

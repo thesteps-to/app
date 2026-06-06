@@ -1,0 +1,13 @@
+/* ============================================================
+   thesteps · Design System — global entry point
+   Consumers link THIS one file. Import list only.
+   Order: palette → semantics → type → space → form → motion → base
+   ============================================================ */
+@import "./tokens/palette.css";
+@import "./tokens/colors.css";
+@import "./tokens/typography.css";
+@import "./tokens/spacing.css";
+@import "./tokens/elevation.css";
+@import "./tokens/motion.css";
+@import "./tokens/base.css";
+@import "./css/components.css";

@@ -12,34 +12,41 @@ export async function renderAuthor(host: HTMLElement): Promise<void> {
   const drafts = loadDrafts()
   host.innerHTML = `
     <article class="author-page">
-      <p class="kicker">Espace auteurs</p>
-      <h1>Publiez vos plans, soyez rémunérés sur les résultats</h1>
-      <p class="lead">
-        Vous êtes expert d'un parcours (achat immobilier, création d'entreprise, voyage…) ?
-        Publiez votre plan : vous touchez une part de chaque commission versée par les
-        professionnels que vous orientez vers les utilisateurs.
+      <div class="page-eyebrow"><span class="eyebrow">Espace auteurs</span><span class="rule"></span></div>
+      <h1 class="page-title">Publiez vos plans.<br>Soyez rémunéré sur les résultats.</h1>
+      <p class="page-lead">
+        Vous êtes expert·e d'un parcours (achat, création d'entreprise, voyage…) ? Publiez votre
+        plan : vous touchez une part de chaque commission versée par les professionnels que les
+        utilisateurs choisissent à vos étapes.
       </p>
 
-      <section class="author-submit">
-        <h2>Soumettre un plan</h2>
-        <p class="secondary">Collez le JSON de votre plan ci-dessous. Il sera validé contre le modèle <code>createPlan</code> (étapes, DAG, auteur, needTags…). Aucune persistance serveur : seuls vos brouillons locaux sont enregistrés.</p>
-        <textarea class="plan-json" rows="14" placeholder='{"id":"monplan","title":"…","lang":"fr",…}'></textarea>
+      <section class="ts-card">
+        <h2 class="ts-card__title">Soumettre un plan</h2>
+        <p class="muted-link">
+          Collez le JSON de votre plan. Je le valide contre le modèle (étapes, DAG, auteur, tags…)
+          et vous montre un aperçu. Vos brouillons restent en local.
+        </p>
+        <div class="ts-field" style="margin-top: var(--space-md)">
+          <label class="ts-label" for="plan-json">JSON du plan</label>
+          <textarea class="ts-textarea plan-json" id="plan-json"
+                    placeholder='{"id":"monplan","title":"…","lang":"fr",…}'></textarea>
+        </div>
         <div class="form-actions">
-          <button type="button" data-validate>Valider le JSON</button>
+          <button class="ts-btn ts-btn--secondary" type="button" data-validate>Valider le JSON</button>
         </div>
         <div class="submit-feedback" aria-live="polite"></div>
         ${drafts.length > 0 ? renderDrafts(drafts) : ""}
       </section>
 
-      <section class="author-dashboard">
-        <header class="dashboard-header">
-          <h2>Tableau de bord</h2>
-          <div class="demo-banner" role="note">
-            <strong>Données de démonstration.</strong>
-            Les compteurs d'usage et la rémunération cumulée sont fabriqués pour illustrer
-            le tableau de bord ; les commissions issues de vos handoffs réels sont incluses.
+      <section class="ts-card" style="margin-top: var(--space-xl)">
+        <h2 class="ts-card__title">Tableau de bord</h2>
+        <div class="ts-banner ts-banner--demo" role="note" style="margin-top: var(--space-sm)">
+          <span class="ts-banner__dot"></span>
+          <div class="ts-banner__body">
+            <b>Données de démonstration.</b>
+            <p>Les compteurs d'usage et la rémunération cumulée sont fabriqués pour illustrer le tableau de bord ; les commissions issues de vos handoffs réels sont incluses.</p>
           </div>
-        </header>
+        </div>
         ${renderRemunerationSummary(remuneration.total, remuneration.demoBaseline)}
         <ul class="author-plans">
           ${catalog.map(plan => renderPlanRow(plan, remuneration.perPlan.get(plan.id) ?? 0)).join("")}
@@ -51,7 +58,7 @@ export async function renderAuthor(host: HTMLElement): Promise<void> {
 }
 
 function wireSubmit(host: HTMLElement): void {
-  const textarea = host.querySelector<HTMLTextAreaElement>("textarea.plan-json")
+  const textarea = host.querySelector<HTMLTextAreaElement>(".plan-json")
   const feedback = host.querySelector<HTMLDivElement>(".submit-feedback")
   if (!textarea || !feedback) return
   host.querySelector<HTMLButtonElement>("[data-validate]")?.addEventListener("click", () => {
@@ -62,63 +69,82 @@ function wireSubmit(host: HTMLElement): void {
         const plan = createPlan(JSON.parse(textarea.value))
         saveDraft(plan)
         textarea.value = ""
-        feedback.innerHTML = `<p class="success">✓ Brouillon enregistré localement.</p>`
-        // Re-render to show the new draft in the list.
+        feedback.innerHTML = `<div class="ts-banner ts-banner--success"><div class="ts-banner__body">Brouillon enregistré localement.</div></div>`
         setTimeout(() => void renderAuthor(host), 800)
       } catch (error) {
-        feedback.innerHTML = `<p class="error">Erreur à l'enregistrement : ${escapeHtml(messageOf(error))}</p>`
+        feedback.innerHTML = errorBanner(messageOf(error))
       }
     })
   })
 }
 
 function renderFeedback(json: string): string {
-  if (!json.trim()) return `<p class="error">Collez un JSON dans la zone ci-dessus.</p>`
+  if (!json.trim()) return errorBanner("Collez un JSON dans la zone ci-dessus.")
   let parsed: unknown
   try {
     parsed = JSON.parse(json)
   } catch (error) {
-    return `<p class="error">JSON invalide : ${escapeHtml(messageOf(error))}</p>`
+    return errorBanner(`JSON invalide : ${messageOf(error)}`)
   }
   let plan: Plan
   try {
     plan = createPlan(parsed)
   } catch (error) {
-    return `<p class="error">Modèle invalide : ${escapeHtml(messageOf(error))}</p>`
+    return errorBanner(`Modèle invalide : ${messageOf(error)}`)
   }
   return `
-    <p class="success">✓ Plan valide</p>
+    <div class="ts-banner ts-banner--success">
+      <div class="ts-banner__body"><b>Plan valide.</b><p>Aperçu ci-dessous.</p></div>
+    </div>
     ${renderPreview(plan)}
-    <div class="form-actions">
-      <button type="button" data-save class="primary">Enregistrer le brouillon</button>
+    <div class="form-actions" style="margin-top: var(--space-md)">
+      <button class="ts-btn ts-btn--primary" type="button" data-save>Enregistrer le brouillon</button>
     </div>
   `
 }
 
+function errorBanner(message: string): string {
+  return `
+    <div class="ts-banner ts-banner--error">
+      <div class="ts-banner__body">${escapeHtml(message)}</div>
+    </div>`
+}
+
 function renderPreview(plan: Plan): string {
   const rating = plan.rating
-    ? `<span class="rating">★ ${plan.rating.average.toFixed(1)}</span>`
+    ? `<span class="ts-rating">
+         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+         ${plan.rating.average.toFixed(1).replace(".", ",")}
+       </span>`
     : ""
   return `
-    <div class="plan-card recommended" aria-label="Aperçu du plan">
-      <p class="kicker">Aperçu</p>
-      <h3>${escapeHtml(plan.title)}</h3>
-      <p class="author">par ${escapeHtml(plan.author.name)} ${rating}</p>
-      <p class="summary">${escapeHtml(plan.summary)}</p>
-      <p class="secondary">${plan.steps.length} étape(s) · ${plan.needTags.length} tag(s)</p>
-    </div>
+    <article class="ts-plan" style="margin-top: var(--space-md)">
+      <div class="ts-plan__body">
+        <span class="ts-plan__cat">Aperçu</span>
+        <h3 class="ts-plan__title">${escapeHtml(plan.title)}</h3>
+        <p class="ts-plan__author">
+          <span class="ts-avatar ts-avatar--sm ts-avatar--author">${escapeHtml(initials(plan.author.name))}</span>
+          <b>${escapeHtml(plan.author.name)}</b>
+        </p>
+        <div class="ts-plan__stats">
+          ${rating}
+          <span class="ts-plan__stat">${plan.steps.length} étapes</span>
+          <span class="ts-plan__stat">${plan.needTags.length} tags</span>
+        </div>
+      </div>
+    </article>
   `
 }
 
 function renderDrafts(drafts: Draft[]): string {
   return `
-    <details class="drafts">
+    <details style="margin-top: var(--space-md)">
       <summary>Mes brouillons (${drafts.length})</summary>
-      <ul>
+      <ul style="list-style:none; padding:0; margin: var(--space-sm) 0">
         ${drafts.map(draft => `
-          <li>
+          <li style="padding: var(--space-xs) 0">
             <strong>${escapeHtml(draft.plan.title)}</strong>
-            <span class="secondary">— ${formatDate(draft.date)}</span>
+            <span class="muted-link">— ${formatDate(draft.date)}</span>
           </li>
         `).join("")}
       </ul>
@@ -128,19 +154,26 @@ function renderDrafts(drafts: Draft[]): string {
 
 function renderRemunerationSummary(actual: number, demoBaseline: number): string {
   return `
-    <p class="remuneration-summary">
+    <div class="remuneration-summary">
       Rémunération cumulée :
-      <strong>${(actual + demoBaseline).toLocaleString("fr-FR")} €</strong>
-      <span class="secondary">(${actual} € issus des commissions conclues en démo · ${demoBaseline.toLocaleString("fr-FR")} € baseline démo)</span>
-    </p>
+      <b>${(actual + demoBaseline).toLocaleString("fr-FR")} €</b>
+      <p class="muted-link">
+        Dont ${actual} € de commissions conclues en démo et
+        ${demoBaseline.toLocaleString("fr-FR")} € de baseline démo.
+      </p>
+    </div>
   `
 }
 
 function renderPlanRow(plan: Plan, earnings: number): string {
   const metrics = DEMO_METRICS[plan.id] ?? { started: 0, completed: 0 }
   const rating = plan.rating
-    ? `<span class="rating">★ ${plan.rating.average.toFixed(1)} <span class="secondary">(${plan.rating.count})</span></span>`
-    : `<span class="secondary">Pas encore noté</span>`
+    ? `<span class="ts-rating">
+         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+         ${plan.rating.average.toFixed(1).replace(".", ",")}
+         <span>(${plan.rating.count})</span>
+       </span>`
+    : `<span class="muted-link">Pas encore noté</span>`
   const conversion = metrics.started > 0
     ? `${Math.round((metrics.completed / metrics.started) * 100)} %`
     : "—"
@@ -152,22 +185,22 @@ function renderPlanRow(plan: Plan, earnings: number): string {
         ${rating}
       </header>
       <dl class="metrics">
-        <div><dt>Démarrés</dt><dd>${metrics.started.toLocaleString("fr-FR")}</dd></div>
-        <div><dt>Finalisés</dt><dd>${metrics.completed.toLocaleString("fr-FR")}</dd></div>
-        <div><dt>Taux</dt><dd>${conversion}</dd></div>
-        <div><dt>Rémunération</dt><dd>${earnings.toLocaleString("fr-FR")} €</dd></div>
+        <div class="metric"><dt>Démarrés</dt><dd>${metrics.started.toLocaleString("fr-FR")}</dd></div>
+        <div class="metric"><dt>Finalisés</dt><dd>${metrics.completed.toLocaleString("fr-FR")}</dd></div>
+        <div class="metric"><dt>Taux</dt><dd>${conversion}</dd></div>
+        <div class="metric"><dt>Rémunération</dt><dd>${earnings.toLocaleString("fr-FR")} €</dd></div>
       </dl>
       ${reviews.length > 0 ? `
         <details>
           <summary>Avis (${reviews.length})</summary>
-          <ul class="reviews-list">
+          <div style="margin-top: var(--space-sm); display:flex; flex-direction:column; gap: var(--space-sm)">
             ${reviews.map(review => `
-              <li>
-                <p class="review-text">« ${escapeHtml(review.text)} »</p>
-                <p class="review-meta secondary">${escapeHtml(review.author)} — ${escapeHtml(review.date)}</p>
-              </li>
+              <div class="review-card">
+                <p class="text">« ${escapeHtml(review.text)} »</p>
+                <p class="meta">${escapeHtml(review.author)} — ${escapeHtml(review.date)}</p>
+              </div>
             `).join("")}
-          </ul>
+          </div>
         </details>
       ` : ""}
     </li>
@@ -176,6 +209,10 @@ function renderPlanRow(plan: Plan, earnings: number): string {
 
 function messageOf(error: unknown): string {
   return error instanceof Error ? error.message : String(error)
+}
+
+function initials(name: string): string {
+  return name.split(/\s+/).slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("")
 }
 
 function formatDate(iso: string): string {

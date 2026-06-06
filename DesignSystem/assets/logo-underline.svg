@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 138 34" width="138" height="34" role="img" aria-label="thesteps.to">
+  <path d="M7 27 L125 27" fill="none" stroke="#16a34a" stroke-width="3" stroke-linecap="round"></path>
+  <circle cx="7" cy="27" r="4.8" fill="#16a34a"></circle>
+  <text x="16" y="20" font-family="system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="19" font-weight="700" letter-spacing="-0.4" fill="#161b22">thesteps<tspan fill="#6d7a88" font-weight="600">.to</tspan></text>
+  <circle cx="125" cy="27" r="5.9" fill="#2563eb"></circle>
+  <circle cx="125" cy="27" r="2.3" fill="#fff"></circle>
+</svg>

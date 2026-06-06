@@ -1,0 +1,40 @@
+<!-- @dsCard group="Colors" viewport="700x200" name="Step states" subtitle="The core vocabulary — done · current · locked · waiting · overdue" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 22px; background: var(--surface-card); }
+  .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .cell { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; padding: 14px 8px; border-radius: var(--radius-md); }
+  .name { font: var(--font-ui); font-weight: var(--weight-semibold); font-size: 13px; color: var(--text-strong); }
+  .tok { font: var(--font-caption); font-size: 10px; color: var(--text-muted); }
+  .c-done { background: var(--step-done-soft); }
+  .c-current { background: var(--step-current-soft); }
+  .c-locked { background: var(--step-locked-soft); }
+  .c-waiting { background: var(--step-waiting-soft); }
+  .c-overdue { background: var(--step-overdue-soft); }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="cell c-done">
+      <svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="#16a34a"/><path d="M7.5 12.3l3 3 6-6.2" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="name">done</span><span class="tok">--step-done</span>
+    </div>
+    <div class="cell c-current">
+      <svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#2563eb" fill-opacity=".14"/><circle cx="12" cy="12" r="8.5" fill="#2563eb"/><circle cx="12" cy="12" r="3.4" fill="#fff"/></svg>
+      <span class="name">current</span><span class="tok">--step-current</span>
+    </div>
+    <div class="cell c-locked">
+      <svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#eaeef2" stroke="#bcc6d0" stroke-width="2"/><circle cx="12" cy="12" r="2.2" fill="#97a4b1"/></svg>
+      <span class="name">locked</span><span class="tok">--step-locked</span>
+    </div>
+    <div class="cell c-waiting">
+      <svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#fff8eb" stroke="#e0900c" stroke-width="2"/><path d="M12 8v4.2l2.6 1.6" fill="none" stroke="#e0900c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span class="name">waiting</span><span class="tok">--step-waiting</span>
+    </div>
+    <div class="cell c-overdue">
+      <svg width="40" height="40" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="#fef2f2" stroke="#e24545" stroke-width="2"/><path d="M12 7.6v5.2" fill="none" stroke="#e24545" stroke-width="2.2" stroke-linecap="round"/><circle cx="12" cy="16.2" r="1.3" fill="#e24545"/></svg>
+      <span class="name">overdue</span><span class="tok">--step-overdue</span>
+    </div>
+  </div>
+</body></html>

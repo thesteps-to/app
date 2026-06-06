@@ -10,81 +10,99 @@ export async function renderPresentation(host: HTMLElement, id: string): Promise
   document.title = `${plan.title} — thesteps.to`
   host.innerHTML = `
     <article class="presentation">
-      <p class="secondary"><a href="/search">← Voir d'autres plans</a></p>
+      <p><a class="muted-link" href="/search">← Tous les plans</a></p>
       ${plan.demo ? demoBanner() : ""}
-      <h1>${escapeHtml(plan.title)}</h1>
-      <p class="lead">${escapeHtml(plan.summary)}</p>
+
+      <div class="page-eyebrow">
+        <span class="ts-glyph ts-glyph--sm" data-state="current"></span>
+        <span class="eyebrow">${escapeHtml(plan.needTags[0] ?? "Plan")}</span>
+      </div>
+      <h1 class="page-title">${escapeHtml(plan.title)}</h1>
+      <p class="page-lead">${escapeHtml(plan.summary)}</p>
+
+      <div class="meta-row">
+        ${plan.rating ? `
+          <span class="ts-rating">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+            ${plan.rating.average.toFixed(1).replace(".", ",")}
+            <span>(${plan.rating.count} avis)</span>
+          </span>` : ""}
+        <span class="ts-tag">${plan.steps.length} étapes</span>
+        <span class="ts-plan__free">Gratuit</span>
+      </div>
+
       ${renderVideo(plan)}
-      ${renderAuthor(plan)}
-      <section class="what">
-        <h2>Ce que ce plan fait pour vous</h2>
-        <ol class="step-summary">
-          ${plan.steps.map(step => `<li><strong>${escapeHtml(step.title)}</strong></li>`).join("")}
-        </ol>
+
+      <section class="author-card">
+        <span class="ts-avatar ts-avatar--lg ts-avatar--author">${escapeHtml(initials(plan.author.name))}</span>
+        <div>
+          <p class="eyebrow">L'auteur</p>
+          <h2>${escapeHtml(plan.author.name)}</h2>
+          ${plan.author.bio ? `<p class="bio">${escapeHtml(plan.author.bio)}</p>` : ""}
+        </div>
       </section>
+
+      <h2 class="section-title">Ce que je fais pour vous</h2>
+      <ol class="step-summary">
+        ${plan.steps.map((step, index) => `
+          <li>
+            <span class="ts-glyph ts-glyph--sm" data-state="${index === 0 ? "current" : "node"}"></span>
+            <span class="label">${escapeHtml(step.title)}</span>
+          </li>`).join("")}
+      </ol>
+
       ${renderReviews(plan.reviews)}
-      <p class="cta">
-        <a class="primary" href="/plan/${plan.id}/run">Commencer ce plan</a>
-      </p>
+
+      <div class="cta-block">
+        <a class="ts-btn ts-btn--primary ts-btn--lg ts-btn--block" href="/plan/${escapeAttr(plan.id)}/run">
+          Commencer ce plan
+        </a>
+        <p class="muted-link" style="text-align:center">Vous restez maître de vos données à chaque étape.</p>
+      </div>
     </article>
   `
 }
 
 function renderVideo(plan: Plan): string {
   if (!plan.author.videoUrl) {
-    return `
-      <div class="video-placeholder" aria-label="Vidéo de présentation à venir">
-        <span>▶ Vidéo de présentation à venir</span>
-      </div>
-    `
+    return `<div class="video-placeholder">Vidéo de présentation à venir</div>`
   }
   return `
-    <div class="video">
-      <a href="${escapeAttr(plan.author.videoUrl)}" target="_blank" rel="noopener">
-        ▶ Voir la vidéo de présentation
+    <div class="video-link">
+      <a class="ts-btn ts-btn--ghost" href="${escapeAttr(plan.author.videoUrl)}" target="_blank" rel="noopener">
+        Voir la vidéo de présentation
       </a>
     </div>
-  `
-}
-
-function renderAuthor(plan: Plan): string {
-  const { author, rating } = plan
-  const ratingMarkup = rating
-    ? `<p class="rating">★ ${rating.average.toFixed(1)} <span class="count">(${rating.count} avis)</span></p>`
-    : ""
-  return `
-    <section class="author">
-      <h2>L'auteur</h2>
-      <p class="author-name">${escapeHtml(author.name)}</p>
-      ${author.bio ? `<p class="author-bio">${escapeHtml(author.bio)}</p>` : ""}
-      ${ratingMarkup}
-    </section>
   `
 }
 
 function renderReviews(reviews: Review[] | undefined): string {
   if (!reviews?.length) return ""
   return `
-    <section class="reviews">
-      <h2>Avis des utilisateurs</h2>
-      <ul>
-        ${reviews.map(review => `
-          <li>
-            <p class="review-text">« ${escapeHtml(review.text)} »</p>
-            <p class="review-meta">${escapeHtml(review.author)} — ${escapeHtml(review.date)}</p>
-          </li>
-        `).join("")}
-      </ul>
+    <section class="reviews-block">
+      <h2 class="section-title">Avis des utilisateurs</h2>
+      ${reviews.map(review => `
+        <div class="review-card">
+          <p class="text">« ${escapeHtml(review.text)} »</p>
+          <p class="meta">${escapeHtml(review.author)} — ${escapeHtml(review.date)}</p>
+        </div>
+      `).join("")}
     </section>
   `
 }
 
 function demoBanner(): string {
   return `
-    <div class="demo-banner" role="note">
-      <strong>Données de démonstration.</strong>
-      Ce plan illustre le fonctionnement du service ; il n'est pas encore opérationnel.
+    <div class="ts-banner ts-banner--demo" role="note">
+      <span class="ts-banner__dot"></span>
+      <div class="ts-banner__body">
+        <b>Données de démonstration.</b>
+        <p>Ce plan illustre le service ; il n'est pas encore opérationnel.</p>
+      </div>
     </div>
   `
 }
 
+function initials(name: string): string {
+  return name.split(/\s+/).slice(0, 2).map(part => part.charAt(0).toUpperCase()).join("")
+}

@@ -1,0 +1,29 @@
+<!-- @dsCard group="Spacing" viewport="700x160" name="Radius & elevation" subtitle="Nothing sharp — soft diffuse cool-tinted shadows" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); display: flex; gap: 28px; flex-wrap: wrap; align-items: center; }
+  .grp { display: flex; gap: 14px; align-items: flex-end; }
+  .r { width: 56px; height: 56px; background: var(--surface-card); border: 1px solid var(--border-default); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; }
+  .e { width: 64px; height: 56px; background: var(--surface-card); border-radius: var(--radius-card); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 5px; }
+  .lbl { font: var(--font-caption); font-size: 10px; color: var(--text-muted); }
+  .sep { width: 1px; align-self: stretch; background: var(--border-default); }
+</style></head>
+<body>
+  <div class="grp">
+    <div class="r" style="border-radius:var(--radius-sm)"><span class="lbl">6</span></div>
+    <div class="r" style="border-radius:var(--radius-md)"><span class="lbl">10</span></div>
+    <div class="r" style="border-radius:var(--radius-lg)"><span class="lbl">14</span></div>
+    <div class="r" style="border-radius:var(--radius-card)"><span class="lbl">18·card</span></div>
+    <div class="r" style="border-radius:var(--radius-xl)"><span class="lbl">24</span></div>
+  </div>
+  <div class="sep"></div>
+  <div class="grp">
+    <div class="e" style="box-shadow:var(--shadow-xs)"><span class="lbl">xs</span></div>
+    <div class="e" style="box-shadow:var(--shadow-sm)"><span class="lbl">sm</span></div>
+    <div class="e" style="box-shadow:var(--shadow-md)"><span class="lbl">md</span></div>
+    <div class="e" style="box-shadow:var(--shadow-lg)"><span class="lbl">lg</span></div>
+    <div class="e" style="box-shadow:var(--shadow-current)"><span class="lbl">current</span></div>
+  </div>
+</body></html>

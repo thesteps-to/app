@@ -1,0 +1,23 @@
+<!-- @dsCard group="Components" viewport="700x280" name="Disclosure slider" subtitle="Data-sharing level — the founding trust differentiator, in plain language" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 26px; background: var(--surface-app); }
+  .ts-disclosure { max-width: 420px; margin-inline: auto; }
+</style></head>
+<body>
+  <div class="ts-disclosure" data-level="2">
+    <div class="ts-disclosure__head">
+      <span class="ts-disclosure__title">Ce que je partage avec le courtier</span>
+      <span class="ts-disclosure__value">Projet</span>
+    </div>
+    <input class="ts-disclosure__range" type="range" min="1" max="3" step="1" value="2" style="--_pct:50%" aria-label="Niveau de partage">
+    <div class="ts-disclosure__ticks">
+      <button class="ts-disclosure__tick is-on"><span class="ts-disclosure__tick-label">Contact</span></button>
+      <button class="ts-disclosure__tick is-on"><span class="ts-disclosure__tick-label">Projet</span></button>
+      <button class="ts-disclosure__tick"><span class="ts-disclosure__tick-label">Financier</span></button>
+    </div>
+    <p class="ts-disclosure__desc">Détails du projet partagés — vos montants restent protégés.</p>
+  </div>
+</body></html>

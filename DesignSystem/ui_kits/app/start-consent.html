@@ -1,0 +1,54 @@
+<!-- @startingPoint section="App" subtitle="Consent screen — the founding trust differentiator" viewport="430x720" -->
+<!DOCTYPE html>
+<html lang="fr" data-theme="light"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>thesteps · partage</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../styles.css">
+<script defer src="../../js/components.js"></script>
+<style>
+  body { margin: 0; background: var(--surface-app); min-height: 100vh; }
+  .wrap { max-width: 430px; margin-inline: auto; padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
+  .head { margin-bottom: var(--space-lg); }
+  .head .eyebrow { color: var(--brand-text); }
+  .head h1 { font: var(--font-title); font-size: var(--text-2xl); line-height: var(--leading-snug); margin-top: 6px; }
+  .head p { color: var(--text-muted); font-size: var(--text-sm); line-height: var(--leading-normal); margin-top: var(--space-xs); }
+  .fields { display: flex; flex-direction: column; gap: var(--space-sm); margin: var(--space-lg) 0; }
+  .cta { display: flex; flex-direction: column; gap: var(--space-sm); }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="head">
+      <div class="ts-action__step"><span class="ts-glyph ts-glyph--sm" data-state="current"></span><span class="eyebrow">Votre accord</span></div>
+      <h1>Que partager avec le courtier ?</h1>
+      <p>Vous gardez la main. Je ne transmets que ce que vous cochez — rien d’autre ne sort de votre dossier.</p>
+    </div>
+
+    <disclosure-slider level="2"></disclosure-slider>
+
+    <div class="fields">
+      <div class="ts-shared" data-shared="true">
+        <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="ts-shared__body"><span class="ts-shared__label">Contact</span><span class="ts-shared__value">Camille Roy · camille@exemple.fr</span></span>
+        <label class="ts-switch ts-shared__toggle"><input type="checkbox" checked><span class="ts-switch__track"></span></label>
+      </div>
+      <div class="ts-shared" data-shared="true">
+        <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+        <span class="ts-shared__body"><span class="ts-shared__label">Projet</span><span class="ts-shared__value">Appartement · Lyon 3e · ~70 m²</span></span>
+        <label class="ts-switch ts-shared__toggle"><input type="checkbox" checked><span class="ts-switch__track"></span></label>
+      </div>
+      <div class="ts-shared" data-shared="false">
+        <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+        <span class="ts-shared__body"><span class="ts-shared__label">Budget & financement</span><span class="ts-shared__value">320 000 €</span></span>
+        <label class="ts-switch ts-shared__toggle"><input type="checkbox"><span class="ts-switch__track"></span></label>
+      </div>
+    </div>
+
+    <div class="cta">
+      <button class="ts-btn ts-btn--primary ts-btn--lg ts-btn--block">Je partage ce qui est coché</button>
+      <button class="ts-btn ts-btn--quiet ts-btn--block">Pas maintenant</button>
+    </div>
+  </div>
+</body></html>

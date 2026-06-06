@@ -7,18 +7,16 @@ import { openConsent } from "./views/consent.ts"
 import { escapeAttr, escapeHtml } from "./escape.ts"
 
 /**
- * Renders a plan with cognitive relief as the driving principle: the default view shows only the
- * next actions to perform, with their dossier inputs and provider handoff buttons inline.
- * Progress is per plan ("thesteps.progress.<planId>"). Dossier and handoffs are shared
- * across plans ("thesteps.dossier", "thesteps.handoffs").
+ * Execution view for a plan. Default mode shows ONE next-action card per
+ * unlocked step (max one branch parallelism), each backed by the .ts-action
+ * design-system surface. The full plan (secondary view) shows every step as
+ * a trail of details. Dossier and handoffs are shared across plans.
  */
 export class StepsPlan extends HTMLElement {
 
   plan!: Plan
   progress: Progress = { doneSteps: [], checked: {} }
   dossier: Dossier = { values: {}, sharing: { defaultLevel: "contact" } }
-
-  /** Whether the full plan (secondary view) is displayed instead of the next action. */
   showAll = false
 
   connectedCallback(): void {
@@ -68,14 +66,24 @@ export class StepsPlan extends HTMLElement {
     const plan = this.plan
     const ratio = completion(plan, this.progress)
     const doneCount = this.progress.doneSteps.length
+    const percent = Math.round(ratio * 100)
     this.innerHTML = `
+      <div class="page-eyebrow"><span class="eyebrow">${escapeHtml(plan.needTags[0] ?? "Plan")}</span><span class="rule"></span></div>
       <h1>${escapeHtml(plan.title)}</h1>
       <p>${escapeHtml(plan.summary)}</p>
-      <div class="progress" role="progressbar" aria-valuenow="${Math.round(ratio * 100)}"
-           aria-valuemin="0" aria-valuemax="100"
-           title="${doneCount} étape(s) sur ${plan.steps.length}">
-        <div style="width: ${ratio * 100}%"></div>
+
+      <div class="ts-card ts-card--flat progress-card">
+        <div class="ts-progress" aria-label="Avancement du plan">
+          <div class="ts-progress__track">
+            <div class="ts-progress__fill" style="width: ${percent}%"></div>
+          </div>
+          <div class="ts-progress__label">
+            <b>${doneCount} / ${plan.steps.length} étapes faites</b>
+            <span>${escapeHtml(plan.title)}</span>
+          </div>
+        </div>
       </div>
+
       ${this.showAll ? this.renderAll() : this.renderNext()}
     `
     this.wireEvents()
@@ -116,64 +124,104 @@ export class StepsPlan extends HTMLElement {
     }
   }
 
-  /** Default view: only the unlocked next actions (one card per parallel branch). */
+  /** Default view: one next-action card per unlocked step. */
   renderNext(): string {
     const unlocked = unlockedSteps(this.plan, this.progress)
     if (unlocked.length === 0) {
       return `
-        <section class="next-card done-card">
-          <h2>🎉 Votre projet est terminé !</h2>
-          <p>Toutes les étapes de ce plan sont faites. Bravo !</p>
-          <p><a href="#" data-toggle-view>Revoir le déroulé complet</a></p>
-        </section>`
+        <article class="ts-action ts-action--done">
+          <div class="ts-action__top">
+            <div class="ts-action__step">
+              <span class="ts-glyph ts-glyph--sm" data-state="done"></span>
+              <span class="eyebrow">Projet terminé</span>
+            </div>
+          </div>
+          <h2 class="ts-action__title">Votre projet est terminé.</h2>
+          <p class="ts-action__desc">Toutes les étapes de ce plan sont faites. Bel accomplissement.</p>
+          <div class="ts-action__cta">
+            <a class="ts-action__detail" href="#" data-toggle-view>Revoir le déroulé complet
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+            </a>
+          </div>
+        </article>`
     }
-    const kicker = unlocked.length === 1
-      ? `<p class="kicker">Votre prochaine étape</p>`
-      : `<p class="kicker">${unlocked.length} étapes peuvent avancer en parallèle</p>`
     const total = this.plan.steps.length
     const doneCount = this.progress.doneSteps.length
+    const eyebrow = unlocked.length === 1
+      ? `<div class="page-eyebrow"><span class="eyebrow">Votre prochaine étape</span><span class="rule"></span></div>`
+      : `<div class="page-eyebrow"><span class="eyebrow">${unlocked.length} étapes peuvent avancer en parallèle</span><span class="rule"></span></div>`
     return `
-      ${kicker}
-      ${unlocked.map(step => this.renderNextCard(step)).join("")}
-      <p class="secondary">
-        ${doneCount} / ${total} étape(s) faite(s) —
-        <a href="#" data-toggle-view>voir le plan complet</a>
+      ${eyebrow}
+      <div class="next-stack">
+        ${unlocked.map(step => this.renderNextCard(step)).join("")}
+      </div>
+      <p class="muted-link" style="margin-top: var(--space-lg); text-align: center">
+        ${doneCount} / ${total} étapes faites —
+        <a class="muted-link" href="#" data-toggle-view>voir le plan complet</a>
       </p>`
   }
 
-  /** Render one card in the next-actions list. */
   renderNextCard(step: Step): string {
-    const payment = step.payment
-      ? `<p class="payment">💳 ${escapeHtml(step.payment.label)}${step.payment.estimate ? ` (${escapeHtml(step.payment.estimate)})` : ""}</p>`
-      : ""
+    const index = this.plan.steps.indexOf(step)
     return `
-      <section class="next-card">
-        <h2>${escapeHtml(step.title)}</h2>
-        <p>${escapeHtml(step.summary)}</p>
-        ${payment}
+      <article class="ts-action">
+        <div class="ts-action__top">
+          <div class="ts-action__step">
+            <span class="ts-glyph ts-glyph--sm" data-state="current"></span>
+            <span class="eyebrow">Étape ${index + 1} / ${this.plan.steps.length}</span>
+          </div>
+        </div>
+        <h2 class="ts-action__title">${escapeHtml(step.title)}</h2>
+        <p class="ts-action__desc">${escapeHtml(step.summary)}</p>
+        ${this.renderPayRow(step)}
         ${this.renderDossierForm(step)}
         ${this.renderChecklist(step)}
         ${this.renderProviders(step)}
-        <button data-step="${step.id}">C'est fait ✓</button>
-      </section>`
+        <div class="ts-action__cta">
+          <button class="ts-btn ts-btn--primary ts-btn--lg ts-btn--block" type="button" data-step="${step.id}">
+            C'est fait
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+          </button>
+        </div>
+      </article>`
   }
 
-  /** Secondary view: every step, expandable, for users who want the details. */
+  renderPayRow(step: Step): string {
+    if (!step.payment) return ""
+    const estimate = step.payment.estimate ? ` <b>${escapeHtml(step.payment.estimate)}</b>` : ""
+    return `
+      <div class="pay-row">
+        <span class="ts-pay">💳 ${escapeHtml(step.payment.label)}${estimate ? ` · Estimation${estimate}` : ""}</span>
+      </div>`
+  }
+
+  /** Secondary view: every step, expandable. */
   renderAll(): string {
     return `
-      <p class="secondary"><a href="#" data-toggle-view>← Revenir à ma prochaine étape</a></p>
-      ${this.plan.steps.map((step, i) => this.renderStep(step, i)).join("")}`
+      <p class="muted-link" style="margin-bottom: var(--space-md)">
+        <a class="muted-link" href="#" data-toggle-view>← Revenir à ma prochaine étape</a>
+      </p>
+      <div class="full-plan">
+        ${this.plan.steps.map((step, i) => this.renderStep(step, i)).join("")}
+      </div>`
   }
 
   renderStep(step: Step, index: number): string {
     const done = this.progress.doneSteps.includes(step.id)
+    const stateLabel = done ? "Faite" : "À faire"
     return `
-      <details class="${done ? "done" : ""}">
-        <summary>${done ? "✓" : index + 1 + "."} ${escapeHtml(step.title)}</summary>
+      <details data-state="${done ? "done" : "node"}">
+        <summary>
+          <span class="ts-glyph ts-glyph--sm" data-state="${done ? "done" : "node"}"></span>
+          <span>Étape ${index + 1} · ${escapeHtml(step.title)}</span>
+          <span class="ts-badge ts-badge--${done ? "done" : "neutral"}" aria-hidden="true" style="margin-left:auto">${stateLabel}</span>
+        </summary>
         <p>${escapeHtml(step.summary)}</p>
         ${this.renderChecklist(step)}
         ${this.renderProviders(step)}
-        <button data-step="${step.id}">${done ? "Rouvrir cette étape" : "Marquer comme faite"}</button>
+        <button class="ts-btn ${done ? "ts-btn--quiet" : "ts-btn--secondary"} ts-btn--sm" type="button" data-step="${step.id}">
+          ${done ? "Rouvrir cette étape" : "Marquer comme faite"}
+        </button>
       </details>`
   }
 
@@ -183,10 +231,15 @@ export class StepsPlan extends HTMLElement {
     return `
       <ul class="checklist">
         ${step.checklist.map((item, i) => `
-          <li><label>
-            <input type="checkbox" data-step="${step.id}" data-item="${i}" ${checked.includes(i) ? "checked" : ""}>
-            ${escapeHtml(item)}
-          </label></li>`).join("")}
+          <li>
+            <label class="ts-check">
+              <input type="checkbox" data-step="${step.id}" data-item="${i}" ${checked.includes(i) ? "checked" : ""}>
+              <span class="ts-check__box ts-check__box--cb">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+              </span>
+              <span>${escapeHtml(item)}</span>
+            </label>
+          </li>`).join("")}
       </ul>`
   }
 
@@ -194,7 +247,7 @@ export class StepsPlan extends HTMLElement {
     if (!step.inputs?.length) return ""
     return `
       <fieldset class="dossier-inputs">
-        <legend>Informations pour votre dossier</legend>
+        <legend>Informations utiles pour votre dossier</legend>
         ${step.inputs.map(field => this.renderField(field)).join("")}
       </fieldset>`
   }
@@ -202,26 +255,31 @@ export class StepsPlan extends HTMLElement {
   renderField(field: DossierField): string {
     const value = this.dossier.values[field.id]
     const known = hasValue(this.dossier, field.id)
-    const hint = known ? `<span class="known-hint">déjà dans votre dossier</span>` : ""
-    const sensitivityTag = `<span class="sensitivity sensitivity-${field.sensitivity}" title="Sensibilité : ${field.sensitivity}">${SENSITIVITY_LABEL[field.sensitivity]}</span>`
+    const sensitivityTag = `<span class="ts-tag" title="Sensibilité : ${SENSITIVITY_LABEL[field.sensitivity]}">${SENSITIVITY_LABEL[field.sensitivity]}</span>`
     const inputId = `field-${field.id}`
     const common = `id="${inputId}" data-field="${field.id}" data-type="${field.type}"`
     let control: string
     if (field.type === "choice") {
       const choices = field.choices ?? []
       control = `
-        <select ${common}>
-          <option value="">—</option>
+        <select class="ts-select" ${common}>
+          <option value="">— Choisir —</option>
           ${choices.map(choice => `<option value="${escapeAttr(choice)}" ${value === choice ? "selected" : ""}>${escapeHtml(choice)}</option>`).join("")}
         </select>`
     } else {
       const inputType = field.type === "number" ? "number" : "text"
       const val = value === undefined || value === null ? "" : String(value)
-      control = `<input type="${inputType}" ${common} value="${escapeAttr(val)}">`
+      control = `<input class="ts-input" type="${inputType}" ${common} value="${escapeAttr(val)}">`
     }
+    const hint = known
+      ? `<span class="ts-hint known-hint">Déjà dans votre dossier.</span>`
+      : ""
     return `
-      <div class="field ${known ? "known" : ""}">
-        <label for="${inputId}">${escapeHtml(field.label)} ${sensitivityTag}</label>
+      <div class="ts-field">
+        <label class="ts-label field-label" for="${inputId}">
+          <span>${escapeHtml(field.label)}</span>
+          ${sensitivityTag}
+        </label>
         ${control}
         ${hint}
       </div>`
@@ -231,29 +289,31 @@ export class StepsPlan extends HTMLElement {
     if (!step.providers?.length) return ""
     const sentTypes = new Set(handoffsForStep(this.plan.id, step.id).map(h => h.providerType))
     return `
-      <section class="providers">
-        <h3>Professionnels pour cette étape</h3>
-        <ul class="provider-list">
-          ${step.providers.map(provider => this.renderProvider(step, provider, sentTypes.has(provider.type))).join("")}
-        </ul>
+      <section class="providers-block">
+        <h3>Professionnels pour cette étape <span class="ts-sponsored">suggéré</span></h3>
+        ${step.providers.map(provider => this.renderProvider(step, provider, sentTypes.has(provider.type))).join("")}
       </section>`
   }
 
   renderProvider(step: Step, provider: ProviderSuggestion, sent: boolean): string {
-    const label = provider.url
-      ? `<a href="${escapeAttr(provider.url)}" rel="sponsored" data-external>${escapeHtml(provider.label)}</a>`
-      : escapeHtml(provider.label)
+    const name = provider.url
+      ? `<a class="muted-link" href="${escapeAttr(provider.url)}" rel="sponsored" data-external>${escapeHtml(provider.label)}</a>`
+      : `<span>${escapeHtml(provider.label)}</span>`
     const action = sent
-      ? `<span class="sent-tag">✓ Dossier envoyé</span>`
-      : `<button type="button" data-handoff-step="${step.id}" data-handoff-provider="${escapeAttr(provider.type)}">
-           Être mis en relation
-         </button>`
-    return `<li>${label} ${action}</li>`
+      ? `<span class="ts-badge ts-badge--done">Dossier envoyé</span>`
+      : `<button class="ts-btn ts-btn--ghost ts-btn--sm" type="button"
+                 data-handoff-step="${step.id}"
+                 data-handoff-provider="${escapeAttr(provider.type)}">Être mis en relation</button>`
+    return `
+      <div class="provider-row">
+        <span class="grow"><strong>${name}</strong> <span class="ts-tag">${escapeHtml(provider.type)}</span></span>
+        ${action}
+      </div>`
   }
 }
 
 const SENSITIVITY_LABEL = {
-  contact: "contact",
-  project: "projet",
-  financial: "finances",
+  contact: "Contact",
+  project: "Projet",
+  financial: "Finances",
 } as const

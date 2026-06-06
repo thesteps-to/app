@@ -1,0 +1,66 @@
+/* ============================================================
+   thesteps · Typography
+   System-ui first — honest, instant, zero-byte, and it makes
+   the product feel native and unfussy (concierge, not brochure).
+   One family, expressive weight + size range. i18n-safe:
+   the system stack carries French diacritics perfectly.
+   ============================================================ */
+:root {
+  /* ---- Families ---- */
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue",
+    Arial, "Noto Sans", sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji";
+  /* Tabular/mono for amounts, dates, J-12 countdowns, code.
+     System mono only — zero bytes, honours the budget. */
+  --font-mono:
+    ui-monospace, "SF Mono", Menlo, Consolas,
+    "Liberation Mono", monospace;
+
+  --font-base: var(--font-sans);
+
+  /* ---- Type scale (1.20 minor third, 16px root) ---- */
+  --text-2xs:  0.6875rem;  /* 11px — micro labels, badges */
+  --text-xs:   0.75rem;    /* 12px — captions, meta */
+  --text-sm:   0.875rem;   /* 14px — secondary body, UI */
+  --text-md:   1rem;       /* 16px — body default */
+  --text-lg:   1.125rem;   /* 18px — lead, card titles */
+  --text-xl:   1.375rem;   /* 22px — section titles */
+  --text-2xl:  1.75rem;    /* 28px — screen titles */
+  --text-3xl:  2.25rem;    /* 36px — hero / next-action heading */
+  --text-4xl:  3rem;       /* 48px — marketing display */
+  --text-5xl:  3.75rem;    /* 60px — marketing hero */
+
+  /* ---- Weights ---- */
+  --weight-regular:  400;
+  --weight-medium:   500;
+  --weight-semibold: 600;
+  --weight-bold:     700;
+
+  /* ---- Line heights ---- */
+  --leading-tight:   1.15;  /* display headings */
+  --leading-snug:    1.3;   /* titles */
+  --leading-normal:  1.5;   /* body */
+  --leading-relaxed: 1.65;  /* long-form reading */
+
+  /* ---- Letter spacing ---- */
+  --tracking-tight:  -0.02em;  /* large display */
+  --tracking-snug:   -0.01em;  /* headings */
+  --tracking-normal: 0em;
+  --tracking-wide:   0.02em;
+  --tracking-caps:   0.06em;   /* small all-caps labels */
+
+  /* ---- Semantic roles ---- */
+  --font-display:  var(--weight-bold)     var(--text-3xl)/var(--leading-tight) var(--font-sans);
+  --font-title:    var(--weight-semibold) var(--text-2xl)/var(--leading-snug)  var(--font-sans);
+  --font-heading:  var(--weight-semibold) var(--text-xl)/var(--leading-snug)   var(--font-sans);
+  --font-cardtitle:var(--weight-semibold) var(--text-lg)/var(--leading-snug)   var(--font-sans);
+  --font-body:     var(--weight-regular)  var(--text-md)/var(--leading-normal) var(--font-sans);
+  --font-ui:       var(--weight-medium)   var(--text-sm)/var(--leading-snug)   var(--font-sans);
+  --font-caption:  var(--weight-regular)  var(--text-xs)/var(--leading-snug)   var(--font-sans);
+}
+
+/* Small all-caps label utility used across the system */
+:root {
+  --label-caps: var(--weight-semibold) var(--text-2xs)/1 var(--font-sans);
+}

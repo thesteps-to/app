@@ -1,0 +1,70 @@
+/* ============================================================
+   Action Card · the SIGNATURE component
+   The single "next action" surface. One per screen. Loud only
+   here. Big breathing title, one primary CTA, quiet meta.
+   ============================================================ */
+.ts-action {
+  position: relative;
+  max-width: var(--width-action);
+  background: var(--surface-card);
+  border: 1px solid var(--step-current-bd);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-current);
+  padding: var(--space-xl);
+}
+/* opt-in entrance (gated so it never hides content in print/capture) */
+@media (prefers-reduced-motion: no-preference) {
+  .ts-action.ts-rise[data-deck-active] { animation: rise-in 360ms var(--ease-entry); }
+}
+.ts-action__top {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-sm); margin-bottom: var(--space-lg);
+}
+.ts-action__step { display: flex; align-items: center; gap: var(--space-xs); }
+.ts-action__step .eyebrow { color: var(--brand-text); }
+
+.ts-action__title {
+  font: var(--font-display); font-size: var(--text-2xl);
+  line-height: var(--leading-tight); letter-spacing: var(--tracking-snug);
+  color: var(--text-strong); margin-bottom: var(--space-sm);
+  text-wrap: balance;
+}
+.ts-action__desc {
+  font-size: var(--text-md); line-height: var(--leading-normal);
+  color: var(--text-body); margin-bottom: var(--space-lg);
+}
+.ts-action__meta {
+  display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+.ts-action__cta { display: flex; flex-direction: column; gap: var(--space-sm); }
+.ts-action__cta-row { display: flex; gap: var(--space-sm); align-items: center; }
+
+/* the deliberate secondary path into detail */
+.ts-action__detail {
+  display: inline-flex; align-items: center; gap: 4px;
+  font: var(--font-ui); color: var(--text-muted);
+  align-self: center;
+}
+.ts-action__detail:hover { color: var(--brand-text); text-decoration: none; }
+.ts-action__detail svg { width: 15px; height: 15px; }
+
+/* provider suggestion — visibly marked, rel=sponsored */
+.ts-action__provider {
+  display: flex; align-items: center; gap: var(--space-sm);
+  margin-top: var(--space-lg); padding-top: var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--text-sm); color: var(--text-muted);
+}
+.ts-action__provider .grow { flex: 1; }
+
+/* WAITING variant — calm, the user can relax */
+.ts-action--waiting { border-color: var(--step-waiting-bd); box-shadow: var(--shadow-md); }
+.ts-action--waiting .ts-action__step .eyebrow { color: var(--step-waiting-text); }
+
+/* DONE / completed celebration — sober */
+.ts-action--done { border-color: var(--step-done-bd); box-shadow: var(--shadow-md); }
+
+/* completion check animation hook */
+.ts-action__done-mark { color: var(--step-done); }
+.ts-action__done-mark path { stroke-dasharray: 22; animation: check-draw 520ms var(--ease-out) forwards; }

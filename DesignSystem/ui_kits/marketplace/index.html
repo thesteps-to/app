@@ -1,0 +1,90 @@
+<!-- @dsCard group="Marketplace" viewport="1180x880" name="Marketplace — browse plans" subtitle="Curated, calm trust signals — author, rating, Recommandé. Free for users." -->
+<!DOCTYPE html>
+<html lang="fr" data-theme="light"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>thesteps · plans</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="market.css">
+</head>
+<body>
+<div class="site">
+  <header class="topnav">
+    <a class="topnav__brand" href="#"><img src="../../assets/logo-underline.svg" width="130" height="32" alt="thesteps.to"></a>
+    <nav class="topnav__links">
+      <a href="#" class="is-current">Plans</a>
+      <a href="#">Comment ça marche</a>
+      <a href="#">Pour les pros</a>
+    </nav>
+    <div class="topnav__actions">
+      <button class="ts-btn ts-btn--quiet ts-btn--sm">Se connecter</button>
+      <button class="ts-btn ts-btn--primary ts-btn--sm">Commencer</button>
+    </div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Gratuit · guidé par des experts</p>
+    <h1>Quel est votre grand projet ?</h1>
+    <p class="hero__sub">Choisissez un plan. Je prépare chaque étape, je remplis votre dossier au fur et à mesure, et je vous mets en relation avec les bons professionnels — au bon moment.</p>
+    <div class="searchbar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input class="searchbar__input" placeholder="Acheter un logement, créer une entreprise, organiser un mariage…">
+      <button class="ts-btn ts-btn--primary">Explorer</button>
+    </div>
+    <div class="chips">
+      <button class="ts-tag">🏠 Immobilier</button>
+      <button class="ts-tag">🚀 Entreprise</button>
+      <button class="ts-tag">✈️ Voyage</button>
+      <button class="ts-tag">💍 Mariage</button>
+      <button class="ts-tag">👶 Naissance</button>
+      <button class="ts-tag">📚 Études</button>
+    </div>
+  </section>
+
+  <section class="listing">
+    <div class="listing__head">
+      <h2>Recommandés pour vous</h2>
+      <span class="listing__meta">Classés par taux de réussite</span>
+    </div>
+    <div class="plan-grid" id="grid"></div>
+  </section>
+
+  <footer class="sitefoot">
+    <span><img src="../../assets/logo-mark.svg" width="20" height="20" alt=""> thesteps.to</span>
+    <span class="sitefoot__note">Gratuit pour vous. Financé par les commissions des professionnels — jamais par vos données.</span>
+  </footer>
+</div>
+
+<script>
+  var PLANS = [
+    { cat:"Immobilier", title:"Acheter son premier logement", author:"Élise Laurent", role:"notaire", ini:"EL", rating:"4,8", reviews:"213", steps:"9", reco:true, tone:"a" },
+    { cat:"Entreprise", title:"Créer sa micro-entreprise", author:"Théo Marchand", role:"expert-comptable", ini:"TM", rating:"4,6", reviews:"88", steps:"6", reco:false, tone:"b" },
+    { cat:"Mariage", title:"Organiser son mariage en 8 mois", author:"Nadia Belkacem", role:"wedding planner", ini:"NB", rating:"4,9", reviews:"341", steps:"12", reco:true, tone:"c" },
+    { cat:"Voyage", title:"Préparer un grand voyage", author:"Hugo Petit", role:"voyageur", ini:"HP", rating:"4,7", reviews:"126", steps:"7", reco:false, tone:"a" },
+    { cat:"Études", title:"S’inscrire dans le supérieur", author:"Sarah Dubois", role:"conseillère", ini:"SD", rating:"4,5", reviews:"54", steps:"5", reco:false, tone:"b" },
+    { cat:"Naissance", title:"Accueillir un enfant", author:"Dr. Camille Noé", role:"sage-femme", ini:"CN", rating:"4,9", reviews:"402", steps:"10", reco:true, tone:"c" },
+  ];
+  var star = '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>';
+  document.getElementById("grid").innerHTML = PLANS.map(function (p) {
+    return '<article class="ts-plan is-link">' +
+      '<div class="ts-plan__cover cover-' + p.tone + '">' +
+        (p.reco ? '<span class="ts-plan__reco">' + star + ' Recommandé</span>' : '') +
+        '<span class="cover-glyph"><span class="ts-glyph" data-state="done"></span><span class="ts-glyph" data-state="current"></span><span class="ts-glyph" data-state="node"></span></span>' +
+      '</div>' +
+      '<div class="ts-plan__body">' +
+        '<span class="ts-plan__cat">' + p.cat + '</span>' +
+        '<h3 class="ts-plan__title">' + p.title + '</h3>' +
+        '<span class="ts-plan__author"><span class="ts-avatar ts-avatar--sm ts-avatar--author">' + p.ini + '</span> <b>' + p.author + '</b> · ' + p.role + '</span>' +
+        '<div class="ts-plan__stats">' +
+          '<span class="ts-rating">' + star + p.rating + '</span>' +
+          '<span class="ts-plan__stat">' + p.reviews + ' avis</span>' +
+          '<span class="ts-plan__stat">' + p.steps + ' étapes</span>' +
+        '</div>' +
+      '</div>' +
+      '<div class="ts-plan__foot"><span class="ts-plan__free">Gratuit</span>' +
+      '<button class="ts-btn ts-btn--' + (p.reco ? 'primary' : 'secondary') + ' ts-btn--sm">' + (p.reco ? 'Commencer' : 'Aperçu') + '</button></div>' +
+      '</article>';
+  }).join("");
+</script>
+</body></html>

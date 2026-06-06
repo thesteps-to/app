@@ -1,0 +1,40 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Cards, progress & tabs" subtitle="The signature surface, sober progress, tabs for dense surfaces" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: start; }
+</style></head>
+<body>
+  <div class="ts-card">
+    <div class="ts-card__head">
+      <span class="ts-glyph ts-glyph--sm" data-state="done"></span>
+      <span class="ts-card__title">Achat immobilier</span>
+    </div>
+    <div class="ts-progress">
+      <div class="ts-progress__track"><div class="ts-progress__fill" style="width:44%"></div></div>
+      <div class="ts-progress__label"><b>4 / 9 étapes faites</b><span>Belle avancée.</span></div>
+    </div>
+    <hr class="ts-divider">
+    <p class="ts-card__body" style="font-size:14px">Détail caché derrière un clic — pas de devoirs ici.</p>
+    <div class="ts-card__foot">
+      <button class="ts-btn ts-btn--ghost ts-btn--sm">Voir le plan complet</button>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:14px">
+    <div class="ts-tabs">
+      <button class="ts-tab" aria-selected="true">En cours</button>
+      <button class="ts-tab">À venir</button>
+      <button class="ts-tab">Terminées</button>
+    </div>
+    <button class="ts-card ts-card--interactive" style="padding:16px;display:flex;gap:12px;align-items:center">
+      <span class="ts-glyph" data-state="current"></span>
+      <span style="text-align:left"><span style="display:block;font:var(--font-ui);font-weight:600;color:var(--text-strong)">Signer le compromis</span><span style="font:var(--font-caption);color:var(--text-muted)">Notaire · J-12</span></span>
+    </button>
+    <div class="ts-card ts-card--current" style="padding:16px;display:flex;gap:12px;align-items:center">
+      <span class="ts-glyph" data-state="waiting"></span>
+      <span><span style="display:block;font:var(--font-ui);font-weight:600;color:var(--text-strong)">Réponse de la banque</span><span class="ts-badge ts-badge--waiting" style="margin-top:4px">En attente</span></span>
+    </div>
+  </div>
+</body></html>

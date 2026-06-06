@@ -1,0 +1,33 @@
+<!-- @dsCard group="Components" viewport="700x210" name="Shared vs protected" subtitle="Withheld data shown as protected & present — never blurred, never 'missing'" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); display: flex; flex-direction: column; gap: 12px; max-width: 480px; }
+</style></head>
+<body>
+  <div class="ts-shared" data-shared="true">
+    <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+    <span class="ts-shared__body">
+      <span class="ts-shared__label">Nom & contact</span>
+      <span class="ts-shared__value">Camille Roy · camille@exemple.fr</span>
+    </span>
+    <span class="ts-shared__state">Partagé</span>
+  </div>
+  <div class="ts-shared" data-shared="true">
+    <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span>
+    <span class="ts-shared__body">
+      <span class="ts-shared__label">Détails du projet</span>
+      <span class="ts-shared__value">Appartement · Lyon 3e · ~70 m²</span>
+    </span>
+    <span class="ts-shared__state">Partagé</span>
+  </div>
+  <div class="ts-shared" data-shared="false">
+    <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+    <span class="ts-shared__body">
+      <span class="ts-shared__label">Budget & capacité d’emprunt</span>
+      <span class="ts-shared__value">320 000 €</span>
+    </span>
+    <label class="ts-switch ts-shared__toggle"><input type="checkbox"><span class="ts-switch__track"></span></label>
+  </div>
+</body></html>

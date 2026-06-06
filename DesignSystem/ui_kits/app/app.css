@@ -1,0 +1,72 @@
+/* App UI kit — shell & screen layout (composes the DS tokens/components) */
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--gray-150); }
+[data-theme="dark"] body { background: var(--black); }
+
+.stage { min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 28px 16px; }
+
+/* phone shell */
+.phone {
+  width: 100%; max-width: 420px;
+  background: var(--surface-app);
+  border-radius: 30px;
+  box-shadow: var(--shadow-xl);
+  overflow: hidden;
+  position: relative;
+  border: 1px solid var(--border-subtle);
+}
+
+/* top bar */
+.appbar {
+  position: sticky; top: 0; z-index: 20;
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: color-mix(in srgb, var(--surface-app) 86%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.appbar__brand { display: flex; align-items: center; gap: 8px; font: var(--font-ui); font-weight: var(--weight-bold); color: var(--text-strong); letter-spacing: -.01em; }
+.appbar__brand .to { color: var(--text-muted); font-weight: var(--weight-semibold); }
+.appbar__grow { flex: 1; }
+.appbar__back { display: none; }
+.screen[data-screen="plan"] ~ * { } /* noop */
+
+/* screens */
+.screen { padding: var(--space-lg) var(--space-lg) var(--space-3xl); display: none; }
+.screen.is-active { display: block; }
+
+.greet { margin: var(--space-xs) 0 var(--space-lg); }
+.greet h1 { font: var(--font-title); font-size: var(--text-2xl); color: var(--text-strong); }
+.greet p { color: var(--text-muted); font-size: var(--text-sm); margin-top: 2px; }
+
+.sectionlabel { display: flex; align-items: center; gap: 8px; margin: var(--space-xl) 0 var(--space-sm); }
+.sectionlabel .eyebrow { color: var(--text-muted); }
+.sectionlabel .rule { flex: 1; height: 1px; background: var(--border-subtle); }
+
+/* plan header */
+.planhead { display: flex; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-md); }
+.planhead h1 { font: var(--font-heading); font-size: var(--text-xl); color: var(--text-strong); }
+
+/* a waiting/parallel card */
+.minicard {
+  display: flex; align-items: center; gap: var(--space-sm);
+  background: var(--surface-card); border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card); padding: var(--space-md); box-shadow: var(--shadow-xs);
+}
+.minicard__body { flex: 1; min-width: 0; }
+.minicard__title { font: var(--font-ui); font-weight: var(--weight-semibold); color: var(--text-strong); font-size: var(--text-sm); }
+.minicard__sub { font: var(--font-caption); color: var(--text-muted); margin-top: 3px; }
+
+/* full trail tweaks */
+.screen .ts-trail { margin-top: var(--space-sm); }
+.trail-detail { font: var(--font-caption); color: var(--text-muted); }
+
+/* theme toggle pill (kit chrome, not product) */
+.kit-toggle {
+  position: fixed; top: 14px; right: 14px; z-index: 50;
+  display: flex; gap: 4px; background: var(--surface-card);
+  border: 1px solid var(--border-default); border-radius: var(--radius-pill);
+  padding: 3px; box-shadow: var(--shadow-sm);
+}
+.kit-toggle button { border: none; background: none; cursor: pointer; padding: 5px 12px; border-radius: var(--radius-pill); font: var(--font-ui); font-size: var(--text-xs); color: var(--text-muted); }
+.kit-toggle button.is-on { background: var(--surface-inverse); color: var(--text-on-dark); }

@@ -10,13 +10,17 @@ export async function renderExecution(host: HTMLElement, id: string): Promise<vo
   host.innerHTML = ""
   if (plan.demo) {
     host.insertAdjacentHTML("beforeend", `
-      <div class="demo-banner" role="note">
-        <strong>Données de démonstration.</strong>
-        Plan illustratif ; vos saisies restent locales et ne sont transmises à personne.
+      <div class="ts-banner ts-banner--demo" role="note">
+        <span class="ts-banner__dot"></span>
+        <div class="ts-banner__body">
+          <b>Données de démonstration.</b>
+          <p>Vos saisies restent sur cet appareil ; rien n'est transmis sans votre accord.</p>
+        </div>
       </div>
     `)
   }
-  host.insertAdjacentHTML("beforeend", `<p class="secondary"><a href="/plan/${plan.id}">← Revoir la présentation</a></p>`)
+  host.insertAdjacentHTML("beforeend",
+    `<p style="margin: var(--space-md) 0"><a class="muted-link" href="/plan/${plan.id}">← Revoir la présentation</a></p>`)
   const el = document.createElement("steps-plan") as StepsPlan
   el.plan = plan
   host.append(el)

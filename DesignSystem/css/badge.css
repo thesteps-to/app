@@ -1,0 +1,65 @@
+/* ============================================================
+   Badge & Tag · status pills and meta chips
+   .ts-badge — status (semantic tones)
+   .ts-tag   — neutral meta chip
+   Time / pay / sponsored helpers live here too.
+   ============================================================ */
+.ts-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 9px;
+  font: var(--font-ui); font-size: var(--text-2xs); font-weight: var(--weight-semibold);
+  letter-spacing: var(--tracking-wide);
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  white-space: nowrap;
+}
+.ts-badge svg { width: 13px; height: 13px; }
+
+.ts-badge--done    { color: var(--step-done-text);    background: var(--step-done-soft);    border-color: var(--step-done-bd); }
+.ts-badge--current { color: var(--step-current-text); background: var(--step-current-soft); border-color: var(--step-current-bd); }
+.ts-badge--locked  { color: var(--step-locked-text);  background: var(--step-locked-soft);  border-color: var(--step-locked-bd); }
+.ts-badge--waiting { color: var(--step-waiting-text);  background: var(--step-waiting-soft); border-color: var(--step-waiting-bd); }
+.ts-badge--overdue { color: var(--step-overdue-text);  background: var(--step-overdue-soft); border-color: var(--step-overdue-bd); }
+.ts-badge--neutral { color: var(--text-muted); background: var(--surface-sunken); border-color: var(--border-subtle); }
+.ts-badge--author  { color: var(--plum-700); background: var(--accent-author-soft); border-color: var(--plum-200); }
+
+/* waiting badge gets the slow calm pulse */
+.ts-badge--waiting { animation: step-waiting-pulse 2.6s var(--ease-in-out) infinite; }
+
+/* time badge — mono, tabular, J-12 style */
+.ts-time {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-family: var(--font-mono); font-size: var(--text-2xs); font-weight: var(--weight-semibold);
+  padding: 2px 7px; border-radius: var(--radius-sm);
+  color: var(--text-muted); background: var(--surface-sunken);
+}
+.ts-time--soon { color: var(--amber-700); background: var(--amber-50); }
+.ts-time--late { color: var(--step-overdue-text); background: var(--step-overdue-soft); }
+
+/* payment hint — 💳 + estimate, always an estimation */
+.ts-pay {
+  display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+  font: var(--font-ui); font-size: var(--text-xs);
+  color: var(--pay); background: var(--pay-soft);
+  padding: 4px 10px; border-radius: var(--radius-sm);
+}
+.ts-pay b { font-weight: var(--weight-semibold); color: var(--amber-700); }
+
+/* sponsored / suggested provider link cue */
+.ts-sponsored {
+  font: var(--label-caps); letter-spacing: var(--tracking-caps);
+  text-transform: uppercase; color: var(--text-faint);
+}
+
+/* neutral tag chip */
+.ts-tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 3px 10px; font: var(--font-ui); font-size: var(--text-xs);
+  color: var(--text-body); background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle); border-radius: var(--radius-pill);
+}
+
+/* star rating (marketplace) */
+.ts-rating { display: inline-flex; align-items: center; gap: 4px; font: var(--font-ui); font-size: var(--text-sm); color: var(--text-strong); }
+.ts-rating svg { width: 15px; height: 15px; color: var(--amber-400); }
+.ts-rating span { color: var(--text-muted); font-weight: var(--weight-regular); }

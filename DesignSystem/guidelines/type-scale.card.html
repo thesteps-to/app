@@ -1,0 +1,34 @@
+<!-- @dsCard group="Type" viewport="700x150" name="Scale & mono" subtitle="1.20 ratio, 16px root · system mono for amounts, dates, J-12" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-card); display: flex; flex-direction: column; gap: 18px; }
+  .scale { display: flex; align-items: baseline; gap: 16px; flex-wrap: wrap; color: var(--text-strong); }
+  .scale span { line-height: 1; }
+  .mono { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .pill { font-family: var(--font-mono); font-size: 13px; font-weight: 600; padding: 4px 9px; border-radius: var(--radius-sm); background: var(--surface-sunken); color: var(--text-body); }
+  .h { font: var(--label-caps); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-faint); }
+</style></head>
+<body>
+  <div class="scale">
+    <span style="font-size:var(--text-xs)">Aa</span>
+    <span style="font-size:var(--text-sm)">Aa</span>
+    <span style="font-size:var(--text-md)">Aa</span>
+    <span style="font-size:var(--text-lg)">Aa</span>
+    <span style="font-size:var(--text-xl)">Aa</span>
+    <span style="font-size:var(--text-2xl)">Aa</span>
+    <span style="font-size:var(--text-3xl)">Aa</span>
+    <span style="font-size:var(--text-4xl)">Aa</span>
+  </div>
+  <div>
+    <div class="h" style="margin-bottom:8px">Mono — tabular</div>
+    <div class="mono">
+      <span class="pill">J-12</span>
+      <span class="pill">~2 semaines</span>
+      <span class="pill">1 200 €</span>
+      <span class="pill">04 / 09</span>
+      <span class="pill">12 juin</span>
+    </div>
+  </div>
+</body></html>

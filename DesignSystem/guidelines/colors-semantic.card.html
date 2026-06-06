@@ -1,0 +1,32 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Semantic & trust" subtitle="Feedback tones + the data-sharing pair: shared vs protected" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 22px; background: var(--surface-card); display: flex; flex-direction: column; gap: 16px; }
+  .grp { display: flex; gap: 10px; flex-wrap: wrap; }
+  .tok { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .dot { width: 70px; height: 44px; border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font: var(--font-caption); font-size: 10px; font-weight: 600; }
+  .lbl { font: var(--font-caption); font-size: 10px; color: var(--text-muted); }
+  .h { font: var(--label-caps); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-faint); }
+</style></head>
+<body>
+  <div>
+    <div class="h" style="margin-bottom:8px">Feedback</div>
+    <div class="grp">
+      <div class="tok"><div class="dot" style="background:var(--success-soft);color:var(--success)">success</div><span class="lbl">--success</span></div>
+      <div class="tok"><div class="dot" style="background:var(--warning-soft);color:var(--amber-700)">warning</div><span class="lbl">--warning</span></div>
+      <div class="tok"><div class="dot" style="background:var(--danger-soft);color:var(--danger)">danger</div><span class="lbl">--danger</span></div>
+      <div class="tok"><div class="dot" style="background:var(--info-soft);color:var(--info)">info</div><span class="lbl">--info</span></div>
+      <div class="tok"><div class="dot" style="background:var(--accent-author-soft);color:var(--plum-700)">author</div><span class="lbl">--accent-author</span></div>
+    </div>
+  </div>
+  <div>
+    <div class="h" style="margin-bottom:8px">Trust — sharing</div>
+    <div class="grp">
+      <div class="tok"><div class="dot" style="background:var(--shared-soft);color:var(--shared)">shared</div><span class="lbl">--shared (approved)</span></div>
+      <div class="tok"><div class="dot" style="background:var(--protected-soft);color:var(--protected)">protected</div><span class="lbl">--protected (held, not missing)</span></div>
+      <div class="tok"><div class="dot" style="background:var(--pay-soft);color:var(--pay)">💳 pay</div><span class="lbl">--pay (estimation)</span></div>
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,60 @@
+/* ============================================================
+   thesteps · Motion
+   Gentle, confident, never bouncy. Things settle into place
+   like a hand laying a card down. The ONLY looping animation
+   is the "waiting" pulse — and it's slow, so it reassures
+   rather than nags. Everything respects reduced-motion.
+
+   Canonical DURATIONS (inlined at use sites — a raw <time> can't
+   live in a CSS custom property without tripping the token
+   classifier, so these are constants, not tokens):
+     instant 80ms · fast 140ms · base 220ms · slow 360ms · deliberate 520ms
+   Reach for the --transition-* composites and --ease-* tokens below;
+   only hand-write a duration when a one-off animation needs it.
+   ============================================================ */
+:root {
+  /* ---- Easing (timing-function tokens) ---- */
+  --ease-out:   cubic-bezier(0.22, 0.61, 0.36, 1); /* @kind other */
+  --ease-in-out:cubic-bezier(0.45, 0, 0.2, 1);     /* @kind other */
+  --ease-entry: cubic-bezier(0.16, 1, 0.3, 1);     /* @kind other */
+  --ease-calm:  cubic-bezier(0.4, 0, 0.2, 1);      /* @kind other */
+
+  /* ---- Composite transition tokens (prefer these) ---- */
+  --transition-base:  all 220ms var(--ease-out);
+  --transition-color: color 140ms var(--ease-out),
+                      background-color 140ms var(--ease-out),
+                      border-color 140ms var(--ease-out);
+  --transition-transform: transform 140ms var(--ease-out);
+}
+
+/* Slow, calm pulse for the WAITING step state — "it's them, not you" */
+@keyframes step-waiting-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--step-waiting-soft); }
+  50%      { box-shadow: 0 0 0 6px transparent; }
+}
+
+/* Soft ring breathing on the CURRENT (loud) step */
+@keyframes step-current-halo {
+  0%, 100% { box-shadow: 0 0 0 0 var(--step-current-halo); }
+  50%      { box-shadow: 0 0 0 8px transparent; }
+}
+
+/* Gentle rise used for card entrances */
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Sober completion check — draws, no confetti */
+@keyframes check-draw {
+  from { stroke-dashoffset: 22; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

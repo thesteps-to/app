@@ -1,0 +1,92 @@
+/* ============================================================
+   Forms · inputs, textarea, select, switch, checkbox, radio
+   Native elements first, styled. Generous hit targets.
+   ============================================================ */
+
+.ts-field { display: flex; flex-direction: column; gap: var(--space-xs); }
+.ts-label {
+  font: var(--font-ui); font-weight: var(--weight-semibold);
+  color: var(--text-strong); font-size: var(--text-sm);
+}
+.ts-hint { font: var(--font-caption); color: var(--text-muted); }
+.ts-error { font: var(--font-caption); color: var(--danger); }
+
+.ts-input, .ts-textarea, .ts-select {
+  width: 100%;
+  min-height: var(--control-md);
+  padding: var(--pad-control);
+  font: var(--font-body); font-size: var(--text-md);
+  color: var(--text-strong);
+  background: var(--surface-card);
+  border: 1.5px solid var(--border-default);
+  border-radius: var(--radius-md);
+  transition: var(--transition-color), box-shadow 140ms var(--ease-out);
+  appearance: none;
+}
+.ts-textarea { min-height: 6rem; resize: vertical; line-height: var(--leading-normal); }
+.ts-input::placeholder, .ts-textarea::placeholder { color: var(--text-faint); }
+.ts-input:hover, .ts-textarea:hover, .ts-select:hover { border-color: var(--border-strong); }
+.ts-input:focus, .ts-textarea:focus, .ts-select:focus {
+  outline: none; border-color: var(--border-focus); box-shadow: var(--ring-focus);
+}
+.ts-input[disabled], .ts-textarea[disabled], .ts-select[disabled] {
+  background: var(--surface-sunken); color: var(--text-faint); cursor: not-allowed;
+}
+.ts-input[aria-invalid="true"], .ts-textarea[aria-invalid="true"] {
+  border-color: var(--danger);
+}
+.ts-input[aria-invalid="true"]:focus { box-shadow: 0 0 0 3px var(--danger-soft); }
+
+/* select chevron */
+.ts-select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%236d7a88' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right var(--space-sm) center;
+  padding-right: var(--space-2xl);
+}
+
+/* input with a leading icon */
+.ts-input-wrap { position: relative; display: flex; align-items: center; }
+.ts-input-wrap > svg:first-child {
+  position: absolute; left: var(--space-sm); width: 18px; height: 18px;
+  color: var(--text-muted); pointer-events: none;
+}
+.ts-input-wrap > .ts-input { padding-left: calc(var(--space-md) + 22px); }
+
+/* ---- Switch — native checkbox, styled track ---- */
+.ts-switch { display: inline-flex; align-items: center; gap: var(--space-sm); cursor: pointer; }
+.ts-switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.ts-switch__track {
+  position: relative; flex: none;
+  width: 42px; height: 24px; border-radius: var(--radius-pill);
+  background: var(--gray-300);
+  transition: background 220ms var(--ease-out);
+}
+.ts-switch__track::after {
+  content: ""; position: absolute; top: 3px; left: 3px;
+  width: 18px; height: 18px; border-radius: var(--radius-full);
+  background: #fff; box-shadow: var(--shadow-sm);
+  transition: transform 220ms var(--ease-out);
+}
+.ts-switch input:checked + .ts-switch__track { background: var(--brand); }
+.ts-switch input:checked + .ts-switch__track::after { transform: translateX(18px); }
+.ts-switch input:focus-visible + .ts-switch__track { box-shadow: var(--ring-focus); }
+.ts-switch input:disabled + .ts-switch__track { opacity: 0.5; }
+
+/* ---- Checkbox & radio ---- */
+.ts-check { display: inline-flex; align-items: center; gap: var(--space-sm); cursor: pointer; font: var(--font-body); font-size: var(--text-sm); }
+.ts-check input { position: absolute; opacity: 0; width: 0; height: 0; }
+.ts-check__box {
+  flex: none; width: 20px; height: 20px;
+  border: 1.5px solid var(--border-strong); background: var(--surface-card);
+  display: inline-flex; align-items: center; justify-content: center;
+  transition: var(--transition-color);
+}
+.ts-check__box--cb { border-radius: var(--radius-xs); }
+.ts-check__box--rd { border-radius: var(--radius-full); }
+.ts-check__box svg { width: 14px; height: 14px; color: #fff; opacity: 0; transform: scale(0.6); transition: all 140ms var(--ease-out); }
+.ts-check input:checked + .ts-check__box { background: var(--brand); border-color: var(--brand); }
+.ts-check input:checked + .ts-check__box svg { opacity: 1; transform: scale(1); }
+.ts-check__box--rd::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #fff; opacity: 0; transition: opacity 140ms; }
+.ts-check input:checked + .ts-check__box--rd::after { opacity: 1; }
+.ts-check input:focus-visible + .ts-check__box { box-shadow: var(--ring-focus); }

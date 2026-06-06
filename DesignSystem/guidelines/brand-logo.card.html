@@ -1,0 +1,39 @@
+<!-- @dsCard group="Brand" viewport="700x270" name="Logo & favicon" subtitle="Standard for app chrome · Soulignement for landing pages & isolated logos · minimal mark for tight spots" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 0; background: var(--surface-card); display: grid; grid-template-columns: 1.55fr 1fr; }
+  .left { padding: 26px 28px; display: flex; flex-direction: column; gap: 24px; }
+  .opt { display: flex; align-items: center; gap: 20px; }
+  .opt__tag { font: var(--label-caps); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-faint); width: 96px; flex: none; }
+  .opt__tag b { display: block; color: var(--brand-text); }
+  .marks { display: flex; align-items: center; gap: 24px; }
+  .dark { background: var(--gray-950); display: flex; align-items: center; justify-content: center; gap: 32px; }
+  .stack { display: flex; flex-direction: column; gap: 6px; align-items: center; }
+  .stack .lbl { font: var(--font-caption); font-size: 10px; color: var(--gray-500); }
+</style></head>
+<body>
+  <div class="left">
+    <div class="opt">
+      <span class="opt__tag"><b>Pages / isolé</b>Soulignement</span>
+      <img src="../assets/logo-underline.svg" width="156" height="38" alt="thesteps.to">
+    </div>
+    <div class="opt">
+      <span class="opt__tag"><b>Barre d’app</b>Standard</span>
+      <img src="../assets/logo-thesteps.svg" width="186" height="30" alt="thesteps.to">
+    </div>
+    <div class="opt">
+      <span class="opt__tag">Marque</span>
+      <span class="marks">
+        <img src="../assets/logo-mark.svg" width="34" height="34" alt="">
+        <img src="../assets/logo-mark.svg" width="24" height="24" alt="">
+        <img src="../assets/logo-mark.svg" width="16" height="16" alt="">
+      </span>
+    </div>
+  </div>
+  <div class="dark">
+    <div class="stack"><img src="../assets/logo-mark.svg" width="48" height="48" alt="mark"><span class="lbl">mark · on dark</span></div>
+    <div class="stack"><img src="../assets/favicon.svg" width="40" height="40" alt="favicon"><span class="lbl">favicon</span></div>
+  </div>
+</body></html>

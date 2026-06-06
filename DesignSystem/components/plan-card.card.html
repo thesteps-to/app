@@ -1,0 +1,55 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Plan cards (marketplace)" subtitle="Amazon-style trust signals, kept calm — author, rating, reviews, Recommandé" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .cover-a { background: linear-gradient(135deg, var(--blue-100), var(--blue-50)); }
+  .cover-b { background: linear-gradient(135deg, var(--green-100), var(--green-50)); }
+  .cover-glyph { display: flex; gap: 6px; opacity: .55; }
+</style></head>
+<body>
+  <article class="ts-plan is-link">
+    <div class="ts-plan__cover cover-a">
+      <span class="ts-plan__reco">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>
+        Recommandé
+      </span>
+      <span class="cover-glyph"><span class="ts-glyph" data-state="done"></span><span class="ts-glyph" data-state="current"></span><span class="ts-glyph" data-state="node"></span></span>
+    </div>
+    <div class="ts-plan__body">
+      <span class="ts-plan__cat">Immobilier</span>
+      <h3 class="ts-plan__title">Acheter son premier logement</h3>
+      <span class="ts-plan__author"><span class="ts-avatar ts-avatar--sm ts-avatar--author">EL</span> <b>Élise Laurent</b> · notaire</span>
+      <div class="ts-plan__stats">
+        <span class="ts-rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,8</span>
+        <span class="ts-plan__stat">213 avis</span>
+        <span class="ts-plan__stat">9 étapes</span>
+      </div>
+    </div>
+    <div class="ts-plan__foot">
+      <span class="ts-plan__free">Gratuit</span>
+      <button class="ts-btn ts-btn--primary ts-btn--sm">Commencer</button>
+    </div>
+  </article>
+
+  <article class="ts-plan is-link">
+    <div class="ts-plan__cover cover-b">
+      <span class="cover-glyph"><span class="ts-glyph" data-state="done"></span><span class="ts-glyph" data-state="current"></span><span class="ts-glyph" data-state="node"></span></span>
+    </div>
+    <div class="ts-plan__body">
+      <span class="ts-plan__cat">Entreprise</span>
+      <h3 class="ts-plan__title">Créer sa micro-entreprise</h3>
+      <span class="ts-plan__author"><span class="ts-avatar ts-avatar--sm ts-avatar--author">TM</span> <b>Théo Marchand</b> · expert-comptable</span>
+      <div class="ts-plan__stats">
+        <span class="ts-rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,6</span>
+        <span class="ts-plan__stat">88 avis</span>
+        <span class="ts-plan__stat">6 étapes</span>
+      </div>
+    </div>
+    <div class="ts-plan__foot">
+      <span class="ts-plan__free">Gratuit</span>
+      <button class="ts-btn ts-btn--secondary ts-btn--sm">Aperçu</button>
+    </div>
+  </article>
+</body></html>

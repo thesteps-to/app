@@ -1,0 +1,54 @@
+/* ============================================================
+   Plan card · marketplace listing
+   Amazon-style trust signals, kept calm & curated. Author
+   identity, star rating, review count, "Recommandé" badge.
+   ============================================================ */
+.ts-plan {
+  display: flex; flex-direction: column;
+  background: var(--surface-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: transform 140ms var(--ease-out), box-shadow 140ms var(--ease-out);
+}
+.ts-plan.is-link { cursor: pointer; }
+.ts-plan.is-link:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+
+.ts-plan__cover {
+  position: relative; aspect-ratio: 16 / 9;
+  background: var(--brand-soft);
+  display: flex; align-items: center; justify-content: center;
+}
+.ts-plan__cover img { width: 100%; height: 100%; object-fit: cover; }
+.ts-plan__reco {
+  position: absolute; top: var(--space-sm); left: var(--space-sm);
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: var(--radius-pill);
+  background: var(--surface-card); box-shadow: var(--shadow-sm);
+  font: var(--font-ui); font-size: var(--text-2xs); font-weight: var(--weight-semibold);
+  color: var(--brand-text);
+}
+.ts-plan__reco svg { width: 13px; height: 13px; }
+
+.ts-plan__body { padding: var(--space-md); display: flex; flex-direction: column; gap: var(--space-xs); flex: 1; }
+.ts-plan__cat { font: var(--label-caps); letter-spacing: var(--tracking-caps); text-transform: uppercase; color: var(--text-muted); }
+.ts-plan__title { font: var(--font-cardtitle); font-size: var(--text-lg); color: var(--text-strong); }
+.ts-plan__author { display: flex; align-items: center; gap: var(--space-xs); font: var(--font-ui); font-size: var(--text-sm); color: var(--text-muted); }
+.ts-plan__author b { color: var(--text-body); font-weight: var(--weight-medium); }
+
+.ts-plan__stats {
+  display: flex; align-items: center; gap: var(--space-md);
+  margin-top: auto; padding-top: var(--space-sm);
+  border-top: 1px solid var(--border-subtle);
+  font: var(--font-ui); font-size: var(--text-xs); color: var(--text-muted);
+}
+.ts-plan__stat { display: inline-flex; align-items: center; gap: 5px; }
+.ts-plan__stat svg { width: 14px; height: 14px; }
+
+.ts-plan__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--space-sm); padding: 0 var(--space-md) var(--space-md); }
+.ts-plan__free { font: var(--font-ui); font-weight: var(--weight-semibold); color: var(--step-done-text); font-size: var(--text-sm); }
+
+/* dense list-row variant (search results) */
+.ts-plan--row { flex-direction: row; align-items: stretch; }
+.ts-plan--row .ts-plan__cover { width: 160px; aspect-ratio: auto; flex: none; }

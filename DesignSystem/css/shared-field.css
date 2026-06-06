@@ -1,0 +1,43 @@
+/* ============================================================
+   Shared field · "shared vs not shared" data states
+   Locked/unshared data is shown PROTECTED (present, calm),
+   never blurred-out or "missing". Clarity over legalese.
+     <div class="ts-shared" data-shared="true|false">
+   ============================================================ */
+.ts-shared {
+  display: flex; align-items: center; gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-card);
+}
+.ts-shared__icon {
+  flex: none; width: 28px; height: 28px; border-radius: var(--radius-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.ts-shared__icon svg { width: 16px; height: 16px; }
+.ts-shared__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 1px; }
+.ts-shared__label { font: var(--font-caption); font-size: var(--text-xs); color: var(--text-muted); }
+.ts-shared__value {
+  font: var(--font-ui); font-size: var(--text-sm); color: var(--text-strong);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.ts-shared__state { font: var(--label-caps); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+
+/* SHARED — approved, calm green */
+.ts-shared[data-shared="true"] { border-color: var(--step-done-bd); background: var(--shared-soft); }
+.ts-shared[data-shared="true"] .ts-shared__icon { color: var(--shared); background: var(--surface-card); }
+.ts-shared[data-shared="true"] .ts-shared__state { color: var(--step-done-text); }
+
+/* PROTECTED — withheld but present, slate (not red, not missing) */
+.ts-shared[data-shared="false"] { border-color: var(--border-default); background: var(--protected-soft); }
+.ts-shared[data-shared="false"] .ts-shared__icon { color: var(--protected); background: var(--surface-card); }
+.ts-shared[data-shared="false"] .ts-shared__value {
+  color: var(--text-muted);
+  /* dotted underline reads "held back", not censored */
+  text-decoration: underline dotted var(--border-strong); text-underline-offset: 3px;
+}
+.ts-shared[data-shared="false"] .ts-shared__state { color: var(--protected); }
+
+/* consent row with an inline switch */
+.ts-shared__toggle { margin-left: auto; }

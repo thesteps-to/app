@@ -1,6 +1,6 @@
-import { planFields, sharedFields } from "@thesteps/common"
-import type { Dossier, DossierSensitivity, Plan, ProviderSuggestion, Step } from "@thesteps/common"
-import { escapeHtml } from "../escape.ts"
+import { isFieldShareable, planFields, sharedFields } from "@thesteps/common"
+import type { Dossier, DossierField, DossierSensitivity, Plan, ProviderSuggestion, Step } from "@thesteps/common"
+import { escapeAttr, escapeHtml } from "../escape.ts"
 
 export interface ConsentRequest {
   plan: Plan
@@ -17,22 +17,31 @@ export interface ConsentResult {
 const LEVELS: DossierSensitivity[] = ["contact", "project", "financial"]
 
 const LEVEL_LABELS: Record<DossierSensitivity, string> = {
-  contact: "Coordonnées seulement",
-  project: "Coordonnées + projet",
-  financial: "Coordonnées + projet + finances",
+  contact: "Contact",
+  project: "Projet",
+  financial: "Financier",
+}
+
+const LEVEL_DESC: Record<DossierSensitivity, string> = {
+  contact: "Nom et e-mail seulement.",
+  project: "Détails du projet (sans montants).",
+  financial: "Détails du projet et capacité financière.",
 }
 
 const IMPACT: Record<DossierSensitivity, string> = {
-  contact: "Avec ce niveau, le professionnel peut seulement vous recontacter.",
-  project: "Avec ce niveau, le professionnel peut vous faire une estimation.",
-  financial: "Avec ce niveau, le professionnel peut vous faire une proposition ferme.",
+  contact: "Le professionnel peut seulement vous recontacter.",
+  project: "Le professionnel peut vous faire une estimation.",
+  financial: "Le professionnel peut vous faire une proposition ferme.",
 }
+
+const SHARED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>`
+const PROTECTED_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>`
 
 /** Opens the consent dialog. Resolves with the chosen level + transmitted field ids, or null on cancel. */
 export function openConsent(req: ConsentRequest): Promise<ConsentResult | null> {
   return new Promise(resolve => {
     const dialog = document.createElement("dialog")
-    dialog.className = "consent-dialog"
+    dialog.className = "ts-dialog"
     document.body.append(dialog)
 
     let level: DossierSensitivity = req.dossier.sharing.defaultLevel
@@ -48,43 +57,61 @@ export function openConsent(req: ConsentRequest): Promise<ConsentResult | null> 
     }
 
     const render = (): void => {
-      const shared = sharedFields(req.dossier, inputs, level)
+      const transmitted = sharedFields(req.dossier, inputs, level)
+      const levelIndex = LEVELS.indexOf(level)
+      const pct = `${(levelIndex / 2) * 100}%`
       dialog.innerHTML = `
-        <article>
-          <p class="kicker">Mise en relation</p>
-          <h2>Transmettre votre dossier à ${escapeHtml(req.provider.label)}</h2>
-          <p class="purpose">Motif : ${escapeHtml(req.step.title)}</p>
-          <fieldset class="disclosure-slider">
-            <legend>Niveau de divulgation</legend>
-            ${LEVELS.map(l => `
-              <label>
-                <input type="radio" name="level" value="${l}" ${l === level ? "checked" : ""}>
-                <span>${LEVEL_LABELS[l]}</span>
-              </label>
-            `).join("")}
-          </fieldset>
-          <p class="impact">${IMPACT[level]}</p>
-          <section class="shared-fields">
-            <h3>${shared.length === 0 ? "Aucune donnée du dossier transmise" : `Données transmises (${shared.length})`}</h3>
-            ${shared.length === 0
-              ? `<p class="empty">Renseignez les champs du dossier pour partager plus d'informations.</p>`
-              : `<ul>${shared.map(f => `
-                <li>
-                  <span class="field-label">${escapeHtml(f.label)}</span>
-                  <span class="field-value">${escapeHtml(formatValue(req.dossier.values[f.id]))}</span>
-                </li>`).join("")}</ul>`}
-          </section>
-          <div class="dialog-buttons">
-            <button type="button" data-cancel>Annuler</button>
-            <button type="button" data-confirm class="primary" ${shared.length === 0 ? "disabled" : ""}>
-              Transmettre le dossier
-            </button>
+        <div class="ts-action__step" style="margin-bottom: var(--space-sm)">
+          <span class="ts-glyph ts-glyph--sm" data-state="current"></span>
+          <span class="eyebrow" style="color: var(--brand-text)">Votre accord</span>
+        </div>
+        <h2 class="ts-dialog__title">Partager votre dossier avec ${escapeHtml(req.provider.label)} ?</h2>
+        <p class="ts-dialog__body">
+          Motif : ${escapeHtml(req.step.title)}. Vous gardez la main — rien ne sort de votre dossier sans votre accord.
+        </p>
+
+        <div class="ts-disclosure" style="margin-top: var(--space-md)">
+          <div class="ts-disclosure__head">
+            <span class="ts-disclosure__title">Niveau de partage</span>
+            <span class="ts-disclosure__value">${LEVEL_LABELS[level]}</span>
           </div>
-        </article>
+          <input class="ts-disclosure__range" type="range" min="0" max="2" step="1"
+                 value="${levelIndex}" aria-label="Niveau de partage des données"
+                 style="--_pct: ${pct}">
+          <div class="ts-disclosure__ticks">
+            ${LEVELS.map((l, i) => `
+              <button type="button" class="ts-disclosure__tick ${i <= levelIndex ? "is-on" : ""}" data-level="${l}">
+                <span class="ts-disclosure__tick-label">${LEVEL_LABELS[l]}</span>
+              </button>
+            `).join("")}
+          </div>
+          <p class="ts-disclosure__desc">${LEVEL_DESC[level]}</p>
+        </div>
+
+        <p class="impact">${IMPACT[level]}</p>
+
+        <div class="field-stack">
+          ${inputs.map(field => renderSharedField(field, req.dossier, level, transmitted)).join("")}
+        </div>
+
+        <div class="ts-dialog__foot">
+          <button class="ts-btn ts-btn--quiet" type="button" data-cancel>Annuler</button>
+          <button class="ts-btn ts-btn--primary" type="button" data-confirm
+                  ${transmitted.length === 0 ? "disabled" : ""}>
+            Je partage ce dossier
+          </button>
+        </div>
       `
-      for (const radio of dialog.querySelectorAll<HTMLInputElement>("input[name=level]")) {
-        radio.addEventListener("change", () => {
-          level = radio.value as DossierSensitivity
+
+      const range = dialog.querySelector<HTMLInputElement>(".ts-disclosure__range")
+      range?.addEventListener("input", () => {
+        const idx = parseInt(range.value, 10)
+        level = LEVELS[idx] ?? "contact"
+        render()
+      })
+      for (const tick of dialog.querySelectorAll<HTMLButtonElement>(".ts-disclosure__tick")) {
+        tick.addEventListener("click", () => {
+          level = tick.dataset.level as DossierSensitivity
           render()
         })
       }
@@ -104,8 +131,45 @@ export function openConsent(req: ConsentRequest): Promise<ConsentResult | null> 
   })
 }
 
+function renderSharedField(
+  field: DossierField,
+  dossier: Dossier,
+  level: DossierSensitivity,
+  transmitted: DossierField[],
+): string {
+  const willShare = transmitted.some(f => f.id === field.id)
+  const allowedAtLevel = isFieldShareable(level, field.sensitivity)
+  const value = dossier.values[field.id]
+  const hasV = value !== undefined && value !== null && value !== ""
+  if (willShare) {
+    return `
+      <div class="ts-shared" data-shared="true">
+        <span class="ts-shared__icon">${SHARED_ICON}</span>
+        <span class="ts-shared__body">
+          <span class="ts-shared__label">${LEVEL_LABELS[field.sensitivity]} · ${escapeHtml(field.label)}</span>
+          <span class="ts-shared__value">${escapeHtml(formatValue(value))}</span>
+        </span>
+        <span class="ts-shared__state">Partagé</span>
+      </div>`
+  }
+  const reason = !allowedAtLevel
+    ? "Au-dessus du niveau choisi"
+    : hasV
+      ? "Au-dessus du niveau choisi"
+      : "Pas encore renseigné"
+  return `
+    <div class="ts-shared" data-shared="false">
+      <span class="ts-shared__icon">${PROTECTED_ICON}</span>
+      <span class="ts-shared__body">
+        <span class="ts-shared__label">${LEVEL_LABELS[field.sensitivity]} · ${escapeHtml(field.label)}</span>
+        <span class="ts-shared__value">${escapeAttr(reason)}</span>
+      </span>
+      <span class="ts-shared__state">Protégé</span>
+    </div>`
+}
+
 function formatValue(value: unknown): string {
-  if (value === null || value === undefined) return ""
+  if (value === null || value === undefined || value === "") return "—"
   if (typeof value === "number") return value.toLocaleString("fr-FR")
   return String(value)
 }

@@ -1,0 +1,72 @@
+/* ============================================================
+   Overlay · dialog (native <dialog>), toast, tooltip
+   ============================================================ */
+
+/* ---- Dialog — style the native element ---- */
+dialog.ts-dialog {
+  width: min(92vw, 30rem);
+  padding: var(--space-xl);
+  border: none; border-radius: var(--radius-xl);
+  background: var(--surface-overlay);
+  color: var(--text-body);
+  box-shadow: var(--shadow-xl);
+}
+dialog.ts-dialog::backdrop { background: var(--scrim); backdrop-filter: blur(2px); }
+dialog.ts-dialog[open] { animation: rise-in 360ms var(--ease-entry); }
+.ts-dialog__title { font: var(--font-title); font-size: var(--text-xl); color: var(--text-strong); margin-bottom: var(--space-xs); }
+.ts-dialog__body { font-size: var(--text-md); line-height: var(--leading-normal); }
+.ts-dialog__foot { display: flex; gap: var(--space-sm); justify-content: flex-end; margin-top: var(--space-xl); }
+.ts-dialog__foot--spread { justify-content: space-between; }
+
+/* ---- Toast — sober, bottom-centre ---- */
+.ts-toast-root {
+  position: fixed; left: 50%; bottom: var(--space-xl); transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: var(--space-xs);
+  z-index: 9999; pointer-events: none;
+}
+.ts-toast {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--surface-inverse); color: var(--text-on-dark);
+  border-radius: var(--radius-lg); box-shadow: var(--shadow-lg);
+  font: var(--font-ui); font-size: var(--text-sm);
+  opacity: 0; transform: translateY(8px);
+  transition: opacity 220ms var(--ease-out), transform 220ms var(--ease-out);
+}
+[data-theme="dark"] .ts-toast { background: var(--gray-50); color: var(--gray-900); }
+.ts-toast.is-in { opacity: 1; transform: translateY(0); }
+.ts-toast step-glyph { filter: none; }
+
+/* ---- Tooltip — explains a transition's condition in human words ---- */
+.ts-tooltip { position: relative; display: inline-flex; }
+.ts-tooltip__bubble {
+  position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+  width: max-content; max-width: 18rem;
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--surface-inverse); color: var(--text-on-dark);
+  border-radius: var(--radius-md); box-shadow: var(--shadow-md);
+  font: var(--font-caption); font-size: var(--text-xs); line-height: var(--leading-snug);
+  opacity: 0; pointer-events: none;
+  transition: opacity 140ms var(--ease-out), transform 140ms var(--ease-out);
+}
+[data-theme="dark"] .ts-tooltip__bubble { background: var(--gray-50); color: var(--gray-900); }
+.ts-tooltip:hover .ts-tooltip__bubble,
+.ts-tooltip:focus-within .ts-tooltip__bubble { opacity: 1; transform: translateX(-50%) translateY(0); }
+.ts-tooltip__bubble::after {
+  content: ""; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--surface-inverse);
+}
+[data-theme="dark"] .ts-tooltip__bubble::after { border-top-color: var(--gray-50); }
+
+/* ---- Tabs (pro/author dashboards) ---- */
+.ts-tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--border-default); }
+.ts-tab {
+  appearance: none; background: none; border: none; cursor: pointer;
+  padding: var(--space-sm) var(--space-md);
+  font: var(--font-ui); color: var(--text-muted);
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: var(--transition-color);
+}
+.ts-tab:hover { color: var(--text-strong); }
+.ts-tab[aria-selected="true"] { color: var(--brand-text); border-bottom-color: var(--brand); }
+.ts-tab:focus-visible { box-shadow: var(--ring-focus); outline: none; border-radius: var(--radius-sm); }

@@ -1,0 +1,45 @@
+/* ============================================================
+   Banner · inline messages (demo-data, info, payment, error)
+   Calm, full-width-of-container, never alarming unless it must be.
+   ============================================================ */
+.ts-banner {
+  display: flex; align-items: flex-start; gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  font: var(--font-ui); font-size: var(--text-sm); line-height: var(--leading-snug);
+  border: 1px solid transparent;
+}
+.ts-banner svg { flex: none; width: 18px; height: 18px; margin-top: 1px; }
+.ts-banner b { font-weight: var(--weight-semibold); }
+.ts-banner__body { color: inherit; }
+.ts-banner__body p { margin-top: 2px; font-weight: var(--weight-regular); opacity: 0.9; }
+
+.ts-banner--demo    { color: var(--text-body); background: var(--surface-sunken); border-color: var(--border-default); }
+.ts-banner--demo .ts-banner__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber-400); margin-top: 5px; flex: none; }
+.ts-banner--info    { color: var(--blue-900); background: var(--info-soft); border-color: var(--brand-soft-bd); }
+.ts-banner--success { color: var(--step-done-text); background: var(--success-soft); border-color: var(--step-done-bd); }
+.ts-banner--warning { color: var(--amber-700); background: var(--warning-soft); border-color: var(--step-waiting-bd); }
+.ts-banner--error   { color: var(--step-overdue-text); background: var(--danger-soft); border-color: var(--step-overdue-bd); }
+[data-theme="dark"] .ts-banner--info { color: var(--blue-200); }
+
+/* loading / skeleton shimmer (states to cover) */
+.ts-skeleton {
+  background: linear-gradient(100deg, var(--surface-sunken) 30%, var(--gray-100) 50%, var(--surface-sunken) 70%);
+  background-size: 200% 100%;
+  border-radius: var(--radius-sm);
+  animation: ts-shimmer 1.4s linear infinite;
+}
+[data-theme="dark"] .ts-skeleton {
+  background: linear-gradient(100deg, #161d28 30%, #1e2734 50%, #161d28 70%);
+  background-size: 200% 100%;
+}
+@keyframes ts-shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@media (prefers-reduced-motion: reduce) { .ts-skeleton { animation: none; } }
+
+/* empty state */
+.ts-empty {
+  text-align: center; padding: var(--space-2xl) var(--space-lg);
+  color: var(--text-muted);
+}
+.ts-empty__title { font: var(--font-cardtitle); color: var(--text-strong); margin: var(--space-sm) 0 var(--space-2xs); }
+.ts-empty__body { font-size: var(--text-sm); max-width: 28ch; margin-inline: auto; }

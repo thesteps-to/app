@@ -1,0 +1,179 @@
+/* ============================================================
+   thesteps · Semantic colour aliases + theming
+   Components reference THESE, never the raw scale.
+   Light is the default; [data-theme="dark"] re-points the
+   same names. WCAG AA on text pairings throughout.
+   ============================================================ */
+:root {
+  /* ---- Surfaces (back-to-front) ---- */
+  --surface-app:      var(--gray-50);   /* page background */
+  --surface-card:     var(--gray-0);    /* raised card */
+  --surface-sunken:   var(--gray-100);  /* wells, inputs, tracks */
+  --surface-overlay:  var(--gray-0);    /* dialogs, popovers */
+  --surface-inverse:  var(--gray-900);  /* dark chips on light */
+  --scrim:            rgba(12, 15, 20, 0.46);
+
+  /* ---- Text ---- */
+  --text-strong:   var(--gray-900);  /* headings */
+  --text-body:     var(--gray-700);  /* default copy */
+  --text-muted:    var(--gray-500);  /* secondary / captions */
+  --text-faint:    var(--gray-400);  /* disabled, placeholders */
+  --text-on-brand: var(--white);
+  --text-on-dark:  var(--gray-50);
+  --text-link:     var(--blue-700);
+
+  /* ---- Borders & dividers ---- */
+  --border-subtle:   var(--gray-150);
+  --border-default:  var(--gray-200);
+  --border-strong:   var(--gray-300);
+  --border-focus:    var(--blue-500);
+  --ring-focus:      0 0 0 3px var(--blue-200);
+
+  /* ---- Brand ---- */
+  --brand:           var(--blue-600);
+  --brand-hover:     var(--blue-700);
+  --brand-active:    var(--blue-800);
+  --brand-soft:      var(--blue-50);
+  --brand-soft-bd:   var(--blue-200);
+  --brand-text:      var(--blue-700);
+
+  /* ============================================================
+     STEP STATE VOCABULARY — the heart of the system.
+     Each state: a line/icon colour, a soft fill, a border.
+     ============================================================ */
+
+  /* done — completed, calm */
+  --step-done:       var(--green-600);
+  --step-done-soft:  var(--green-50);
+  --step-done-bd:    var(--green-200);
+  --step-done-text:  var(--green-800);
+
+  /* current / unlocked — the ONLY loud state */
+  --step-current:      var(--blue-600);
+  --step-current-soft: var(--blue-50);
+  --step-current-bd:   var(--blue-300);
+  --step-current-text: var(--blue-800);
+  --step-current-halo: rgba(37, 99, 235, 0.16);
+
+  /* locked — muted, present, never hidden */
+  --step-locked:       var(--gray-400);
+  --step-locked-soft:  var(--gray-100);
+  --step-locked-bd:    var(--gray-200);
+  --step-locked-text:  var(--gray-500);
+
+  /* waiting — done on your side, pending an external party */
+  --step-waiting:       var(--amber-500);
+  --step-waiting-soft:  var(--amber-50);
+  --step-waiting-bd:    var(--amber-200);
+  --step-waiting-text:  var(--amber-700);
+
+  /* overdue / at-risk — true actionable lateness only */
+  --step-overdue:       var(--red-500);
+  --step-overdue-soft:  var(--red-50);
+  --step-overdue-bd:    var(--red-200);
+  --step-overdue-text:  var(--red-700);
+
+  /* ---- Transition connectors (the line between steps) ---- */
+  --path-taken:    var(--green-500);   /* solid, already travelled */
+  --path-open:     var(--blue-400);    /* franchissable now */
+  --path-future:   var(--gray-300);    /* faded, not yet */
+  --path-width:    2.5px;
+
+  /* ---- Feedback / status ---- */
+  --success:       var(--green-600);
+  --success-soft:  var(--green-50);
+  --warning:       var(--amber-500);
+  --warning-soft:  var(--amber-50);
+  --danger:        var(--red-600);
+  --danger-soft:   var(--red-50);
+  --danger-hover:  var(--red-700);
+  --info:          var(--blue-600);
+  --info-soft:     var(--blue-50);
+
+  /* ---- Trust / data-sharing semantics ---- */
+  --shared:        var(--green-600);   /* field is shared (approved) */
+  --shared-soft:   var(--green-50);
+  --protected:     var(--gray-500);    /* protected = withheld, not "missing" */
+  --protected-soft:var(--gray-100);
+
+  /* ---- Audience accents ---- */
+  --accent-author: var(--plum-600);
+  --accent-author-soft: var(--plum-50);
+
+  /* ---- Payment hint ---- */
+  --pay:           var(--amber-600);
+  --pay-soft:      var(--amber-50);
+}
+
+/* ============================================================
+   DARK THEME — re-point semantics. Calm at night too.
+   ============================================================ */
+[data-theme="dark"] {
+  --surface-app:      var(--gray-950);
+  --surface-card:     var(--gray-900);
+  --surface-sunken:   #11161d;
+  --surface-overlay:  var(--gray-800);
+  --surface-inverse:  var(--gray-50);
+  --scrim:            rgba(0, 0, 0, 0.6);
+
+  --text-strong:   var(--gray-50);
+  --text-body:     var(--gray-200);
+  --text-muted:    var(--gray-400);
+  --text-faint:    var(--gray-500);
+  --text-link:     var(--blue-300);
+
+  --border-subtle:   #1b2230;
+  --border-default:  #232b3a;
+  --border-strong:   #303a4c;
+  --border-focus:    var(--blue-400);
+  --ring-focus:      0 0 0 3px rgba(37, 99, 235, 0.4);
+
+  --brand:        var(--blue-500);
+  --brand-hover:  var(--blue-400);
+  --brand-active: var(--blue-300);
+  --brand-soft:   rgba(37, 99, 235, 0.16);
+  --brand-soft-bd:rgba(96, 144, 250, 0.4);
+  --brand-text:   var(--blue-200);
+
+  --step-done:       var(--green-500);
+  --step-done-soft:  rgba(22, 163, 74, 0.16);
+  --step-done-bd:    rgba(49, 200, 124, 0.36);
+  --step-done-text:  var(--green-300);
+
+  --step-current:      var(--blue-500);
+  --step-current-soft: rgba(37, 99, 235, 0.18);
+  --step-current-bd:   rgba(96, 144, 250, 0.5);
+  --step-current-text: var(--blue-200);
+  --step-current-halo: rgba(96, 144, 250, 0.28);
+
+  --step-locked:       var(--gray-500);
+  --step-locked-soft:  rgba(255, 255, 255, 0.04);
+  --step-locked-bd:    #2a3340;
+  --step-locked-text:  var(--gray-400);
+
+  --step-waiting:       var(--amber-400);
+  --step-waiting-soft:  rgba(244, 173, 36, 0.14);
+  --step-waiting-bd:    rgba(244, 173, 36, 0.34);
+  --step-waiting-text:  var(--amber-300);
+
+  --step-overdue:       var(--red-400);
+  --step-overdue-soft:  rgba(226, 69, 69, 0.16);
+  --step-overdue-bd:    rgba(239, 111, 111, 0.36);
+  --step-overdue-text:  var(--red-300);
+
+  --path-taken:  var(--green-500);
+  --path-open:   var(--blue-400);
+  --path-future: #2a3340;
+
+  --success-soft: rgba(22,163,74,0.16);
+  --warning-soft: rgba(244,173,36,0.14);
+  --danger-soft:  rgba(226,69,69,0.16);
+  --info-soft:    rgba(37,99,235,0.16);
+
+  --shared-soft:    rgba(22,163,74,0.16);
+  --protected:      var(--gray-400);
+  --protected-soft: rgba(255,255,255,0.04);
+
+  --accent-author-soft: rgba(106,63,199,0.18);
+  --pay-soft: rgba(244,173,36,0.14);
+}

@@ -1,0 +1,88 @@
+<!-- @dsCard group="Author (/author)" viewport="1280x860" name="/author — creator dashboard" subtitle="Plan authors: stats, ratings, reviews, commissions — the plum accent surface" -->
+<!DOCTYPE html>
+<html lang="fr" data-theme="light"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>thesteps · author</title>
+<link rel="icon" href="../../assets/favicon.svg">
+<link rel="stylesheet" href="../../styles.css">
+<link rel="stylesheet" href="author.css">
+</head>
+<body>
+<div class="auth">
+  <aside class="side">
+    <div class="side__brand"><img src="../../assets/logo-mark.svg" width="20" height="20" alt=""> thesteps <span class="side__tag">author</span></div>
+    <a class="navitem is-active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg> Vue d’ensemble</a>
+    <a class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/></svg> Mes plans</a>
+    <a class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg> Avis</a>
+    <a class="navitem"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></svg> Revenus</a>
+    <div class="side__foot">
+      <span class="ts-avatar ts-avatar--sm ts-avatar--author">EL</span>
+      <span style="font:var(--font-caption);line-height:1.3"><b style="color:var(--text-strong)">Élise Laurent</b><br>Auteure · notaire</span>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div class="pagehead">
+      <div>
+        <h1>Bonjour Élise</h1>
+        <p>Vos plans ont aidé <b style="color:var(--text-body)">1 284 personnes</b> ce mois-ci.</p>
+      </div>
+      <button class="ts-btn ts-btn--primary">Nouveau plan</button>
+    </div>
+
+    <div class="stats">
+      <div class="stat"><div class="stat__label">Plans publiés</div><div class="stat__value">4</div><div class="stat__delta">2 en brouillon</div></div>
+      <div class="stat"><div class="stat__label">Lecteurs actifs</div><div class="stat__value">1 284</div><div class="stat__delta up">▲ 12 % vs mois dernier</div></div>
+      <div class="stat"><div class="stat__label">Note moyenne</div><div class="stat__value">4,8</div><div class="stat__delta">sur 596 avis</div></div>
+      <div class="stat"><div class="stat__label">Commissions</div><div class="stat__value" style="color:var(--step-done-text)">2 310 €</div><div class="stat__delta up">▲ ce mois</div></div>
+    </div>
+
+    <div class="cols">
+      <section class="panel">
+        <div class="panel__head"><h2>Mes plans</h2><span class="ts-badge ts-badge--neutral">Taux de réussite</span></div>
+        <div class="prow">
+          <div><div class="prow__title">Acheter son premier logement</div><div class="prow__sub">Immobilier · 9 étapes</div></div>
+          <span class="ts-rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,8</span>
+          <span class="prow__num">213<small>avis</small></span>
+          <span class="success"><span class="success__bar"><span class="success__fill" style="width:86%"></span></span><b style="font:var(--font-ui);font-size:var(--text-xs);color:var(--step-done-text)">86 %</b></span>
+        </div>
+        <div class="prow">
+          <div><div class="prow__title">Vendre sans agence</div><div class="prow__sub">Immobilier · 7 étapes</div></div>
+          <span class="ts-rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,7</span>
+          <span class="prow__num">142<small>avis</small></span>
+          <span class="success"><span class="success__bar"><span class="success__fill" style="width:79%"></span></span><b style="font:var(--font-ui);font-size:var(--text-xs);color:var(--step-done-text)">79 %</b></span>
+        </div>
+        <div class="prow">
+          <div><div class="prow__title">Préparer une succession</div><div class="prow__sub">Patrimoine · 11 étapes</div></div>
+          <span class="ts-rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,9</span>
+          <span class="prow__num">241<small>avis</small></span>
+          <span class="success"><span class="success__bar"><span class="success__fill" style="width:91%"></span></span><b style="font:var(--font-ui);font-size:var(--text-xs);color:var(--step-done-text)">91 %</b></span>
+        </div>
+        <div class="prow" style="opacity:.6">
+          <div><div class="prow__title">Donation aux enfants</div><div class="prow__sub">Patrimoine · brouillon</div></div>
+          <span class="ts-badge ts-badge--neutral">Brouillon</span>
+          <span class="prow__num">—</span>
+          <span class="prow__num">—</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel__head"><h2>Avis récents</h2><span class="ts-rating"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg>4,8</span></div>
+        <div class="review">
+          <div class="review__top"><span class="ts-avatar ts-avatar--sm">CR</span><span class="review__name">Camille R.</span><span class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span></div>
+          <p class="review__body">« Je n’ai jamais eu l’impression d’avoir des devoirs. Chaque étape arrivait au bon moment. »</p>
+        </div>
+        <div class="review">
+          <div class="review__top"><span class="ts-avatar ts-avatar--sm">JF</span><span class="review__name">Jonas F.</span><span class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span></div>
+          <p class="review__body">« Limpide, rassurant. Le partage de données contrôlé m’a mis en confiance. »</p>
+        </div>
+        <div class="review">
+          <div class="review__top"><span class="ts-avatar ts-avatar--sm">AM</span><span class="review__name">Aïcha M.</span><span class="stars"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z"/></svg></span></div>
+          <p class="review__body">« Très complet. J’aurais aimé une étape sur les frais de notaire, sinon parfait. »</p>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+</body></html>

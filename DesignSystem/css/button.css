@@ -1,0 +1,73 @@
+/* ============================================================
+   Button · .ts-btn
+   One primary action per screen. Calm, tactile, AA.
+   Variants: primary | secondary | ghost | quiet | danger
+   Sizes:    sm | (default md) | lg
+   ============================================================ */
+.ts-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-inline);
+  min-height: var(--control-md);
+  padding: 0 var(--space-lg);
+  font: var(--font-ui);
+  font-weight: var(--weight-semibold);
+  line-height: 1;
+  color: var(--text-on-brand);
+  background: var(--brand);
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-lg);
+  cursor: pointer;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: var(--transition-color),
+              transform 140ms var(--ease-out),
+              box-shadow 140ms var(--ease-out);
+}
+.ts-btn:hover { transform: translateY(-1px); }
+.ts-btn:active { transform: scale(0.97); }
+.ts-btn:focus-visible { box-shadow: var(--ring-focus); outline: none; }
+.ts-btn[disabled], .ts-btn[aria-disabled="true"] {
+  opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none;
+}
+
+/* primary — the loud, singular CTA */
+.ts-btn--primary { background: var(--brand); color: var(--text-on-brand); box-shadow: var(--shadow-sm); }
+.ts-btn--primary:hover { background: var(--brand-hover); box-shadow: var(--shadow-md); }
+.ts-btn--primary:active { background: var(--brand-active); }
+
+/* secondary — outlined, quiet companion */
+.ts-btn--secondary { background: var(--surface-card); color: var(--text-strong); border-color: var(--border-strong); }
+.ts-btn--secondary:hover { background: var(--gray-50); border-color: var(--gray-400); }
+[data-theme="dark"] .ts-btn--secondary:hover { background: var(--surface-sunken); }
+
+/* ghost — text-weight, for tertiary / "voir le plan complet" */
+.ts-btn--ghost { background: transparent; color: var(--brand-text); }
+.ts-btn--ghost:hover { background: var(--brand-soft); }
+
+/* quiet — neutral ghost */
+.ts-btn--quiet { background: transparent; color: var(--text-body); }
+.ts-btn--quiet:hover { background: var(--surface-sunken); }
+
+/* danger — destructive, rare */
+.ts-btn--danger { background: var(--danger); color: #fff; }
+.ts-btn--danger:hover { background: var(--danger-hover); }
+
+/* sizes */
+.ts-btn--sm { min-height: var(--control-sm); padding: 0 var(--space-md); font-size: var(--text-xs); border-radius: var(--radius-md); }
+.ts-btn--lg { min-height: var(--hit-min); padding: 0 var(--space-xl); font-size: var(--text-md); }
+.ts-btn--block { display: flex; width: 100%; }
+
+/* icon button — square, for toolbars */
+.ts-iconbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: var(--control-md); height: var(--control-md);
+  color: var(--text-muted); background: transparent;
+  border: none; border-radius: var(--radius-md); cursor: pointer;
+  transition: var(--transition-color), transform 140ms var(--ease-out);
+}
+.ts-iconbtn:hover { color: var(--text-strong); background: var(--surface-sunken); }
+.ts-iconbtn:active { transform: scale(0.97); }
+.ts-iconbtn:focus-visible { box-shadow: var(--ring-focus); outline: none; }
+.ts-iconbtn--sm { width: var(--control-sm); height: var(--control-sm); }

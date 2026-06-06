@@ -1,0 +1,84 @@
+/* ============================================================
+   thesteps · Raw palette (primitive scales)
+   These are the only place hard-coded hex lives. Everything
+   else references these via semantic aliases in colors.css.
+   Calm, trustworthy, AA-friendly. Cool-neutral slate so the
+   blue reads as "advisor", not "corporate".
+   ============================================================ */
+:root {
+  /* Neutrals — cool slate, the quiet canvas */
+  --gray-0:   #ffffff;
+  --gray-25:  #fbfcfd;
+  --gray-50:  #f5f7f9;
+  --gray-100: #eaeef2;
+  --gray-150: #e0e6ec;
+  --gray-200: #d4dbe2;
+  --gray-300: #bcc6d0;
+  --gray-400: #97a4b1;
+  --gray-500: #6d7a88;
+  --gray-600: #515c69;
+  --gray-700: #3b444f;
+  --gray-800: #262d36;
+  --gray-900: #161b22;
+  --gray-950: #0c0f14;
+
+  /* Brand blue — "I'll handle it." Seed #2563eb = blue-600 */
+  --blue-50:  #eff4ff;
+  --blue-100: #dbe6fe;
+  --blue-200: #bfd3fe;
+  --blue-300: #93b4fd;
+  --blue-400: #6090fa;
+  --blue-500: #3b76f6;
+  --blue-600: #2563eb;
+  --blue-700: #1d4fd1;
+  --blue-800: #1d44a8;
+  --blue-900: #1c3c84;
+  --blue-950: #172554;
+
+  /* Done / progress green — calm, never neon. Seed #16a34a */
+  --green-50:  #ecfdf3;
+  --green-100: #d2f7e0;
+  --green-200: #a7edc6;
+  --green-300: #6ddfa3;
+  --green-400: #31c87c;
+  --green-500: #1bb35e;
+  --green-600: #16a34a;
+  --green-700: #11823c;
+  --green-800: #0f6532;
+  --green-900: #0c4f29;
+
+  /* Waiting amber — "it's not you, it's them" + soft urgency */
+  --amber-50:  #fff8eb;
+  --amber-100: #fdedc8;
+  --amber-200: #fadc8f;
+  --amber-300: #f7c64e;
+  --amber-400: #f4ad24;
+  --amber-500: #e0900c;
+  --amber-600: #bd7407;
+  --amber-700: #97590a;
+
+  /* Overdue / error red — reserved for true, actionable lateness */
+  --red-50:  #fef2f2;
+  --red-100: #fde0e0;
+  --red-200: #fbc7c7;
+  --red-300: #f59f9f;
+  --red-400: #ef6f6f;
+  --red-500: #e24545;
+  --red-600: #cd2f2f;
+  --red-700: #ab2424;
+
+  /* Author / marketplace accent — a warm, curated violet-plum used
+     sparingly for creator-economy surfaces & "Recommandé" trust cues */
+  --plum-50:  #f6f3fe;
+  --plum-100: #ebe3fd;
+  --plum-200: #d8cbfb;
+  --plum-300: #bba6f5;
+  --plum-400: #9b7aec;
+  --plum-500: #7f54df;
+  --plum-600: #6a3fc7;
+  --plum-700: #57339f;
+
+  /* Pure ramps for shadows / overlays */
+  --black: #0c0f14;
+  --white: #ffffff;
+}

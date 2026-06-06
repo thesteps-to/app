@@ -1,0 +1,44 @@
+<!-- @dsCard group="Components" viewport="700x260" name="Forms" subtitle="Native elements, generous targets · input / select / switch / check / radio" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-card); }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 28px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 14px; }
+</style></head>
+<body>
+  <div class="grid">
+    <div class="stack">
+      <div class="ts-field">
+        <label class="ts-label" for="a">Adresse e-mail</label>
+        <div class="ts-input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input class="ts-input" id="a" type="email" placeholder="vous@exemple.fr">
+        </div>
+        <span class="ts-hint">Je ne partage rien sans votre accord.</span>
+      </div>
+      <div class="ts-field">
+        <label class="ts-label" for="b">Type de projet</label>
+        <select class="ts-select" id="b">
+          <option>Acheter un logement</option>
+          <option>Créer une entreprise</option>
+          <option>Organiser un voyage</option>
+        </select>
+      </div>
+      <div class="ts-field">
+        <label class="ts-label" for="c">Budget</label>
+        <input class="ts-input" id="c" value="320 000" aria-invalid="true">
+        <span class="ts-error">Indiquez un montant valide.</span>
+      </div>
+    </div>
+    <div class="stack">
+      <label class="ts-switch"><input type="checkbox" checked><span class="ts-switch__track"></span><span class="ts-label">Partager mon budget</span></label>
+      <label class="ts-switch"><input type="checkbox"><span class="ts-switch__track"></span><span class="ts-label">Recevoir des suggestions</span></label>
+      <label class="ts-check"><input type="checkbox" checked><span class="ts-check__box ts-check__box--cb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg></span> J’accepte les conditions</label>
+      <label class="ts-check"><input type="radio" name="r" checked><span class="ts-check__box ts-check__box--rd"></span> Particulier</label>
+      <label class="ts-check"><input type="radio" name="r"><span class="ts-check__box ts-check__box--rd"></span> Professionnel</label>
+      <textarea class="ts-textarea" placeholder="Une note pour le courtier (facultatif)"></textarea>
+    </div>
+  </div>
+</body></html>

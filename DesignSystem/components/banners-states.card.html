@@ -1,0 +1,29 @@
+<!-- @dsCard group="Components" viewport="700x300" name="Banners & states" subtitle="Demo-data, info, payment, error · loading & empty states" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+  .stack { display: flex; flex-direction: column; gap: 12px; }
+  .ico { width: 18px; height: 18px; }
+</style></head>
+<body>
+  <div class="stack">
+    <div class="ts-banner ts-banner--demo"><span class="ts-banner__dot"></span><div class="ts-banner__body"><b>Données de démonstration</b><p>Connectez-vous pour démarrer votre vrai plan.</p></div></div>
+    <div class="ts-banner ts-banner--info"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg><div class="ts-banner__body">Je vous préviens dès que le notaire répond.</div></div>
+    <div class="ts-banner ts-banner--warning"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4M12 17h.01M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg><div class="ts-banner__body">Une signature manque avant le <b>compromis</b>.</div></div>
+    <div class="ts-banner ts-banner--error"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></svg><div class="ts-banner__body">Le paiement n’a pas abouti. Réessayez.</div></div>
+  </div>
+  <div class="stack">
+    <div class="ts-card ts-card--flat" style="padding:16px">
+      <div class="ts-skeleton" style="height:14px;width:40%;margin-bottom:10px"></div>
+      <div class="ts-skeleton" style="height:11px;width:85%;margin-bottom:6px"></div>
+      <div class="ts-skeleton" style="height:11px;width:70%"></div>
+    </div>
+    <div class="ts-card ts-card--flat ts-empty" style="padding:20px">
+      <span class="ts-glyph ts-glyph--lg" data-state="node"></span>
+      <p class="ts-empty__title">Rien à faire pour l’instant</p>
+      <p class="ts-empty__body">Votre prochaine étape apparaîtra ici dès qu’elle sera prête.</p>
+    </div>
+  </div>
+</body></html>

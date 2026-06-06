@@ -1,0 +1,27 @@
+<!-- @dsCard group="Components" viewport="700x340" name="Consent dialog" subtitle="Native <dialog>, plain-language consent — clarity over legalese" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 24px; background: var(--surface-app); display: flex; justify-content: center; }
+  dialog.ts-dialog { position: static; box-shadow: var(--shadow-lg); }
+</style></head>
+<body>
+  <dialog class="ts-dialog" open>
+    <div class="ts-action__step" style="margin-bottom:12px">
+      <span class="ts-glyph ts-glyph--sm" data-state="current"></span>
+      <span class="eyebrow" style="color:var(--brand-text)">Votre accord</span>
+    </div>
+    <h2 class="ts-dialog__title">Partager mon budget avec le courtier ?</h2>
+    <p class="ts-dialog__body">Le courtier verra uniquement votre capacité d’emprunt pour préparer une offre. Vos coordonnées bancaires restent privées — je ne transmets rien d’autre.</p>
+    <div class="ts-shared" data-shared="false" style="margin-top:16px">
+      <span class="ts-shared__icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+      <span class="ts-shared__body"><span class="ts-shared__label">Sera partagé</span><span class="ts-shared__value">Budget : 320 000 €</span></span>
+      <span class="ts-shared__state">Protégé</span>
+    </div>
+    <div class="ts-dialog__foot">
+      <button class="ts-btn ts-btn--quiet">Pas maintenant</button>
+      <button class="ts-btn ts-btn--primary">Je partage</button>
+    </div>
+  </dialog>
+</body></html>

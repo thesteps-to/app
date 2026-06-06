@@ -1,0 +1,35 @@
+<!-- @dsCard group="Colors" viewport="700x172" name="Brand blue" subtitle="The advisor & the current/actionable state — #2563eb is the only loud colour" -->
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../styles.css">
+<style>
+  body { margin: 0; padding: 22px; background: var(--surface-card); }
+  .row { display: flex; gap: 0; border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-xs); }
+  .sw { flex: 1; height: 64px; display: flex; align-items: flex-end; padding: 6px 8px; }
+  .sw span { font: var(--font-caption); font-size: 10px; color: #fff; opacity: .9; }
+  .sw.dark span { color: var(--gray-900); opacity: .7; }
+  .legend { display: flex; gap: 8px; margin-top: 14px; align-items: center; flex-wrap: wrap; }
+  .chip { font: var(--font-caption); font-size: 11px; color: var(--text-muted); }
+  b { color: var(--brand-text); }
+</style></head>
+<body>
+  <div class="row">
+    <div class="sw dark" style="background:var(--blue-50)"><span>50</span></div>
+    <div class="sw dark" style="background:var(--blue-100)"><span>100</span></div>
+    <div class="sw dark" style="background:var(--blue-200)"><span>200</span></div>
+    <div class="sw dark" style="background:var(--blue-300)"><span>300</span></div>
+    <div class="sw" style="background:var(--blue-400)"><span>400</span></div>
+    <div class="sw" style="background:var(--blue-500)"><span>500</span></div>
+    <div class="sw" style="background:var(--blue-600)"><span>600 ·brand</span></div>
+    <div class="sw" style="background:var(--blue-700)"><span>700</span></div>
+    <div class="sw" style="background:var(--blue-800)"><span>800</span></div>
+    <div class="sw" style="background:var(--blue-900)"><span>900</span></div>
+    <div class="sw" style="background:var(--blue-950)"><span>950</span></div>
+  </div>
+  <div class="legend">
+    <span class="chip"><b>--brand</b> #2563eb</span>
+    <span class="chip">hover <b>--brand-hover</b> 700</span>
+    <span class="chip">soft fill <b>--brand-soft</b> 50</span>
+    <span class="chip">reserved for the one primary action per screen</span>
+  </div>
+</body></html>
