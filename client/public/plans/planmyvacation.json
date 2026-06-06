@@ -43,8 +43,8 @@
         "Réserver les billets"
       ],
       "providers": [
-        { "type": "transport", "label": "Comparateur de vols" },
-        { "type": "transport", "label": "Compagnie ferroviaire" }
+        { "type": "vol", "label": "Comparateur de vols" },
+        { "type": "train", "label": "Compagnie ferroviaire" }
       ]
     },
     {

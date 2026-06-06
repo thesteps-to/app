@@ -14,6 +14,11 @@
       "id": "projet",
       "title": "Définir votre projet et votre budget",
       "summary": "Clarifiez ce que vous cherchez et ce que vous pouvez financer : c'est la base de toutes les étapes suivantes.",
+      "inputs": [
+        { "id": "bien-type", "label": "Type de bien recherché", "type": "choice", "choices": ["Appartement", "Maison", "Les deux"], "sensitivity": "project" },
+        { "id": "bien-localisation", "label": "Ville ou secteur recherché", "type": "text", "sensitivity": "project" },
+        { "id": "bien-budget", "label": "Budget total envisagé", "type": "number", "sensitivity": "financial" }
+      ],
       "checklist": [
         "Choisir neuf ou ancien, maison ou appartement, et la zone géographique",
         "Calculer votre apport personnel disponible",
@@ -25,6 +30,11 @@
       "id": "financement",
       "title": "Obtenir un accord de financement de principe",
       "summary": "Avant de visiter, sachez combien vous pouvez emprunter. Un courtier compare les banques pour vous et appuie votre dossier.",
+      "inputs": [
+        { "id": "revenus-mensuels", "label": "Revenus mensuels nets du foyer", "type": "number", "sensitivity": "financial" },
+        { "id": "apport-dispo", "label": "Apport personnel disponible", "type": "number", "sensitivity": "financial" },
+        { "id": "contact-email", "label": "Email de contact", "type": "text", "sensitivity": "contact" }
+      ],
       "checklist": [
         "Rassembler vos justificatifs (revenus, avis d'imposition, relevés de compte)",
         "Consulter un courtier ou plusieurs banques",
