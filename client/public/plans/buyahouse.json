@@ -30,6 +30,7 @@
       "id": "financement",
       "title": "Obtenir un accord de financement de principe",
       "summary": "Avant de visiter, sachez combien vous pouvez emprunter. Un courtier compare les banques pour vous et appuie votre dossier.",
+      "requires": ["projet"],
       "inputs": [
         { "id": "revenus-mensuels", "label": "Revenus mensuels nets du foyer", "type": "number", "sensitivity": "financial" },
         { "id": "apport-dispo", "label": "Apport personnel disponible", "type": "number", "sensitivity": "financial" },
@@ -50,6 +51,7 @@
       "id": "recherche",
       "title": "Rechercher les biens",
       "summary": "Organisez votre recherche pour ne pas rater les bonnes occasions : les biens corrects au juste prix partent vite.",
+      "requires": ["financement"],
       "checklist": [
         "Créer des alertes sur les portails d'annonces",
         "Contacter les agences immobilières de la zone visée",
@@ -65,6 +67,7 @@
       "id": "visites",
       "title": "Visiter et évaluer",
       "summary": "Une visite bien préparée évite les mauvaises surprises. Revisitez à une heure différente avant de vous engager.",
+      "requires": ["recherche"],
       "checklist": [
         "Vérifier le DPE et estimer les travaux d'isolation éventuels",
         "Examiner toiture, électricité, plomberie, humidité",
@@ -80,6 +83,7 @@
       "id": "offre",
       "title": "Faire une offre d'achat",
       "summary": "L'offre écrite vous engage si elle est acceptée. Appuyez-vous sur les prix du marché pour négocier.",
+      "requires": ["visites"],
       "checklist": [
         "Déterminer votre prix en fonction du marché et des travaux à prévoir",
         "Rédiger une offre écrite avec durée de validité",
@@ -90,6 +94,7 @@
       "id": "compromis",
       "title": "Signer le compromis de vente",
       "summary": "Le compromis fixe les conditions de la vente. Vous disposez ensuite de 10 jours de rétractation.",
+      "requires": ["offre"],
       "checklist": [
         "Choisir votre notaire (il peut être différent de celui du vendeur, sans surcoût)",
         "Vérifier les conditions suspensives (obtention du prêt, urbanisme...)",
@@ -104,6 +109,7 @@
       "id": "pret",
       "title": "Finaliser votre prêt",
       "summary": "Vous avez généralement 45 à 60 jours pour obtenir votre prêt. L'assurance emprunteur peut être déléguée pour réduire le coût total.",
+      "requires": ["compromis"],
       "checklist": [
         "Déposer le dossier complet dans les banques ou via le courtier",
         "Comparer les offres : taux, assurance, frais, modularité",
@@ -119,6 +125,7 @@
       "id": "acte",
       "title": "Signer l'acte authentique",
       "summary": "La signature chez le notaire officialise la vente : vous recevez les clés le jour même.",
+      "requires": ["pret"],
       "checklist": [
         "Effectuer la visite de pré-remise des clés (état du bien, compteurs)",
         "Virer les fonds (apport + frais) sur le compte du notaire avant la signature",
@@ -134,6 +141,7 @@
       "id": "emmenagement",
       "title": "Emménager",
       "summary": "Dernière ligne droite : organisez le déménagement et les transferts de contrats.",
+      "requires": ["acte"],
       "checklist": [
         "Réserver un déménageur ou un utilitaire",
         "Transférer ou souscrire les contrats d'énergie et d'internet",
