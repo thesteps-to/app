@@ -4,6 +4,7 @@
 
 /* ---- Dialog — style the native element ---- */
 dialog.ts-dialog {
+  position: relative;
   width: min(92vw, 30rem);
   padding: var(--space-xl);
   border: none; border-radius: var(--radius-xl);
@@ -17,6 +18,21 @@ dialog.ts-dialog[open] { animation: rise-in 360ms var(--ease-entry); }
 .ts-dialog__body { font-size: var(--text-md); line-height: var(--leading-normal); }
 .ts-dialog__foot { display: flex; gap: var(--space-sm); justify-content: flex-end; margin-top: var(--space-xl); }
 .ts-dialog__foot--spread { justify-content: space-between; }
+
+/* the top-right close affordance — paired with the foot's "Annuler" / Esc */
+.ts-dialog__close {
+  position: absolute;
+  top: var(--space-sm); right: var(--space-sm);
+  appearance: none; background: none; border: none;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  color: var(--text-muted); cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: var(--transition-color);
+}
+.ts-dialog__close:hover { color: var(--text-strong); background: var(--surface-sunken); }
+.ts-dialog__close:focus-visible { box-shadow: var(--ring-focus); outline: none; }
+.ts-dialog__close svg { width: 18px; height: 18px; }
 
 /* ---- Toast — sober, bottom-centre ---- */
 .ts-toast-root {

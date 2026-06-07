@@ -60,7 +60,7 @@ export function openConsent(req: ConsentRequest): Promise<ConsentResult | null> 
     const initialPct = `${(initialIndex / 2) * 100}%`
     dialog.innerHTML = `
       <button class="ts-dialog__close" type="button" data-close aria-label="Fermer">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
       <div class="ts-action__step" style="margin-bottom: var(--space-sm)">
         <span class="ts-glyph ts-glyph--sm" data-state="current"></span>
