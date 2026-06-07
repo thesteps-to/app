@@ -1,0 +1,134 @@
+/* ============================================================
+   Step record · a COMPLETED step in the trail
+   The past as quiet reassurance: what you entered, the date, and
+   the deliverable you received — all folded behind a calm click
+   (native <details>). Sits in a .ts-trail__item[data-state="done"].
+
+     <li class="ts-trail__item" data-state="done" data-below="taken">
+       <span class="ts-trail__rail"><span class="ts-glyph" data-state="done"></span></span>
+       <details class="ts-record">
+         <summary class="ts-record__head">…</summary>
+         <div class="ts-record__body">…</div>
+       </details>
+       <p class="ts-cond">…what unlocked the next step…</p>
+     </li>
+   ============================================================ */
+.ts-record { display: block; }
+
+.ts-record__head {
+  list-style: none;
+  display: flex; align-items: center; gap: var(--space-sm);
+  cursor: pointer; padding: 2px 0; border-radius: var(--radius-sm);
+}
+.ts-record__head::-webkit-details-marker { display: none; }
+.ts-record__head:focus-visible { box-shadow: var(--ring-focus); outline: none; }
+
+.ts-record__titles { flex: 1; min-width: 0; }
+.ts-record__title {
+  font: var(--font-ui); font-weight: var(--weight-semibold); font-size: var(--text-md);
+  color: var(--text-body); margin: 0;
+}
+.ts-record__when {
+  display: block; margin-top: 1px;
+  font-family: var(--font-mono); font-size: var(--text-2xs);
+  color: var(--text-muted); letter-spacing: var(--tracking-wide);
+}
+.ts-record__chev {
+  flex: none; width: 18px; height: 18px; color: var(--text-faint);
+  transition: transform 140ms var(--ease-out);
+}
+.ts-record[open] .ts-record__chev { transform: rotate(90deg); }
+
+/* the folded detail — calm sunken well */
+.ts-record__body {
+  margin-top: var(--space-sm);
+  padding: var(--space-md);
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  display: grid; gap: var(--space-md);
+}
+
+/* what the user entered, read-back */
+.ts-record__fields { display: grid; gap: var(--space-sm); }
+.ts-record__kv { display: grid; grid-template-columns: 1fr auto; gap: var(--space-sm); align-items: baseline; }
+.ts-record__k { font: var(--font-caption); font-size: var(--text-xs); color: var(--text-muted); }
+.ts-record__v { font: var(--font-ui); font-size: var(--text-sm); color: var(--text-strong); text-align: right; }
+
+.ts-record__sub {
+  font: var(--label-caps); letter-spacing: var(--tracking-caps);
+  text-transform: uppercase; color: var(--text-faint);
+}
+
+/* ---- Deliverable document chip (reusable) ---- */
+.ts-docs { display: flex; flex-wrap: wrap; gap: var(--space-xs); }
+.ts-doc {
+  display: inline-flex; align-items: center; gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--surface-card); border: 1px solid var(--border-default);
+  border-radius: var(--radius-md); text-decoration: none;
+  transition: var(--transition-color);
+}
+.ts-doc:hover { border-color: var(--brand-soft-bd); background: var(--brand-soft); text-decoration: none; }
+.ts-doc:focus-visible { box-shadow: var(--ring-focus); outline: none; }
+.ts-doc__icon { flex: none; width: 28px; height: 28px; border-radius: var(--radius-sm);
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--brand-soft); color: var(--brand-text); }
+.ts-doc__icon svg { width: 15px; height: 15px; }
+.ts-doc__name { font: var(--font-ui); font-size: var(--text-sm); color: var(--text-strong); }
+.ts-doc__meta { display: block; font: var(--font-caption); font-size: var(--text-2xs); color: var(--text-muted); }
+
+/* ============================================================
+   Transition condition · what the connector "carries"
+   A small marker on the vertical path between two steps, in human
+   words: the thing that let you move forward. Solid-green styling
+   ties it to data-below="taken" (the path already walked).
+   ============================================================ */
+.ts-cond {
+  position: relative;
+  grid-column: 1 / -1;            /* span so we can centre the check on the rail line */
+  width: fit-content;
+  display: inline-flex; align-items: center; gap: 5px;
+  white-space: nowrap;
+  margin-top: var(--space-sm); margin-left: 8px;
+  padding: 4px 12px 4px 26px;     /* left room for the line-centred check */
+  font: var(--font-caption); font-size: var(--text-xs);
+  color: var(--step-done-text);
+  background: var(--step-done-soft);
+  border: 1px solid var(--step-done-bd);
+  border-radius: var(--radius-pill);
+}
+/* the arrival check — a light-green tick sitting ON the vertical path
+   (centred at the rail line, 18px from the item's left edge → 10px into
+   this pill, which starts at margin-left 8px). Echoes the node above
+   without going solid/dark. */
+.ts-cond__check {
+  position: absolute; left: 10px; top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex; color: var(--step-done);
+}
+.ts-cond__check svg { width: 15px; height: 15px; }
+.ts-cond b { font-weight: var(--weight-semibold); }
+.ts-cond__when { font-family: var(--font-mono); font-size: var(--text-2xs); opacity: 0.8; margin-left: 2px; }
+
+/* a pending/open condition (what's needed to cross next) — amber/neutral */
+.ts-cond--open {
+  color: var(--step-current-text); background: var(--step-current-soft); border-color: var(--step-current-bd);
+}
+.ts-cond--wait {
+  color: var(--step-waiting-text); background: var(--step-waiting-soft); border-color: var(--step-waiting-bd);
+}
+
+/* ---- Current step as the inline focal card in a parcours ---- */
+.ts-trail__item[data-state="current"] .ts-focal {
+  border: 1px solid var(--step-current-bd);
+  border-radius: var(--radius-card);
+  background: var(--surface-card);
+  box-shadow: var(--shadow-current);
+  padding: var(--space-lg);
+}
+.ts-focal__eyebrow { display: flex; align-items: center; gap: var(--space-xs); margin-bottom: var(--space-xs); }
+.ts-focal__eyebrow .eyebrow { color: var(--brand-text); }
+.ts-focal__title { font: var(--font-title); font-size: var(--text-xl); color: var(--text-strong); margin-bottom: var(--space-xs); }
+.ts-focal__desc { font-size: var(--text-sm); line-height: var(--leading-normal); color: var(--text-body); margin-bottom: var(--space-md); }
+.ts-focal__meta { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-bottom: var(--space-md); }

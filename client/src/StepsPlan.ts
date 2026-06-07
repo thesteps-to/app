@@ -1,23 +1,33 @@
 import { completion, unlockedSteps } from "@thesteps/common"
-import type { Dossier, DossierField, Plan, Progress, ProviderSuggestion, Step } from "@thesteps/common"
+import type { Dossier, DossierField, Handoff, Plan, Progress, ProviderSuggestion, Step } from "@thesteps/common"
 import { hasValue, loadDossier, setDossierValue } from "./dossier.ts"
 import { addHandoff, handoffsForStep, newHandoffId } from "./handoffs.ts"
 import { loadProgress, saveProgress } from "./progress.ts"
 import { openConsent } from "./views/consent.ts"
 import { escapeAttr, escapeHtml } from "./escape.ts"
 
+const CHEVRON_SVG = `<svg class="ts-record__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>`
+
+const DOC_ICON_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>`
+
+const CHECK_SVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>`
+
+const WHEN_FORMATTER = new Intl.DateTimeFormat("fr-FR", { day: "numeric", month: "long" })
+
 /**
- * Execution view for a plan. Default mode shows ONE next-action card per
- * unlocked step (max one branch parallelism), each backed by the .ts-action
- * design-system surface. The full plan (secondary view) shows every step as
- * a trail of details. Dossier and handoffs are shared across plans.
+ * Execution view for a plan. Renders every step as a single ts-trail: past
+ * steps fold into ts-record (inputs read-back + handoffs delivered), the
+ * current step(s) explode into a ts-focal action card, locked steps stay as
+ * a discreet ts-trail__body with their unlock reason. On render, the first
+ * current step is scrolled into view so the user lands exactly where they
+ * left off.
  */
 export class StepsPlan extends HTMLElement {
 
   plan!: Plan
-  progress: Progress = { doneSteps: [], checked: {} }
+  progress: Progress = { doneSteps: [], checked: {}, doneAt: {} }
   dossier: Dossier = { values: {}, sharing: { defaultLevel: "contact" } }
-  showAll = false
+  private lastFocalStepId: string | null = null
 
   connectedCallback(): void {
     this.progress = loadProgress(this.plan.id)
@@ -27,7 +37,12 @@ export class StepsPlan extends HTMLElement {
 
   toggleStep(stepId: string): void {
     const done = this.progress.doneSteps
-    this.progress.doneSteps = done.includes(stepId) ? done.filter(id => id !== stepId) : [...done, stepId]
+    const willBeDone = !done.includes(stepId)
+    this.progress.doneSteps = willBeDone ? [...done, stepId] : done.filter(id => id !== stepId)
+    const doneAt = this.progress.doneAt ?? (this.progress.doneAt = {})
+    if (willBeDone) doneAt[stepId] = new Date().toISOString()
+    else delete doneAt[stepId]
+    this.lastFocalStepId = null  // current step will change, allow scroll
     saveProgress(this.plan.id, this.progress)
     this.render()
   }
@@ -67,11 +82,6 @@ export class StepsPlan extends HTMLElement {
     const ratio = completion(plan, this.progress)
     const doneCount = this.progress.doneSteps.length
     const percent = Math.round(ratio * 100)
-    const main = this.closest("main")
-    if (main) {
-      const parallel = !this.showAll && unlockedSteps(plan, this.progress).length > 1
-      main.classList.toggle("has-parallel-steps", parallel)
-    }
     this.innerHTML = `
       <div class="page-eyebrow"><span class="eyebrow">${escapeHtml(plan.needTags[0] ?? "Plan")}</span><span class="rule"></span></div>
       <h1>${escapeHtml(plan.title)}</h1>
@@ -89,34 +99,31 @@ export class StepsPlan extends HTMLElement {
         </div>
       </div>
 
-      ${this.showAll ? this.renderAll() : this.renderNext()}
+      ${this.renderTrail()}
     `
     this.wireEvents()
+    this.scrollToCurrent()
   }
 
   wireEvents(): void {
-    this.querySelector("[data-toggle-view]")?.addEventListener("click", event => {
-      event.preventDefault()
-      this.showAll = !this.showAll
-      this.render()
-    })
     for (const button of this.querySelectorAll<HTMLButtonElement>("button[data-step]")) {
       button.addEventListener("click", () => this.toggleStep(button.dataset.step!))
     }
-    for (const box of this.querySelectorAll<HTMLInputElement>("input[type=checkbox][data-step]")) {
-      box.addEventListener("change", () => this.toggleItem(box.dataset.step!, Number(box.dataset.item), box.checked))
+    for (const box of this.querySelectorAll<HTMLInputElement>("input[type=checkbox][data-step-check]")) {
+      box.addEventListener("change", () => this.toggleItem(
+        box.dataset.stepCheck!,
+        Number(box.dataset.item),
+        box.checked,
+      ))
     }
     for (const input of this.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[data-field]")) {
-      input.addEventListener("input", () => this.setFieldValue(
+      const handler = (): void => this.setFieldValue(
         input.dataset.field!,
         input.value,
         input.dataset.type as DossierField["type"],
-      ))
-      input.addEventListener("change", () => this.setFieldValue(
-        input.dataset.field!,
-        input.value,
-        input.dataset.type as DossierField["type"],
-      ))
+      )
+      input.addEventListener("input", handler)
+      input.addEventListener("change", handler)
     }
     for (const button of this.querySelectorAll<HTMLButtonElement>("button[data-handoff-step]")) {
       button.addEventListener("click", () => {
@@ -129,105 +136,163 @@ export class StepsPlan extends HTMLElement {
     }
   }
 
-  /** Default view: one next-action card per unlocked step. */
-  renderNext(): string {
-    const unlocked = unlockedSteps(this.plan, this.progress)
-    if (unlocked.length === 0) {
-      return `
-        <article class="ts-action ts-action--done">
-          <div class="ts-action__top">
-            <div class="ts-action__step">
-              <span class="ts-glyph ts-glyph--sm" data-state="done"></span>
-              <span class="eyebrow">Projet terminé</span>
-            </div>
-          </div>
-          <h2 class="ts-action__title">Votre projet est terminé.</h2>
-          <p class="ts-action__desc">Toutes les étapes de ce plan sont faites. Bel accomplissement.</p>
-          <div class="ts-action__cta">
-            <a class="ts-action__detail" href="#" data-toggle-view>Revoir le déroulé complet
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-            </a>
-          </div>
-        </article>`
+  scrollToCurrent(): void {
+    const current = this.querySelector<HTMLElement>('li.ts-trail__item[data-state="current"]')
+    const id = current?.dataset.stepId ?? null
+    if (current && id !== this.lastFocalStepId) {
+      this.lastFocalStepId = id
+      requestAnimationFrame(() => {
+        current.scrollIntoView({ behavior: "smooth", block: "start" })
+      })
+    } else if (!current) {
+      this.lastFocalStepId = null
     }
-    const total = this.plan.steps.length
-    const doneCount = this.progress.doneSteps.length
-    const eyebrow = unlocked.length === 1
-      ? `<div class="page-eyebrow"><span class="eyebrow">Votre prochaine étape</span><span class="rule"></span></div>`
-      : `<div class="page-eyebrow"><span class="eyebrow">${unlocked.length} étapes peuvent avancer en parallèle</span><span class="rule"></span></div>`
-    return `
-      ${eyebrow}
-      <div class="next-stack">
-        ${unlocked.map(step => this.renderNextCard(step)).join("")}
-      </div>
-      <p class="muted-link" style="margin-top: var(--space-lg); text-align: center">
-        ${doneCount} / ${total} étapes faites —
-        <a class="muted-link" href="#" data-toggle-view>voir le plan complet</a>
-      </p>`
   }
 
-  renderNextCard(step: Step): string {
-    const index = this.plan.steps.indexOf(step)
+  renderTrail(): string {
+    const doneSet = new Set(this.progress.doneSteps)
+    const unlockedSet = new Set(unlockedSteps(this.plan, this.progress).map(s => s.id))
     return `
-      <article class="ts-action">
-        <div class="ts-action__top">
-          <div class="ts-action__step">
-            <span class="ts-glyph ts-glyph--sm" data-state="current"></span>
-            <span class="eyebrow">Étape ${index + 1} / ${this.plan.steps.length}</span>
-          </div>
+      <ol class="ts-trail">
+        ${this.plan.steps.map((step, i) => this.renderTrailItem(step, i, doneSet, unlockedSet)).join("")}
+      </ol>
+    `
+  }
+
+  renderTrailItem(step: Step, index: number, doneSet: Set<string>, unlockedSet: Set<string>): string {
+    const isLast = index === this.plan.steps.length - 1
+    const isDone = doneSet.has(step.id)
+    const isCurrent = !isDone && unlockedSet.has(step.id)
+    const state = isDone ? "done" : isCurrent ? "current" : "locked"
+    const below = isLast ? "" : `data-below="${isDone ? "taken" : "future"}"`
+    const body = isDone
+      ? this.renderRecord(step)
+      : isCurrent
+        ? this.renderFocal(step, index)
+        : this.renderLocked(step)
+    return `
+      <li class="ts-trail__item" data-state="${state}" ${below} data-step-id="${escapeAttr(step.id)}">
+        <span class="ts-trail__rail"><span class="ts-glyph" data-state="${state}"></span></span>
+        ${body}
+      </li>
+    `
+  }
+
+  /** A completed step: title + when, expandable into inputs read-back and handoffs. */
+  renderRecord(step: Step): string {
+    const whenIso = this.progress.doneAt?.[step.id]
+    const whenLabel = whenIso ? `Fait le ${formatWhen(whenIso)}` : "Étape faite"
+    const filled = (step.inputs ?? [])
+      .map(field => ({ field, value: this.dossier.values[field.id] }))
+      .filter(({ value }) => value !== undefined && value !== null && value !== "")
+    const handoffs = handoffsForStep(this.plan.id, step.id)
+    return `
+      <details class="ts-record">
+        <summary class="ts-record__head">
+          <span class="ts-record__titles">
+            <p class="ts-record__title">${escapeHtml(step.title)}</p>
+            <span class="ts-record__when">${escapeHtml(whenLabel)}</span>
+          </span>
+          ${CHEVRON_SVG}
+        </summary>
+        <div class="ts-record__body">
+          ${filled.length ? this.renderRecordFields(filled) : ""}
+          ${handoffs.length ? this.renderRecordHandoffs(step, handoffs) : ""}
+          <button class="ts-btn ts-btn--quiet ts-btn--sm" type="button" data-step="${escapeAttr(step.id)}">Rouvrir cette étape</button>
         </div>
-        <h2 class="ts-action__title">${escapeHtml(step.title)}</h2>
-        <p class="ts-action__desc">${escapeHtml(step.summary)}</p>
+      </details>
+    `
+  }
+
+  renderRecordFields(filled: Array<{ field: DossierField; value: unknown }>): string {
+    return `
+      <div class="ts-record__fields">
+        <span class="ts-record__sub">Ce que vous avez indiqué</span>
+        ${filled.map(({ field, value }) => `
+          <div class="ts-record__kv">
+            <span class="ts-record__k">${escapeHtml(field.label)}</span>
+            <span class="ts-record__v">${escapeHtml(formatValue(value))}</span>
+          </div>
+        `).join("")}
+      </div>
+    `
+  }
+
+  renderRecordHandoffs(step: Step, handoffs: Handoff[]): string {
+    return `
+      <div>
+        <span class="ts-record__sub">Livrables</span>
+        <div class="ts-docs">
+          ${handoffs.map(h => this.renderHandoffDoc(step, h)).join("")}
+        </div>
+      </div>
+    `
+  }
+
+  renderHandoffDoc(step: Step, handoff: Handoff): string {
+    const providerLabel = step.providers?.find(p => p.type === handoff.providerType)?.label ?? handoff.providerType
+    const status = handoff.status === "concluded" ? "Affaire conclue" : "Dossier envoyé"
+    return `
+      <span class="ts-doc">
+        <span class="ts-doc__icon">${DOC_ICON_SVG}</span>
+        <span>
+          <span class="ts-doc__name">${escapeHtml(providerLabel)}</span>
+          <span class="ts-doc__meta">${escapeHtml(status)} · ${escapeHtml(formatWhen(handoff.date))}</span>
+        </span>
+      </span>
+    `
+  }
+
+  /** Current step: the loud focal action card. */
+  renderFocal(step: Step, index: number): string {
+    const total = this.plan.steps.length
+    return `
+      <div class="ts-focal">
+        <div class="ts-focal__eyebrow">
+          <span class="eyebrow">Vous êtes ici · étape ${index + 1} / ${total}</span>
+        </div>
+        <h2 class="ts-focal__title">${escapeHtml(step.title)}</h2>
+        <p class="ts-focal__desc">${escapeHtml(step.summary)}</p>
         ${this.renderPayRow(step)}
         ${this.renderDossierForm(step)}
         ${this.renderChecklist(step)}
         ${this.renderProviders(step)}
-        <div class="ts-action__cta">
-          <button class="ts-btn ts-btn--primary ts-btn--lg ts-btn--block" type="button" data-step="${step.id}">
-            C'est fait
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-          </button>
-        </div>
-      </article>`
+        <button class="ts-btn ts-btn--primary ts-btn--block" type="button" data-step="${escapeAttr(step.id)}">
+          C'est fait
+          ${CHECK_SVG}
+        </button>
+      </div>
+    `
+  }
+
+  /** Future step: the quiet "not yet — disponible après X" row. */
+  renderLocked(step: Step): string {
+    const reason = this.lockedReason(step)
+    return `
+      <div class="ts-trail__body">
+        <p class="ts-trail__title">${escapeHtml(step.title)}</p>
+        ${reason ? `<div class="ts-trail__meta"><span class="ts-trail__reason">${escapeHtml(reason)}</span></div>` : ""}
+      </div>
+    `
+  }
+
+  lockedReason(step: Step): string {
+    const reqs = step.requires ?? []
+    if (reqs.length === 0) return ""
+    const titles = reqs
+      .map(id => this.plan.steps.find(s => s.id === id)?.title)
+      .filter((title): title is string => Boolean(title))
+    if (titles.length === 0) return ""
+    return `Disponible après : ${titles.join(" · ")}`
   }
 
   renderPayRow(step: Step): string {
     if (!step.payment) return ""
     const estimate = step.payment.estimate ? ` <b>${escapeHtml(step.payment.estimate)}</b>` : ""
     return `
-      <div class="pay-row">
+      <div class="ts-focal__meta">
         <span class="ts-pay">💳 ${escapeHtml(step.payment.label)}${estimate ? ` · Estimation${estimate}` : ""}</span>
       </div>`
-  }
-
-  /** Secondary view: every step, expandable. */
-  renderAll(): string {
-    return `
-      <p class="muted-link" style="margin-bottom: var(--space-md)">
-        <a class="muted-link" href="#" data-toggle-view>← Revenir à ma prochaine étape</a>
-      </p>
-      <div class="full-plan">
-        ${this.plan.steps.map((step, i) => this.renderStep(step, i)).join("")}
-      </div>`
-  }
-
-  renderStep(step: Step, index: number): string {
-    const done = this.progress.doneSteps.includes(step.id)
-    const stateLabel = done ? "Faite" : "À faire"
-    return `
-      <details data-state="${done ? "done" : "node"}">
-        <summary>
-          <span class="ts-glyph ts-glyph--sm" data-state="${done ? "done" : "node"}"></span>
-          <span>Étape ${index + 1} · ${escapeHtml(step.title)}</span>
-          <span class="ts-badge ts-badge--${done ? "done" : "neutral"}" aria-hidden="true" style="margin-left:auto">${stateLabel}</span>
-        </summary>
-        <p>${escapeHtml(step.summary)}</p>
-        ${this.renderChecklist(step)}
-        ${this.renderProviders(step)}
-        <button class="ts-btn ${done ? "ts-btn--quiet" : "ts-btn--secondary"} ts-btn--sm" type="button" data-step="${step.id}">
-          ${done ? "Rouvrir cette étape" : "Marquer comme faite"}
-        </button>
-      </details>`
   }
 
   renderChecklist(step: Step): string {
@@ -238,10 +303,8 @@ export class StepsPlan extends HTMLElement {
         ${step.checklist.map((item, i) => `
           <li>
             <label class="ts-check">
-              <input type="checkbox" data-step="${step.id}" data-item="${i}" ${checked.includes(i) ? "checked" : ""}>
-              <span class="ts-check__box ts-check__box--cb">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-              </span>
+              <input type="checkbox" data-step-check="${escapeAttr(step.id)}" data-item="${i}" ${checked.includes(i) ? "checked" : ""}>
+              <span class="ts-check__box ts-check__box--cb">${CHECK_SVG}</span>
               <span>${escapeHtml(item)}</span>
             </label>
           </li>`).join("")}
@@ -322,3 +385,14 @@ const SENSITIVITY_LABEL = {
   project: "Projet",
   financial: "Finances",
 } as const
+
+function formatWhen(iso: string): string {
+  const d = new Date(iso)
+  if (Number.isNaN(d.getTime())) return iso
+  return WHEN_FORMATTER.format(d)
+}
+
+function formatValue(value: unknown): string {
+  if (typeof value === "number") return new Intl.NumberFormat("fr-FR").format(value)
+  return String(value)
+}

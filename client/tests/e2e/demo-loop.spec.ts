@@ -32,7 +32,7 @@ test("user → provider demo loop closes in one browser", async ({ page }) => {
 
   await page.getByRole("button", { name: /^C'est fait/ }).first().click()
 
-  const transportCard = page.locator("article.ts-action", { hasText: "Réserver le transport" })
+  const transportCard = page.locator("li.ts-trail__item", { hasText: "Réserver le transport" }).first()
   await expect(transportCard).toBeVisible()
   await transportCard.getByRole("button", { name: "Être mis en relation" }).first().click()
 
@@ -59,8 +59,6 @@ test("user → provider demo loop closes in one browser", async ({ page }) => {
   await expect(page.getByText("Affaire conclue").first()).toBeVisible()
 
   await page.goto("/plan/planmyvacation/run")
-  await expect(page.getByText(/Réserver le transport/)).toBeHidden()
-  await page.getByRole("link", { name: /voir le plan complet/ }).click()
-  const transportDetails = page.locator("details", { hasText: "Réserver le transport" })
-  await expect(transportDetails).toHaveAttribute("data-state", "done")
+  const transportTrail = page.locator("li.ts-trail__item", { hasText: "Réserver le transport" }).first()
+  await expect(transportTrail).toHaveAttribute("data-state", "done")
 })

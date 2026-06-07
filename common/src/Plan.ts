@@ -138,6 +138,8 @@ export interface Progress {
   doneSteps: string[]
   /** Checked checklist item indexes, per step id. */
   checked?: Record<string, number[]>
+  /** ISO 8601 timestamp when each completed step was marked done. */
+  doneAt?: Record<string, string>
 }
 
 /** Validate raw plan data and return it as a frozen Plan. */

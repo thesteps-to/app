@@ -5,35 +5,35 @@ body { margin: 0; background: var(--gray-150); }
 
 .stage { min-height: 100vh; display: flex; justify-content: center; align-items: flex-start; padding: 28px 16px; }
 
-/* phone shell */
+/* phone shell — a fixed-height device viewport; the active screen scrolls inside */
 .phone {
   width: 100%; max-width: 420px;
+  height: min(880px, calc(100vh - 56px));
   background: var(--surface-app);
   border-radius: 30px;
   box-shadow: var(--shadow-xl);
   overflow: hidden;
   position: relative;
   border: 1px solid var(--border-subtle);
+  display: flex; flex-direction: column;
 }
 
-/* top bar */
+/* top bar — pinned; the screen scrolls beneath it */
 .appbar {
-  position: sticky; top: 0; z-index: 20;
+  flex: none; z-index: 20;
   display: flex; align-items: center; gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
-  background: color-mix(in srgb, var(--surface-app) 86%, transparent);
+  background: color-mix(in srgb, var(--surface-app) 88%, transparent);
   backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--border-subtle);
 }
 .appbar__brand { display: flex; align-items: center; gap: 8px; font: var(--font-ui); font-weight: var(--weight-bold); color: var(--text-strong); letter-spacing: -.01em; }
 .appbar__brand .to { color: var(--text-muted); font-weight: var(--weight-semibold); }
 .appbar__grow { flex: 1; }
-.appbar__back { display: none; }
-.screen[data-screen="plan"] ~ * { } /* noop */
 
-/* screens */
+/* screens — only the active one shows, and it scrolls within the phone */
 .screen { padding: var(--space-lg) var(--space-lg) var(--space-3xl); display: none; }
-.screen.is-active { display: block; }
+.screen.is-active { display: block; flex: 1 1 auto; min-height: 0; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 
 .greet { margin: var(--space-xs) 0 var(--space-lg); }
 .greet h1 { font: var(--font-title); font-size: var(--text-2xl); color: var(--text-strong); }

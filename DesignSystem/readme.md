@@ -252,8 +252,9 @@ glyph isn't available). Never decorative emoji. No icon-font, no emoji-as-bullet
   theme), `typography.css`, `spacing.css`, `elevation.css`, `motion.css`, `base.css`.
 - `css/` — hand-written component CSS, all `@import`ed via `css/components.css`:
   `glyph.css`, `button.css`, `forms.css`, `card.css`, `badge.css`, `avatar.css`,
-  `banner.css`, `overlay.css`, `trail.css`, `action-card.css`, `disclosure.css`,
-  `shared-field.css`, `plan-card.css`.
+  `banner.css`, `overlay.css`, `trail.css`, `step-record.css` (completed-step
+  record + deliverable doc + transition condition + inline focal card),
+  `action-card.css`, `disclosure.css`, `shared-field.css`, `plan-card.css`.
 - `js/components.js` — vanilla Web Components (`<disclosure-slider>`, `TsToast`).
 
 **Brand assets** — `assets/`
@@ -270,13 +271,15 @@ glyph isn't available). Never decorative emoji. No icon-font, no emoji-as-bullet
 - Brand: logo & favicon · step glyph · transition grammar
 
 **Component cards** (Design System tab) — `components/`
-- buttons · forms · badges/time/pay · cards/progress/tabs · action card · disclosure
-  slider · shared-vs-protected · banners & states · consent dialog · plan cards ·
-  avatars & tooltip
+- buttons · forms · badges/time/pay · cards/progress/tabs · action card · **parcours
+  (completed steps + conditions)** · disclosure slider · shared-vs-protected ·
+  banners & states · consent dialog · plan cards · avatars & tooltip
 
 **UI kits** — `ui_kits/`
-- `app/` — B2C app, **interactive** (next action ↔ full plan, consent dialog, working
-  "C'est fait" flow). Starting points: `start-next-action.html`, `start-consent.html`.
+- `app/` — B2C app, **interactive** (the **parcours**: land on your current step with
+  the past recorded above — dates, inputs, deliverables — and connectors carrying their
+  condition; plus the next-action card, consent dialog, working "C'est fait" flow).
+  Starting points: `start-next-action.html`, `start-consent.html`.
 - `marketplace/` — browse expert-authored plans (the "Amazon of projects").
 - `pro/` — provider lead inbox with consented-data detail + commission billing.
 - `author/` — plan-author dashboard (stats, ratings, reviews) with the plum accent.

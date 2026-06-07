@@ -458,26 +458,23 @@ steps-plan .progress-card {
   margin-bottom: var(--space-lg);
 }
 
-steps-plan .next-stack {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
-  gap: var(--space-md);
-  align-items: start;
+steps-plan .ts-trail {
+  margin-top: var(--space-md);
 }
 
-main.has-parallel-steps {
-  max-width: var(--width-app);
+steps-plan .ts-trail__item[data-state="current"] {
+  scroll-margin-top: calc(var(--space-3xl) + var(--space-lg));
 }
 
-steps-plan .ts-action {
-  max-width: none;
-}
-
-steps-plan .ts-action .pay-row {
+steps-plan .ts-focal__meta {
   margin-bottom: var(--space-md);
   display: flex;
   flex-wrap: wrap;
   gap: var(--space-xs);
+}
+
+steps-plan .ts-focal .ts-btn--block {
+  margin-top: var(--space-md);
 }
 
 steps-plan .dossier-inputs {
@@ -552,51 +549,8 @@ steps-plan .provider-row .ts-sponsored {
   font-size: var(--text-2xs);
 }
 
-steps-plan .full-plan {
-  margin-top: var(--space-lg);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
-}
-
-steps-plan details {
-  background: var(--surface-card);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-card);
-  padding: var(--space-md) var(--space-lg);
-}
-
-steps-plan details summary {
-  cursor: pointer;
-  font: var(--font-ui);
-  font-weight: var(--weight-semibold);
-  color: var(--text-strong);
-  display: flex;
-  align-items: center;
-  gap: var(--space-sm);
-  list-style: none;
-}
-
-steps-plan details summary::-webkit-details-marker {
-  display: none;
-}
-
-steps-plan details[data-state="done"] summary {
-  color: var(--step-done-text);
-}
-
-steps-plan details[open] {
-  background: var(--surface-card);
-}
-
-steps-plan details p {
-  color: var(--text-body);
-  font-size: var(--text-md);
-  margin: var(--space-sm) 0;
-}
-
-steps-plan details .ts-btn {
-  margin-top: var(--space-sm);
+steps-plan .ts-record__body .ts-btn {
+  justify-self: start;
 }
 
 /* ----- Consent dialog overrides ----- */
